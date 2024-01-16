@@ -10,7 +10,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200&display=swap" rel="stylesheet" />
   <script src="https://kit.fontawesome.com/ec3aeabf1a.js" crossorigin="anonymous"></script>
-  <script src="script.js" defer></script>
+  <script src="./scripts/calculator.js" defer></script>
+  <script src="./scripts/clippboard.js" defer></script>
   <title>Trading Assist</title>
 </head>
 
@@ -21,8 +22,8 @@
       <img id="logo" src="/mediaFiles/TA_Logo.png" alt="Trading Assist app Logo" />
       <nav>
         <ul>
-          <li id="appNv"><a href='/'>app</a></li>
-          <li id="blogNv"><a href='/blog'>blog</a></li>
+          <li id="appNv"><a href="./index.html">app</a></li>
+          <li id="blogNv"><a href="./blog.html">blog</a></li>
         </ul>
       </nav>
     </header>
@@ -34,21 +35,24 @@
         <!------------Risk Input ----->
         <div id="rskInput">
           <div id="ePCont" class="inptCont">
-            <label id="ePLbl" for="eP" class="inptLbl">*Entry Price</label><input type="number" id="eP" required />
+            <label id="ePLbl" for="eP" class="inptLbl">*Entry Price</label>
+            <input type="number" class="copiable_value" id="eP" required />
+            <button class="copyBtn">📋</button>
           </div>
-          <!-- The button used to copy the text -->
 
           <div id="sLCont" class="inptCont">
-            <label id="sLLbl" for="sL" class="inptLbl">*Stop Loss</label><input type="number" id="sL" required />
+            <label id="sLLbl" for="sL" class="inptLbl">*Stop Loss</label>
+            <input type="number" class="copiable_value" id="sL" required />
+            <button class="copyBtn">📋</button>
           </div>
-          <!-- The button used to copy the text -->
 
           <div id="blncCont" class="inptCont">
-            <label id="blncLbl" for="blnc" class="inptLbl">*Balance</label><input type="number" id="blnc" required />
+            <label id="blncLbl" for="blnc" class="inptLbl">*Balance</label>
+            <input type="number" id="blnc" required />
           </div>
           <div id="rskPrcCont" class="inptCont">
-            <label id="rskPrcLbl" for="rskPrc" class="inptLbl">Risk Percentage</label><input type="number" id="rskPrc"
-              placeholder="100" />
+            <label id="rskPrcLbl" for="rskPrc" class="inptLbl">Risk Percentage</label>
+            <input type="number" id="rskPrc" placeholder="100" />
             <p id="prcnt">%</p>
           </div>
           <div id="rskAmntCont" class="outptCont">
@@ -60,9 +64,9 @@
         <div id="prftInput">
           <div id="prftInCont" class="inptCont">
             <label id="tPLbl" for="tP" class="inptLbl">Take Profit</label>
-            <input type="number" id="tP" />
+            <input type="number" class="copiable_value" id="tP" />
+            <button class="copyBtn">📋</button>
           </div>
-          <!-- The button used to copy the text -->
 
           <!----- Take Profit output --->
           <div id="prftAmntCont" class="outptCont">
@@ -76,20 +80,20 @@
         </div>
         <!---------------- Button ---->
         <div id="btnFlex">
-          <button onclick="Calc()">SIZE</button>
+          <button id="calculate">SIZE</button>
         </div>
         <!--- Position-Size-Output --->
         <div id="outptGrid">
           <div id="lvrgOtpt" class="outptCont">
             <label for="lvrg" id="lvrgLbl" class="otptLbl">Min. Leverage:
             </label>
-            <output id="lvrg">1x</output>
+            <output id="lvrg" class="copiable_value">1x</output>
+            <button class="copyBtn">📋</button>
           </div>
           <div id="szOtpt" class="outptCont">
             <label for="SIZE" id="szLbl" class="otptLbl">Position SIZE:</label>
-            <output id="SIZE">0.0</output>
-            <!-- The button used to copy the text -->
-            <!-- <i class="fa-solid fa-clone"></i> -->
+            <output id="SIZE" class="copiable_value">0.0</output>
+            <button class="copyBtn">📋</button>
           </div>
           <div id="rRRtOtpt" class="outptCont">
             <label id="rRLbl" for="rRRt" class="otptLbl">Risk/Reward Ratio:
@@ -100,6 +104,7 @@
       </object>
     </section>
     <!------------- End of App ----------->
-
+  </main>
+</body>
 
 </html>

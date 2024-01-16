@@ -42,7 +42,6 @@ nav {
   grid-area: nav;
   font-size: 1.3rem;
   font-weight: 900;
-  color: #dddddd;
 }
 
 ul {
@@ -56,7 +55,7 @@ ul {
 
 li>a {
   text-decoration: none;
-  color: rgb(190, 188, 188);
+  color: #eee3e3;
 }
 
 #appFrame {
@@ -112,7 +111,8 @@ li>a {
   border-radius: 0.27rem;
   align-items: left;
   display: grid;
-  grid-template-areas: 'label input';
+  grid-template-areas: 'label input cpyBtn';
+  grid-template-columns: auto auto 39px;
 }
 
 .inptLbl {
@@ -138,7 +138,39 @@ input {
   height: 1.8rem;
   border-radius: 0.25rem;
   text-align: end;
+  align-self: center;
   font-size: 1.2rem;
+}
+
+.copyBtn {
+  grid-area: cpyBtn;
+  background-color: #292727;
+  border-style: none;
+  margin: 0.3rem 0 0.3rem 0.3rem;
+  padding: 0;
+  outline: none;
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 0.25rem;
+  font-size: 1.2rem;
+}
+
+.cpySuccess {
+  position: absolute;
+  top: 42%;
+  left: calc(50% - 3ch);
+  background-color: #eee3e3;
+  color: #292727;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0.3rem 0 0.3rem 0.3rem;
+  padding: 0 3px;
+  outline: none;
+  width: fit-content;
+  height: 1.8rem;
+  border-radius: 0.25rem;
+  text-align: center;
+  align-self: center;
 }
 
 #ePCont {
@@ -157,8 +189,8 @@ input {
 #rskPrcCont {
   grid-area: rskPrcCont;
   display: grid;
-  grid-template-areas: 'rskPrcLbl rskPrc prcnt';
-  grid-template-columns: auto 1fr auto;
+  grid-template-areas: 'rskPrcLbl rskPrc prcnt .';
+  grid-template-columns: auto 1fr auto 39px;
 }
 
 #rskPrcLbl {
@@ -189,7 +221,8 @@ input {
 
 .outptCont {
   display: grid;
-  grid-template-areas: 'otptLbl output';
+  grid-template-areas: 'otptLbl output cpyBtn';
+  grid-template-columns: auto auto 30px;
   margin: 0rem 0.6rem 0rem 0.9rem;
 }
 
@@ -210,7 +243,12 @@ output {
   height: 1.8rem;
   color: #eee3e3;
   justify-self: right;
+  align-self: center;
   font-weight: 600;
+}
+
+output+.copyBtn {
+  background-color: rgb(26, 26, 26);
 }
 
 /*--------------------Profit Input-------------*/
@@ -228,7 +266,7 @@ output {
   justify-content: center;
 }
 
-button {
+#calculate {
   height: 2.3rem;
   width: 5.4rem;
   font-size: 1.2rem;
@@ -341,7 +379,7 @@ button {
     border-radius: 0.25rem;
     align-items: left;
     display: grid;
-    grid-template-areas: 'label input';
+    grid-template-areas: 'label input cpyBtn';
   }
 
   .inptLbl {
@@ -417,7 +455,7 @@ button {
 
   .outptCont {
     display: grid;
-    grid-template-areas: 'otptLbl output';
+    grid-template-areas: 'otptLbl output cpyBtn';
     margin: 0rem 0.6rem 0rem 0.9rem;
   }
 
@@ -455,13 +493,13 @@ button {
     justify-content: center;
   }
 
-  button {
+  #calculate {
     height: 2.3rem;
     width: 5.4rem;
     font-size: 0.9rem;
     font-weight: 600;
     color: #292727;
-    background-color: rgb(2, 162, 202);
+    background-color: rgb(0, 173, 179);
     border-radius: 0.3rem;
     border-style: none;
   }
