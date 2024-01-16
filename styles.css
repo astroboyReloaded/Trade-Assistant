@@ -362,21 +362,21 @@ output+.copyBtn {
   border: none;
 }
 
-.delete {
+#delete {
   background-color: rgb(202, 78, 78);
   margin-right: 0.6rem;
 }
 
-.clear-all {
+#clear-all {
   margin-right: auto;
   background-color: rgb(221, 221, 221);
 }
 
-.clear-position {
+#clear-position {
   background-color: rgb(221, 199, 127);
 }
 
-.save-position {
+#save-position {
   margin-left: 0.6rem;
   background-color: rgb(0, 158, 150);
 }

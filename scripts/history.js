@@ -1,15 +1,23 @@
-import { calculatedPositions } from "./saveToLS.js";
+import { setSavedPositions } from './saveToLS.js';
+let savedPositions;
 
+let historyContainer, calcContainer;
 document.getElementById('history').addEventListener('click', openCalcHistory);
 
 function openCalcHistory() {
-  const historyContainer = document.createElement('div');
+  savedPositions = setSavedPositions() || [];
+
+  historyContainer = document.createElement('div');
   historyContainer.id = 'history-container';
   
-  const calcContainer = document.getElementById('calc');
+  calcContainer = document.getElementById('calc');
   calcContainer.appendChild(historyContainer);
 
-  const positionsHistory = calculatedPositions.map((position, i) => `<object class='history-item'>
+  loadHistory(savedPositions);
+};
+
+function loadHistory(history) {
+  let positionsHistory = history.map((position, i) => `<object class='history-item'>
     ${i+1}.-
     <data>Min Leverage: ${position.leverage}</data>
     <data>Position SIZE: ${position.positionSIZE}</data>
@@ -17,8 +25,8 @@ function openCalcHistory() {
     <data>Stop Loss: ${position.stopLoss}</data>
     <data>Take Profit: ${position.takeProfit}</data>
     <div>
-      <button id="delete-one">Delete</button>
-      <button id="load-position">Load</button>
+      <button id="delP${i}" class="delete-one">Delete</button>
+      <button id="loadP${i}" class="load-position">Load</button>
     </div>
   </object>`).join('')
   || '<p>There are no positions saved</p>';
@@ -29,12 +37,34 @@ function openCalcHistory() {
   </div>
   ${positionsHistory}`;
 
+  if (history.length) {
+    document.querySelectorAll('.delete-one').forEach((btn, i) => btn.addEventListener('click', function() {
+      deleteOne(btn, i);
+    }));
+
+    document.getElementById('clear-history').addEventListener('click', clearHisttory)
+  };
+
   document.getElementById('close-history').addEventListener('click', function() {
-    closeHistory(calcContainer, historyContainer, this)
-  })
+    closeHistory(this);
+  });
+}
+
+function deleteOne(actionBtn, index) {
+  const newSavedPositions = savedPositions.filter((p, i) => i != index);
+
+  savedPositions = setSavedPositions(newSavedPositions);
+
+  actionBtn.removeEventListener('click', deleteOne);
+  document.getElementById(`delP${index}`).removeEventListener('click', closeHistory);
+  loadHistory(savedPositions);
 };
 
-function closeHistory(calcContainer, historyContainer, closeBtn) {
+function clearHisttory() {
+  savedPositions = setSavedPositions([]);
+};
+
+function closeHistory(closeBtn) {
   calcContainer.removeChild(historyContainer);
   closeBtn.removeEventListener('click', closeHistory);
 };

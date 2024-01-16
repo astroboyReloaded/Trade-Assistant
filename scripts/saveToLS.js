@@ -8,6 +8,8 @@ import {
   risk_rewardRatio,
 } from "./calculator.js";
 
+// Save the last Balance and Risk Percentage.
+
 let lastBalanceAndRisk = JSON.parse(localStorage.getItem('balance-riskPerc')) || {};
 
 const [,, balanceInput, riskPercInput] = [...valueInputs];
@@ -27,7 +29,8 @@ function saveBalnceAndRiskPerc(input) {
       ...lastBalanceAndRisk,
       lastBalance: input.value 
     }
-  } else {
+  }
+  if (input.id === 'rskPrc') {
     lastBalanceAndRisk = {
       ...lastBalanceAndRisk,
       lastRiskPerc: input.value 
@@ -37,30 +40,32 @@ function saveBalnceAndRiskPerc(input) {
   localStorage.setItem('balance-riskPerc', JSON.stringify(lastBalanceAndRisk));
 };
 
-export const calculatedPositions = JSON.parse(localStorage.getItem('calculated-positions')) || [];
+// After Calculation actions.
 
-const afterCalc_btns = document.querySelectorAll('.after-calcBtn');
+export const setSavedPositions = newData => {
+  newData && localStorage.setItem('saved-positions', JSON.stringify(newData));
+  return JSON.parse(localStorage.getItem('saved-positions'));
+}
+let savedPositions = setSavedPositions() || [];
 
-afterCalc_btns.forEach(btn => btn.addEventListener('click', () => afterCalcActions(btn)));
+document.querySelectorAll('.after-calcBtn').forEach((btn, i) => btn.addEventListener('click', () => afterCalcActions(btn, i)));
 
-function afterCalcActions(actionBtn) {
-  let btnClass = actionBtn.classList;
-
-  switch (true) {
-    case btnClass.contains('delete'):
-      deletePositionfromHistory();
+function afterCalcActions(actionBtn, index) {
+  switch (actionBtn.id) {
+    case 'delete':
+      deletePositionfromHistory(index);
       break;
 
-    case btnClass.contains('clear-all'):
+    case 'clear-all':
       clearAllFields();
       break;
 
-    case btnClass.contains('clear-position'):
+    case 'clear-position':
       clear();
       break;
 
-    case btnClass.contains('save-position'):
-      savePosition(Date.now);
+    case 'save-position':
+      savePosition();
       break;
 
     default:
@@ -68,8 +73,9 @@ function afterCalcActions(actionBtn) {
   }
 };
 
-function deletePositionfromHistory() {
-  
+function deletePositionfromHistory(positionIndex) {
+  const newSavedPositions = savedPositions.filter((p, i) => i !== positionIndex);
+  savedPositions = setSavedPositions(newSavedPositions);
 }
 
 function clearAllFields() {
@@ -79,14 +85,14 @@ function clearAllFields() {
 function clear() {
   [...valueInputs].forEach(input => {
     if (input.id !== 'blnc' && input.id !== 'rskPrc') input.value = '';
+    input.id === 'eP' && input.focus();
   })
 };
 
-function savePosition(positionID) {
+function savePosition() {
   let [entryPrice, stopLoss, balance, riskPercentage, takeProfit] = [...valueInputs].map(input => input.value);
 
   const newPosition = {
-    positionID,
     entryPrice,
     stopLoss,
     balance,
@@ -100,7 +106,7 @@ function savePosition(positionID) {
     risk_rewardRatio: risk_rewardRatio.value,
   }
 
-  calculatedPositions.push(newPosition);
+  const newSavedPositions = [newPosition, ...savedPositions];
 
-  localStorage.setItem('calculated-positions', JSON.stringify(calculatedPositions));
+  savedPositions = setSavedPositions(newSavedPositions);
 };
