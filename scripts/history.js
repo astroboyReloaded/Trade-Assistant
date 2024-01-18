@@ -1,7 +1,7 @@
 import { setSavedPositions } from './saveToLS.js';
 let savedPositions;
 
-let historyContainer, calcContainer;
+let historyContainer, calcContainer, load_Position, delete_One, clear_History, close_History;
 document.getElementById('history').addEventListener('click', openCalcHistory);
 
 function openCalcHistory() {
@@ -16,7 +16,9 @@ function openCalcHistory() {
   loadHistory(savedPositions);
 };
 
-function loadHistory(history) {
+let timeID;
+
+export function loadHistory(history) {
   let positionsHistory = history.map((position, i) => `<object class='history-item'>
     ${i+1}.-
     <data>Min Leverage: ${position.leverage}</data>
@@ -32,23 +34,40 @@ function loadHistory(history) {
   || '<p>There are no positions saved</p>';
 
   historyContainer.innerHTML = `<div class="close-clearHistory_cont">
-    <button id="clear-history">Clear History</button>
+    <button id="clear-history" disabled>Clear History</button>
     <span id="close-history">X</span>
   </div>
   ${positionsHistory}`;
 
+  let clear_History = document.getElementById('clear-history')
   if (history.length) {
-    document.querySelectorAll('.delete-one').forEach((btn, i) => btn.addEventListener('click', function() {
-      deleteOne(btn, i);
+    clear_History.addEventListener('click', clearHistory);
+    clear_History.disabled = false;
+
+    load_Position = document.querySelectorAll('.load-position');
+    load_Position.forEach((btn, i) => btn.addEventListener('click', () => {
+      loadPosition(btn, i);
     }));
 
-    document.getElementById('clear-history').addEventListener('click', clearHisttory)
-  };
+    delete_One = document.querySelectorAll('.delete-one');
+    delete_One.forEach((btn, i) => {
+      btn.addEventListener('click', () => deleteOne(btn, i));
+    });
+  }
 
-  document.getElementById('close-history').addEventListener('click', function() {
-    closeHistory(this);
-  });
-}
+  close_History = document.getElementById('close-history')
+  close_History.addEventListener('click', closeHistory);
+};
+
+function clearHistory() {
+  savedPositions = setSavedPositions([]);
+  loadHistory(savedPositions);
+  timeID = setTimeout(() => closeHistory(), 3000);
+};
+
+function loadPosition(actionBtn, index) {
+  console.log('load position', actionBtn, index);
+};
 
 function deleteOne(actionBtn, index) {
   const newSavedPositions = savedPositions.filter((p, i) => i != index);
@@ -60,11 +79,21 @@ function deleteOne(actionBtn, index) {
   loadHistory(savedPositions);
 };
 
-function clearHisttory() {
-  savedPositions = setSavedPositions([]);
+function closeHistory() {
+
+  if (delete_One) {
+    delete_One.forEach(btn => btn.removeEventListener('click', () => {
+      loadPosition(btn, i);
+    }));
+  }
+  if (load_Position) {
+    load_Position.forEach((btn, i) => btn.addEventListener('click', () => {
+        loadPosition(btn, i);
+      }));
+  }
+  if (clear_History) clear_History.removeEventListener('click', clearHistory);
+
+  close_History.removeEventListener('click', closeHistory);
+  calcContainer.removeChild(historyContainer);
 };
 
-function closeHistory(closeBtn) {
-  calcContainer.removeChild(historyContainer);
-  closeBtn.removeEventListener('click', closeHistory);
-};
