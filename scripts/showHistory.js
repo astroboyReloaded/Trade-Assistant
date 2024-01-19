@@ -1,4 +1,13 @@
 import DB from "./PositionsHistory.js";
+import {
+  valueInputs,
+  riskAmount,
+  profitAmount,
+  profitPerc,
+  leverage,
+  positionSIZE,
+  risk_rewardRatio,
+} from "./calculator.js";
 
 let historyContainer, calcContainer, load_Position, delete_One, clear_History, close_History;
 document.getElementById('history').addEventListener('click', openCalcHistory);
@@ -44,7 +53,7 @@ export function loadHistory(history) {
 
     load_Position = document.querySelectorAll('.load-position');
     load_Position.forEach((btn, i) => btn.addEventListener('click', () => {
-      loadPosition(btn, i);
+      loadPosition(i);
     }));
 
     delete_One = document.querySelectorAll('.delete-one');
@@ -81,8 +90,23 @@ function closeHistory() {
   calcContainer.removeChild(historyContainer);
 };
 
-function loadPosition(actionBtn, index) {
-  console.log('load position', actionBtn, index);
+function loadPosition(index) {
+  const positionToLoad = DB.savedPositions()[index];
+  let [entryPrice, stopLoss, balance, riskPercentage, takeProfit] = [...valueInputs];
+  [
+  entryPrice.value,
+  stopLoss.value,
+  balance.value,
+  riskPercentage.value,
+  takeProfit.value,
+  riskAmount.value,
+  profitAmount.value,
+  profitPerc.value,
+  leverage.value,
+  positionSIZE.value,
+  risk_rewardRatio.value,
+  ] = Object.values(positionToLoad);
+  closeHistory();
 };
 
 function deleteOne(actionBtn, index) {
