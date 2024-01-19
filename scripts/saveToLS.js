@@ -7,6 +7,7 @@ import {
   positionSIZE,
   risk_rewardRatio,
 } from "./calculator.js";
+import Session from "./CurrentPosition.js";
 
 // Save the last Balance and Risk Percentage.
 
@@ -44,7 +45,8 @@ function saveBalnceAndRiskPerc(input) {
 
 import DB from "./PositionsHistory.js";
 
-document.querySelectorAll('.after-calcBtn').forEach((btn, i) => btn.addEventListener('click', () => afterCalcActions(btn, i)));
+let afterCalcBtns = document.querySelectorAll('.after-calcBtn');
+afterCalcBtns.forEach((btn, i) => btn.addEventListener('click', () => afterCalcActions(btn, i)));
 
 function afterCalcActions(actionBtn, index) {
   switch (actionBtn.id) {
@@ -70,8 +72,9 @@ function afterCalcActions(actionBtn, index) {
 };
 
 function deletePositionfromHistory(positionIndex) {
-  const newSavedPositions = DB.savedPositions.filter((p, i) => i !== positionIndex);
+  const newSavedPositions = DB.savedPositions().filter((p, i) => i !== positionIndex);
   DB.setSavedPositions(newSavedPositions);
+  clear();
 }
 
 function clearAllFields() {
@@ -83,6 +86,7 @@ function clear() {
     if (input.id !== 'blnc' && input.id !== 'rskPrc') input.value = '';
     input.id === 'eP' && input.focus();
   })
+  Session.clearCurrentPosition();
 };
 
 function savePosition() {

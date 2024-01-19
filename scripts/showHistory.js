@@ -1,16 +1,10 @@
 import DB from "./PositionsHistory.js";
-import {
-  valueInputs,
-  riskAmount,
-  profitAmount,
-  profitPerc,
-  leverage,
-  positionSIZE,
-  risk_rewardRatio,
-} from "./calculator.js";
+import Session from "./CurrentPosition.js";
 
-let historyContainer, calcContainer, load_Position, delete_One, clear_History, close_History;
+let currentPosition, historyContainer, calcContainer, load_Position, delete_One, clear_History, close_History;
 document.getElementById('history').addEventListener('click', openCalcHistory);
+currentPosition = Session.getCurrentPosition();
+currentPosition && Session.loadPosition(currentPosition);
 
 function openCalcHistory() {
 
@@ -92,20 +86,7 @@ function closeHistory() {
 
 function loadPosition(index) {
   const positionToLoad = DB.savedPositions()[index];
-  let [entryPrice, stopLoss, balance, riskPercentage, takeProfit] = [...valueInputs];
-  [
-  entryPrice.value,
-  stopLoss.value,
-  balance.value,
-  riskPercentage.value,
-  takeProfit.value,
-  riskAmount.value,
-  profitAmount.value,
-  profitPerc.value,
-  leverage.value,
-  positionSIZE.value,
-  risk_rewardRatio.value,
-  ] = Object.values(positionToLoad);
+  Session.loadPosition(positionToLoad, index);
   closeHistory();
 };
 
