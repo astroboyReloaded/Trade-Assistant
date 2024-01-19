@@ -51,7 +51,9 @@ export function loadHistory(history) {
     delete_One.forEach((btn, i) => {
       btn.addEventListener('click', () => deleteOne(btn, i));
     });
-  }
+  } else {
+  timeID = setTimeout(() => closeHistory(), 3000);
+}
 
   close_History = document.getElementById('close-history')
   close_History.addEventListener('click', closeHistory);
@@ -60,7 +62,6 @@ export function loadHistory(history) {
 function clearHistory() {
   DB.clearHistory();
   loadHistory(DB.savedPositions());
-  timeID = setTimeout(() => closeHistory(), 3000);
 };
 
 function closeHistory() {
