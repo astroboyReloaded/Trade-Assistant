@@ -1,11 +1,9 @@
-import { setSavedPositions } from './saveToLS.js';
-let savedPositions;
+import DB from "./PositionsHistory.js";
 
 let historyContainer, calcContainer, load_Position, delete_One, clear_History, close_History;
 document.getElementById('history').addEventListener('click', openCalcHistory);
 
 function openCalcHistory() {
-  savedPositions = setSavedPositions() || [];
 
   historyContainer = document.createElement('div');
   historyContainer.id = 'history-container';
@@ -13,7 +11,7 @@ function openCalcHistory() {
   calcContainer = document.getElementById('calc');
   calcContainer.appendChild(historyContainer);
 
-  loadHistory(savedPositions);
+  loadHistory(DB.savedPositions());
 };
 
 let timeID;
@@ -60,27 +58,12 @@ export function loadHistory(history) {
 };
 
 function clearHistory() {
-  savedPositions = setSavedPositions([]);
-  loadHistory(savedPositions);
+  DB.clearHistory();
+  loadHistory(DB.savedPositions());
   timeID = setTimeout(() => closeHistory(), 3000);
 };
 
-function loadPosition(actionBtn, index) {
-  console.log('load position', actionBtn, index);
-};
-
-function deleteOne(actionBtn, index) {
-  const newSavedPositions = savedPositions.filter((p, i) => i != index);
-
-  savedPositions = setSavedPositions(newSavedPositions);
-
-  actionBtn.removeEventListener('click', deleteOne);
-  document.getElementById(`delP${index}`).removeEventListener('click', closeHistory);
-  loadHistory(savedPositions);
-};
-
 function closeHistory() {
-
   if (delete_One) {
     delete_One.forEach(btn => btn.removeEventListener('click', () => {
       loadPosition(btn, i);
@@ -96,4 +79,17 @@ function closeHistory() {
   close_History.removeEventListener('click', closeHistory);
   calcContainer.removeChild(historyContainer);
 };
+
+function loadPosition(actionBtn, index) {
+  console.log('load position', actionBtn, index);
+};
+
+function deleteOne(actionBtn, index) {
+  const newSavedPositions = DB.savedPositions().filter((p, i) => i != index);
+
+  actionBtn.removeEventListener('click', deleteOne);
+  document.getElementById(`delP${index}`).removeEventListener('click', closeHistory);
+  loadHistory(DB.setSavedPositions(newSavedPositions));
+};
+
 

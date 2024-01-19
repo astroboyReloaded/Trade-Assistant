@@ -42,11 +42,7 @@ function saveBalnceAndRiskPerc(input) {
 
 // After Calculation actions.
 
-export const setSavedPositions = newData => {
-  newData && localStorage.setItem('saved-positions', JSON.stringify(newData));
-  return JSON.parse(localStorage.getItem('saved-positions'));
-}
-let savedPositions = setSavedPositions() || [];
+import DB from "./PositionsHistory.js";
 
 document.querySelectorAll('.after-calcBtn').forEach((btn, i) => btn.addEventListener('click', () => afterCalcActions(btn, i)));
 
@@ -74,8 +70,8 @@ function afterCalcActions(actionBtn, index) {
 };
 
 function deletePositionfromHistory(positionIndex) {
-  const newSavedPositions = savedPositions.filter((p, i) => i !== positionIndex);
-  savedPositions = setSavedPositions(newSavedPositions);
+  const newSavedPositions = DB.savedPositions.filter((p, i) => i !== positionIndex);
+  DB.setSavedPositions(newSavedPositions);
 }
 
 function clearAllFields() {
@@ -106,7 +102,7 @@ function savePosition() {
     risk_rewardRatio: risk_rewardRatio.value,
   }
 
-  const newSavedPositions = [newPosition, ...savedPositions];
+  const newSavedPositions = [newPosition, ...DB.savedPositions()];
 
-  savedPositions = setSavedPositions(newSavedPositions);
+  DB.setSavedPositions(newSavedPositions);
 };
