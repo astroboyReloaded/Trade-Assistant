@@ -1,10 +1,8 @@
 import DB from "./PositionsHistory.js";
 import Session from "./CurrentPosition.js";
 
-let currentPosition, historyContainer, calcContainer, load_Position, delete_One, clear_History, close_History;
+let historyContainer, calcContainer, load_Position, delete_One, clear_History, close_History;
 document.getElementById('history').addEventListener('click', openCalcHistory);
-currentPosition = Session.getCurrentPosition();
-currentPosition && Session.loadPosition(currentPosition);
 
 function openCalcHistory() {
 

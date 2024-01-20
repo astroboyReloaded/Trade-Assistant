@@ -1,24 +1,25 @@
 export const valueInputs = document.getElementsByTagName('input');
-export const [
-  riskAmount,
-  profitAmount,
-  profitPerc,
-  leverage,
-  positionSIZE,
-  risk_rewardRatio,
-] = document.getElementsByTagName('output');
+export const valueOutputs = document.getElementsByTagName('output');
 
-let calculate = document.getElementById('calculate');
-calculate.addEventListener('click', calcPositionSize);
+let calculateBtn = document.getElementById('calculate');
+calculateBtn.addEventListener('click', calcPositionSize);
 
 function calcPositionSize(){
+  const [
+    riskAmount,
+    profitAmount,
+    profitPerc,
+    leverage,
+    positionSIZE,
+    risk_rewardRatio,
+  ] = valueOutputs;
   let [
-  entryPrice,
-  stopLoss,
-  balance,
-  risk,
-  takeProfit,
-] = [...valueInputs].map(input => parseFloat(input.value));
+    entryPrice,
+    stopLoss,
+    balance,
+    risk,
+    takeProfit,
+  ] = [...valueInputs].map(input => parseFloat(input.value));
 
   const toPips=100_000_000;
   let riskRange = Math.abs((entryPrice-stopLoss)*toPips),

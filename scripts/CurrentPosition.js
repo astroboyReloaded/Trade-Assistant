@@ -1,11 +1,6 @@
 import {
   valueInputs,
-  riskAmount,
-  profitAmount,
-  profitPerc,
-  leverage,
-  positionSIZE,
-  risk_rewardRatio,
+  valueOutputs,
 } from "./calculator.js";
 
 class CurrentPosition {
@@ -26,7 +21,21 @@ class CurrentPosition {
   loadPosition(positionToLoad, index) {
     this.index = index || null;
   
-    let [entryPrice, stopLoss, balance, riskPercentage, takeProfit] = [...valueInputs];
+    const [entryPrice,
+      stopLoss,
+      balance,
+      riskPercentage,
+      takeProfit
+    ] = [...valueInputs];
+    const [
+      riskAmount,
+      profitAmount,
+      profitPerc,
+      leverage,
+      positionSIZE,
+      risk_rewardRatio,
+    ] = [...valueOutputs];
+
     [
       entryPrice.value,
       stopLoss.value,

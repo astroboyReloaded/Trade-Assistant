@@ -1,11 +1,6 @@
 import {
   valueInputs,
-  riskAmount,
-  profitAmount,
-  profitPerc,
-  leverage,
-  positionSIZE,
-  risk_rewardRatio,
+  valueOutputs,
 } from "./calculator.js";
 import Session from "./CurrentPosition.js";
 
@@ -90,7 +85,20 @@ function clear() {
 };
 
 function savePosition() {
-  let [entryPrice, stopLoss, balance, riskPercentage, takeProfit] = [...valueInputs].map(input => input.value);
+  let [entryPrice,
+      stopLoss,
+      balance,
+      riskPercentage,
+      takeProfit
+    ] = [...valueInputs].map(input => input.value);
+    let [
+      riskAmount,
+      profitAmount,
+      profitPerc,
+      leverage,
+      positionSIZE,
+      risk_rewardRatio,
+    ] = [...valueOutputs].map(output => output.value);
 
   const newPosition = {
     entryPrice,
@@ -98,12 +106,12 @@ function savePosition() {
     balance,
     riskPercentage,
     takeProfit,
-    riskAmount: riskAmount.value,
-    profitAmount: profitAmount.value,
-    profitPerc: profitPerc.value,
-    leverage: leverage.value,
-    positionSIZE: positionSIZE.value,
-    risk_rewardRatio: risk_rewardRatio.value,
+    riskAmount,
+    profitAmount,
+    profitPerc,
+    leverage,
+    positionSIZE,
+    risk_rewardRatio,
   }
 
   const newSavedPositions = [newPosition, ...DB.savedPositions()];
