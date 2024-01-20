@@ -71,6 +71,7 @@ function deletePositionfromHistory(positionIndex) {
   const newSavedPositions = DB.savedPositions().filter((p, i) => i !== positionIndex);
   DB.setSavedPositions(newSavedPositions);
   clear();
+  deleteBtn.disabled = true;
 }
 
 function clearAllFields() {
