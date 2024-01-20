@@ -42,6 +42,7 @@ import DB from "./PositionsHistory.js";
 
 let afterCalcBtns = document.querySelectorAll('.after-calcBtn');
 afterCalcBtns.forEach((btn, i) => btn.addEventListener('click', () => afterCalcActions(btn, i)));
+export const deleteBtn = afterCalcBtns[0];
 
 function afterCalcActions(actionBtn, index) {
   switch (actionBtn.id) {
@@ -74,13 +75,15 @@ function deletePositionfromHistory(positionIndex) {
 
 function clearAllFields() {
   [...valueInputs].forEach(input => input.value = '');
+  [...valueOutputs].forEach(output => output.value = '');
 };
 
 function clear() {
   [...valueInputs].forEach(input => {
     if (input.id !== 'blnc' && input.id !== 'rskPrc') input.value = '';
     input.id === 'eP' && input.focus();
-  })
+  });
+  [...valueOutputs].forEach(output => output.value = '');
   Session.clearCurrentPosition();
 };
 

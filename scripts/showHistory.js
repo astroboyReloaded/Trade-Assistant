@@ -1,5 +1,6 @@
 import DB from "./PositionsHistory.js";
 import Session from "./CurrentPosition.js";
+import { deleteBtn } from "./saveToLS.js";
 
 let historyContainer, calcContainer, load_Position, delete_One, clear_History, close_History;
 document.getElementById('history').addEventListener('click', openCalcHistory);
@@ -86,6 +87,7 @@ function loadPosition(index) {
   const positionToLoad = DB.savedPositions()[index];
   Session.loadPosition(positionToLoad, index);
   closeHistory();
+  deleteBtn.disabled = false;
 };
 
 function deleteOne(actionBtn, index) {

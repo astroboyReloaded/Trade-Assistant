@@ -36,23 +36,25 @@ class CurrentPosition {
       risk_rewardRatio,
     ] = [...valueOutputs];
 
-    [
-      entryPrice.value,
-      stopLoss.value,
-      balance.value,
-      riskPercentage.value,
-      takeProfit.value,
-      riskAmount.value,
-      profitAmount.value,
-      profitPerc.value,
-      leverage.value,
-      positionSIZE.value,
-      risk_rewardRatio.value,
-    ] = Object.values(this.setCurrentPosition(positionToLoad));
+    if(positionToLoad) {
+      [
+        entryPrice.value,
+        stopLoss.value,
+        balance.value,
+        riskPercentage.value,
+        takeProfit.value,
+        riskAmount.value,
+        profitAmount.value,
+        profitPerc.value,
+        leverage.value,
+        positionSIZE.value,
+        risk_rewardRatio.value,
+      ] = Object.values(this.setCurrentPosition(positionToLoad));
+    }
   }
 
   clearCurrentPosition() {
-    this.loadPosition({});
+    this.setCurrentPosition({});
   }
 };
 
