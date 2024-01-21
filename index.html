@@ -11,10 +11,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200&display=swap" rel="stylesheet" />
   <script src="https://kit.fontawesome.com/ec3aeabf1a.js" crossorigin="anonymous"></script>
   <script src="./scripts/calculator.js" type="module" defer></script>
-  <script src="./scripts/clippboard.js" type="module" defer></script>
-  <script src="./scripts/saveToLS.js" type="module" defer></script>
-  <script src="./scripts/showHistory.js" type="module" defer></script>
-  <title>Trading Assist</title>
+  <script src="./scripts/UX/clippboard.js" type="module" defer></script>
+  <script src="./scripts/UX/buttons.js" type="module" defer></script>
+  <script src="./scripts/history/afterCalc.js" type="module" defer></script>
+  <script src="./scripts/history/balanceNRisk.js" type="module" defer></script>
+  <script src="./scripts/history/showHistory.js" type="module" defer></script>
+  <title>Trade Assist</title>
 </head>
 
 <body>
@@ -38,13 +40,13 @@
         <div id="rskInput">
           <div id="ePCont" class="inptCont">
             <label id="ePLbl" for="eP" class="inptLbl">*Entry Price</label>
-            <input type="number" class="copiable_value" id="eP" required />
+            <input type="text" class="copiable_value" id="eP" required />
             <button class="copyBtn">📋</button>
           </div>
 
           <div id="sLCont" class="inptCont">
             <label id="sLLbl" for="sL" class="inptLbl">*Stop Loss</label>
-            <input type="number" class="copiable_value" id="sL" required />
+            <input type="text" class="copiable_value" id="sL" required />
             <button class="copyBtn">📋</button>
           </div>
 
@@ -54,7 +56,7 @@
           </div>
           <div id="rskPrcCont" class="inptCont">
             <label id="rskPrcLbl" for="rskPrc" class="inptLbl">Risk Percentage</label>
-            <input type="number" id="rskPrc" placeholder="100" />
+            <input type="text" id="rskPrc" placeholder="100" />
             <p id="prcnt">%</p>
           </div>
           <div id="rskAmntCont" class="outptCont">
@@ -66,7 +68,7 @@
         <div id="prftInput">
           <div id="prftInCont" class="inptCont">
             <label id="tPLbl" for="tP" class="inptLbl">Take Profit</label>
-            <input type="number" class="copiable_value" id="tP" />
+            <input type="text" class="copiable_value" id="tP" />
             <button class="copyBtn">📋</button>
           </div>
 
@@ -80,9 +82,9 @@
             <output id="prftPrcntg"></output>
           </div>
         </div>
-        <!---------------- Button ---->
+        <!---------------- Calc Button ---->
         <div id="btnFlex">
-          <button id="calculate">SIZE</button>
+          <button id="calculate" type="submit">SIZE</button>
         </div>
         <!--- Position-Size-Output --->
         <div id="outptGrid">

@@ -1,8 +1,10 @@
 export const valueInputs = document.getElementsByTagName('input');
 export const valueOutputs = document.getElementsByTagName('output');
+export const calculateBtn = document.getElementById('calculate');
 
-let calculateBtn = document.getElementById('calculate');
-calculateBtn.addEventListener('click', calcPositionSize);
+calculateBtn.addEventListener('click', () => {
+  !calculateBtn.classList.contains('calcDisabled') && calcPositionSize();
+});
 
 function calcPositionSize(){
   const [

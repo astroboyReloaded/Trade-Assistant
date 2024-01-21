@@ -1,6 +1,7 @@
 import DB from "./PositionsHistory.js";
 import Session from "./CurrentPosition.js";
-import { deleteBtn } from "./saveToLS.js";
+import { historyTemplate } from "../helperFunctions.js";
+import { deleteBtn } from "./afterCalc.js";
 
 let historyContainer, calcContainer, load_Position, delete_One, clear_History, close_History;
 document.getElementById('history').addEventListener('click', openCalcHistory);
@@ -18,20 +19,8 @@ function openCalcHistory() {
 
 let timeID;
 
-export function loadHistory(history) {
-  let positionsHistory = history.map((position, i) => `<object class='history-item'>
-    ${i+1}.-
-    <data>Min Leverage: ${position.leverage}</data>
-    <data>Position SIZE: ${position.positionSIZE}</data>
-    <data>Entry Price: ${position.entryPrice}</data>
-    <data>Stop Loss: ${position.stopLoss}</data>
-    <data>Take Profit: ${position.takeProfit}</data>
-    <div>
-      <button id="delP${i}" class="delete-one">Delete</button>
-      <button id="loadP${i}" class="load-position">Load</button>
-    </div>
-  </object>`).join('')
-  || '<p>There are no positions saved</p>';
+function loadHistory(history) {
+  let positionsHistory = historyTemplate(history);
 
   historyContainer.innerHTML = `<div class="close-clearHistory_cont">
     <button id="clear-history" disabled>Clear History</button>
@@ -92,7 +81,6 @@ function loadPosition(index) {
 
 function deleteOne(actionBtn, index) {
   const newSavedPositions = DB.savedPositions().filter((p, i) => i != index);
-
   actionBtn.removeEventListener('click', deleteOne);
   document.getElementById(`delP${index}`).removeEventListener('click', closeHistory);
   loadHistory(DB.setSavedPositions(newSavedPositions));
