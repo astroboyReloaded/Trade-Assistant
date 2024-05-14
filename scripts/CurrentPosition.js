@@ -1,7 +1,4 @@
-import {
-  valueInputs,
-  valueOutputs,
-} from "./calculator.js";
+import { valueInputs, valueOutputs } from './calculator.js';
 
 class CurrentPosition {
   constructor() {
@@ -9,7 +6,8 @@ class CurrentPosition {
     this.currentPosition = {};
   }
   getCurrentPosition() {
-    this.currentPosition = JSON.parse(sessionStorage.getItem('current-position')) || {};
+    this.currentPosition =
+      JSON.parse(sessionStorage.getItem('current-position')) || {};
     return this.currentPosition;
   }
 
@@ -20,13 +18,10 @@ class CurrentPosition {
 
   loadPosition(positionToLoad, index) {
     this.index = index || null;
-  
-    const [entryPrice,
-      stopLoss,
-      balance,
-      riskPercentage,
-      takeProfit
-    ] = [...valueInputs];
+
+    const [entryPrice, stopLoss, balance, riskPercentage, takeProfit] = [
+      ...valueInputs,
+    ];
     const [
       riskAmount,
       profitAmount,
@@ -36,7 +31,7 @@ class CurrentPosition {
       risk_rewardRatio,
     ] = [...valueOutputs];
 
-    if(positionToLoad) {
+    if (positionToLoad) {
       [
         entryPrice.value,
         stopLoss.value,
@@ -56,7 +51,7 @@ class CurrentPosition {
   clearCurrentPosition() {
     this.setCurrentPosition({});
   }
-};
+}
 
 const Session = new CurrentPosition();
 export default Session;
