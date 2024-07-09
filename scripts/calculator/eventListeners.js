@@ -1,26 +1,26 @@
-import { base, profit, risk } from './Calculator.js';
+import { Base, Profit, Risk } from './Calculator.js';
 
-base.balanceInput.addEventListener('change', () => {
-  base.setBalance(base.balanceInput.value);
+Base.balanceInput.addEventListener('change', () => {
+  Base.setBalance(Base.balanceInput.value);
 });
-base.entryPriceInput.addEventListener('change', () => {
-  base.setEntryPrice(base.entryPriceInput.value);
+Base.entryPriceInput.addEventListener('change', () => {
+  Base.setEntryPrice(Base.entryPriceInput.value);
 });
-profit.takeProfitInput.addEventListener('change', () => {
-  profit.setTakeProfit(profit.takeProfitInput.value);
+Profit.takeProfitInput.addEventListener('change', () => {
+  Profit.setTakeProfit(Profit.takeProfitInput.value);
 });
-profit.profitPercentageInput.addEventListener('change', () => {
-  profit.setProfitPercentage(profit.profitPercentageInput.value);
+Profit.ProfitPercentageInput.addEventListener('change', () => {
+  Profit.setProfitPercentage(Profit.ProfitPercentageInput.value);
 });
-profit.profitAmountInput.addEventListener('change', () => {
-  profit.setProfitAmount(profit.profitAmountInput.value);
+Profit.ProfitAmountInput.addEventListener('change', () => {
+  Profit.setProfitAmount(Profit.ProfitAmountInput.value);
 });
-risk.stopLossInput.addEventListener('change', () => {
-  risk.setStopLoss(risk.stopLossInput.value);
+Risk.stopLossInput.addEventListener('change', () => {
+  Risk.setStopLoss(Risk.stopLossInput.value);
 });
-risk.riskPercentageInput.addEventListener('change', () => {
-  risk.setRiskPercentage(risk.riskPercentageInput.value);
+Risk.RiskPercentageInput.addEventListener('change', () => {
+  Risk.setRiskPercentage(Risk.RiskPercentageInput.value);
 });
-risk.riskAmountInput.addEventListener('change', () => {
-  risk.setRiskAmount(risk.riskAmountInput.value);
+Risk.RiskAmountInput.addEventListener('change', () => {
+  Risk.setRiskAmount(Risk.RiskAmountInput.value);
 });

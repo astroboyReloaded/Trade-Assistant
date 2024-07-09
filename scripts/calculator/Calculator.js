@@ -1,8 +1,8 @@
 'use strict';
-import { Base } from './calcObjects/Base.js';
-import { Profit } from './calcObjects/Profit.js';
-import { Risk } from './calcObjects/Risk.js';
-import { Size } from './calcObjects/Size.js';
+import { Base as createBaseObject } from './calcObjects/Base.js';
+import { Profit as createProfitObject } from './calcObjects/Profit.js';
+import { Risk as createRiskObject } from './calcObjects/Risk.js';
+import { Size as createSizeObject } from './calcObjects/Size.js';
 
 const valueInputs = document.getElementsByTagName('input');
 
@@ -20,21 +20,21 @@ const [
   riskRewardRatioInput,
 ] = [...valueInputs];
 
-export const base = new Base(balanceInput, entryPriceInput);
-const size = new Size(
-  minLeverageInput,
-  positionSizeInput,
-  riskRewardRatioInput,
-);
-export const profit = new Profit(
+export const Base = new createBaseObject(balanceInput, entryPriceInput);
+export const profit = new createProfitObject(
   takeProfitInput,
   profitPercentageInput,
   profitAmountInput,
 );
-export const risk = new Risk(
+export const Risk = new createRiskObject(
   stopLossInput,
   riskPercentageInput,
   riskAmountInput,
+);
+const Size = new createSizeObject(
+  minLeverageInput,
+  positionSizeInput,
+  riskRewardRatioInput,
 );
 class Calculator {
   isBaseFilled() {
