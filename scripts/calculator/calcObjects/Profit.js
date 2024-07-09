@@ -8,27 +8,27 @@ export class Profit {
     this.profitAmount = null;
   }
 
-  get takeProfit() {
+  get getTakeProfit() {
     return this.takeProfit;
   }
 
-  set takeProfit(value) {
+  set setTakeProfit(value) {
     this.takeProfit = value;
   }
 
-  get profitPercentage() {
+  get getProfitPercentage() {
     return this.profitPercentage;
   }
 
-  set profitPercentage(value) {
+  set setProfitPercentage(value) {
     this.profitPercentage = value;
   }
 
-  get profitAmount() {
+  get getProfitAmount() {
     return this.profitAmount;
   }
 
-  set profitAmount(value) {
+  set setProfitAmount(value) {
     this.profitAmount = value;
   }
 }

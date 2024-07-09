@@ -1,8 +1,8 @@
 'use strict';
-import { Base } from './calcObjects/Base';
-import { Profit } from './calcObjects/Profit';
-import { Risk } from './calcObjects/Risk';
-import { Size } from './calcObjects/Size';
+import { Base } from './calcObjects/Base.js';
+import { Profit } from './calcObjects/Profit.js';
+import { Risk } from './calcObjects/Risk.js';
+import { Size } from './calcObjects/Size.js';
 
 const valueInputs = document.getElementsByTagName('input');
 
@@ -42,4 +42,4 @@ class Calculator {
   }
 }
 
-export const Position = Calculator();
+export const Position = new Calculator();

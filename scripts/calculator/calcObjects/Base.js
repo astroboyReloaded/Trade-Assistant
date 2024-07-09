@@ -12,6 +12,8 @@ export class Base {
 
   set setBalance(value) {
     this.balance = value;
+    sessionStorage.setItem('balance', this.balance);
+    console.log('Balance: ' + this.balance);
   }
 
   get getEntryPrice() {

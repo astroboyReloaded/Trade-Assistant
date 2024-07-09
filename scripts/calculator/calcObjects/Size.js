@@ -12,29 +12,29 @@ export class Size {
     this.riskRewardRatio = null;
   }
 
-  get minLeverage() {
+  get getMinLeverage() {
     return this.minLeverage;
   }
 
-  set minLeverage(value) {
+  set setMinLeverage(value) {
     this.minLeverage = value;
     this.minLeverageInput.value = this.minLeverage;
   }
 
-  get positionSize() {
+  get getPositionSize() {
     return this.positionSize;
   }
 
-  set positionSize(value) {
+  set setPositionSize(value) {
     this.positionSize = value;
     this.positionSizeInput.value = this.positionSize;
   }
 
-  get riskRewardRatio() {
+  get getRiskRewardRatio() {
     return this.riskRewardRatio;
   }
 
-  set riskRewardRatio(value) {
+  set setRiskRewardRatio(value) {
     this.riskRewardRatio = value;
     this.riskRewardRatioInput.value = this.riskRewardRatio;
   }
