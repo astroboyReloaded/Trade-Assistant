@@ -21,7 +21,7 @@ const [
 ] = [...valueInputs];
 
 export const Base = new createBaseObject(balanceInput, entryPriceInput);
-export const profit = new createProfitObject(
+export const Profit = new createProfitObject(
   takeProfitInput,
   profitPercentageInput,
   profitAmountInput,
@@ -31,15 +31,30 @@ export const Risk = new createRiskObject(
   riskPercentageInput,
   riskAmountInput,
 );
-const Size = new createSizeObject(
+export const Size = new createSizeObject(
   minLeverageInput,
   positionSizeInput,
   riskRewardRatioInput,
 );
 class Calculator {
-  isBaseFilled() {
-    return this.Base.getBalance() && this.Base.getEntryPrice();
+  ProfitPercentage() {
+    Profit.setProfitPercentage(
+      Math.abs(Profit.getTakeProfit() / Base.getEntryPrice() - 1),
+    );
+    Profit.profitPercentageInput.value = Profit.getProfitPercentage() * 100;
+  }
+
+  ProfitAmount() {
+    Profit.setProfitAmount(Base.getBalance() * Profit.getProfitPercentage());
+    Profit.profitAmountInput.value = Profit.getProfitAmount();
+  }
+
+  TakeProfit() {
+    Profit.setTakeProfit(
+      Base.getEntryPrice() * (1 + Profit.getProfitPercentage()),
+    );
+    Profit.takeProfitInput.value = Profit.getTakeProfit();
   }
 }
 
-export const Position = new Calculator();
+export const Calc = new Calculator();

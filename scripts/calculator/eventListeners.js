@@ -1,26 +1,40 @@
-import { Base, Profit, Risk } from './Calculator.js';
+import { Calc, Base, Profit, Risk } from './Calculator.js';
 
-Base.balanceInput.addEventListener('change', () => {
-  Base.setBalance(Base.balanceInput.value);
+// Base Events
+Base.balanceInput.addEventListener('input', (e) => {
+  Base.setBalance(e.target.value);
 });
-Base.entryPriceInput.addEventListener('change', () => {
-  Base.setEntryPrice(Base.entryPriceInput.value);
+Base.entryPriceInput.addEventListener('input', (e) => {
+  Base.setEntryPrice(e.target.value);
+});
+
+// Profit Events
+Profit.takeProfitInput.addEventListener('input', (e) => {
+  Profit.setTakeProfit(e.target.value);
+  Calc.ProfitPercentage();
+  Calc.ProfitAmount();
 });
 Profit.takeProfitInput.addEventListener('change', () => {
-  Profit.setTakeProfit(Profit.takeProfitInput.value);
+  return;
 });
-Profit.ProfitPercentageInput.addEventListener('change', () => {
-  Profit.setProfitPercentage(Profit.ProfitPercentageInput.value);
+// ----------
+Profit.profitPercentageInput.addEventListener('change', (e) => {
+  Profit.setProfitPercentage(e.target.value);
 });
-Profit.ProfitAmountInput.addEventListener('change', () => {
-  Profit.setProfitAmount(Profit.ProfitAmountInput.value);
+// ----------
+Profit.profitAmountInput.addEventListener('change', (e) => {
+  Profit.setProfitAmount(e.target.value);
 });
-Risk.stopLossInput.addEventListener('change', () => {
-  Risk.setStopLoss(Risk.stopLossInput.value);
+
+// Risk Events
+Risk.stopLossInput.addEventListener('change', (e) => {
+  Risk.setStopLoss(e.target.value);
 });
-Risk.RiskPercentageInput.addEventListener('change', () => {
-  Risk.setRiskPercentage(Risk.RiskPercentageInput.value);
+// ----------
+Risk.riskPercentageInput.addEventListener('change', (e) => {
+  Risk.setRiskPercentage(e.target.value);
 });
-Risk.RiskAmountInput.addEventListener('change', () => {
-  Risk.setRiskAmount(Risk.RiskAmountInput.value);
+// ----------
+Risk.riskAmountInput.addEventListener('change', (e) => {
+  Risk.setRiskAmount(e.target.value);
 });

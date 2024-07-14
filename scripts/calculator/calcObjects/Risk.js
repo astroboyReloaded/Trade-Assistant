@@ -3,35 +3,44 @@ export class Risk {
     this.stopLossInput = stopLossInput;
     this.riskPercentageInput = riskPercentageInput;
     this.riskAmountInput = riskAmountInput;
-    this.stopLoss = null;
+    this.stopLoss = 0;
     this.riskPercentage = 100;
     this.riskAmount = null;
+    this.isLocked = false;
   }
 
-  get getStopLoss() {
+  getStopLoss() {
     return this.stopLoss;
   }
 
-  set setStopLoss(value) {
+  setStopLoss(value) {
     this.stopLoss = value;
     this.stopLossInput.value = this.stopLoss;
   }
 
-  get getRiskPercentage() {
+  getRiskPercentage() {
     return this.riskPercentage;
   }
 
-  set setRiskPercentage(value) {
+  setRiskPercentage(value) {
     this.riskPercentage = value;
     this.riskPercentageInput.value = this.riskPercentage;
   }
 
-  get getRiskAmount() {
+  getRiskAmount() {
     return this.riskAmount;
   }
 
-  set setRiskAmount(value) {
+  setRiskAmount(value) {
     this.riskAmount = value;
     this.riskAmountInput.value = this.riskAmount;
+  }
+
+  getLocked() {
+    return this.isLocked;
+  }
+
+  setLocked(value) {
+    this.isLocked = value;
   }
 }

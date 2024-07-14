@@ -6,25 +6,20 @@ export class Base {
     this.entryPrice = null;
   }
 
-  get getBalance() {
+  getBalance() {
     return this.balance;
   }
 
-  set setBalance(value) {
+  setBalance(value) {
     this.balance = value;
-    sessionStorage.setItem('balance', this.balance);
-    console.log('Balance: ' + this.balance);
+    localStorage.setItem('balance', this.balance);
   }
 
-  get getEntryPrice() {
-    return this.entryPrice;
+  getEntryPrice() {
+    return localStorage.getItem('entryPrice') || this.entryPrice || 0;
   }
 
-  set setEntryPrice(value) {
+  setEntryPrice(value) {
     this.entryPrice = value;
-  }
-
-  get getBaseInputs() {
-    return [this.balanceInput, this.entryPriceInput];
   }
 }

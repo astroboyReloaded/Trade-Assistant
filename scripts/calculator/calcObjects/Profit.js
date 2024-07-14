@@ -6,29 +6,38 @@ export class Profit {
     this.takeProfit = null;
     this.profitPercentage = null;
     this.profitAmount = null;
+    this.isLocked = false;
   }
 
-  get getTakeProfit() {
+  getTakeProfit() {
     return this.takeProfit;
   }
 
-  set setTakeProfit(value) {
+  setTakeProfit(value) {
     this.takeProfit = value;
   }
 
-  get getProfitPercentage() {
+  getProfitPercentage() {
     return this.profitPercentage;
   }
 
-  set setProfitPercentage(value) {
+  setProfitPercentage(value) {
     this.profitPercentage = value;
   }
 
-  get getProfitAmount() {
+  getProfitAmount() {
     return this.profitAmount;
   }
 
-  set setProfitAmount(value) {
+  setProfitAmount(value) {
     this.profitAmount = value;
+  }
+
+  setLocked(value) {
+    this.isLocked = value;
+  }
+
+  getLocked() {
+    return this.isLocked;
   }
 }
