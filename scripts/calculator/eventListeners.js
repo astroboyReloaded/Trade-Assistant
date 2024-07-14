@@ -21,6 +21,7 @@ Profit.takeProfitInput.addEventListener('change', () => {
 Profit.profitPercentageInput.addEventListener('change', (e) => {
   Profit.setProfitPercentage(e.target.value);
 });
+Profit.profitPercentageInput.addEventListener('change', (e) => {});
 // ----------
 Profit.profitAmountInput.addEventListener('change', (e) => {
   Profit.setProfitAmount(e.target.value);
