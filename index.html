@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200&display=swap" rel="stylesheet" />
   <script src="https://kit.fontawesome.com/ec3aeabf1a.js" crossorigin="anonymous"></script>
   <script src="./scripts/calculator/Calculator.js" type="module" defer></script>
-  <script src="./scripts/calculator/eventListeners.js" type="module" defer></script>
+  <script src="./scripts/index.js" type="module" defer></script>
   <script src="./scripts/clippboard.js" type="module" defer></script>
   <script src="./scripts/history/localStorage.js" type="module" defer></script>
   <script src="./scripts/history/showHistory.js" type="module" defer></script>
@@ -39,11 +39,11 @@
           <!------------ Position Base ----->
           <div id="blncCont" class="inptCont">
             <label id="blncLbl" for="blnc" class="inptLbl">*Balance</label>
-            <input type="number" id="blnc" autocomplete="off" required />
+            <input type="number" id="balance" autocomplete="off" required />
           </div>
           <div id="ePCont" class="inptCont">
             <label id="ePLbl" for="eP" class="inptLbl">*Entry Price</label>
-            <input type="number" class="copiable_value" id="eP" autocomplete="off" required />
+            <input type="number" class="copiable_value" id="entryPrice" autocomplete="off" required />
             <button class="copyBtn">📋</button>
           </div>
         <!------Take Profit ---->
