@@ -1,41 +1,57 @@
-export class Size {
-  minLeverageInput;
-  positionSizeInput;
-  riskRewardRatioInput;
+'use strict';
+const [positionSizeInput, minLeverageInput, riskRewardRatioInput] =
+  document.querySelectorAll('.sizeInput');
 
-  constructor(minLeverageInput, positionSizeInput, riskRewardRatioInput) {
-    this.minLeverageInput = minLeverageInput;
+export class CreateSize {
+  #position = null;
+  #minLeverage = null;
+  #riskRewardRatio = 0;
+
+  constructor(positionSizeInput, minLeverageInput, riskRewardRatioInput) {
     this.positionSizeInput = positionSizeInput;
+    this.minLeverageInput = minLeverageInput;
     this.riskRewardRatioInput = riskRewardRatioInput;
-    this.minLeverage = 1;
-    this.positionSize = null;
-    this.riskRewardRatio = null;
   }
 
-  getMinLeverage() {
-    return this.minLeverage;
+  get Position() {
+    return this.#position;
   }
 
-  setMinLeverage(value) {
-    this.minLeverage = value;
-    this.minLeverageInput.value = this.minLeverage;
+  set Position(value) {
+    this.#position = value;
   }
 
-  getPositionSize() {
-    return this.positionSize;
+  setPositionInputValue() {
+    this.positionSizeInput.value = this.#position || '';
   }
 
-  setPositionSize(value) {
-    this.positionSize = value;
-    this.positionSizeInput.value = this.positionSize;
+  get Leverage() {
+    return this.#minLeverage;
   }
 
-  getRiskRewardRatio() {
-    return this.riskRewardRatio;
+  set Leverage(value) {
+    this.#minLeverage = value;
   }
 
-  setRiskRewardRatio(value) {
-    this.riskRewardRatio = value;
-    this.riskRewardRatioInput.value = this.riskRewardRatio;
+  setLeverageInputValue() {
+    this.minLeverageInput.value = this.#minLeverage || '';
+  }
+
+  get RiskRewardRatio() {
+    return this.#riskRewardRatio;
+  }
+
+  set RiskRewardRatio(value) {
+    this.#riskRewardRatio = value;
+  }
+
+  setRatioInputValue() {
+    this.riskRewardRatioInput.value = this.#riskRewardRatio || '';
   }
 }
+
+export const Size = new CreateSize(
+  positionSizeInput,
+  minLeverageInput,
+  riskRewardRatioInput,
+);

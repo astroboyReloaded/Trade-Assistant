@@ -12,6 +12,9 @@ body {
   font-family: 'Kanit', sans-serif;
   display: flex;
   flex-direction: column;
+  /* For developing pruposes or backup */
+  color: #eee3e3;
+  /* ----- */
 }
 
 html {
@@ -130,10 +133,6 @@ li>a {
 }
 
 /*--------------------Risk Input-------*/
-#rskInput {
-  display: flex;
-  flex-direction: column;
-}
 
 .inptCont {
   margin: 0.6rem 0.6rem 0rem 0.6rem;
@@ -195,41 +194,6 @@ input {
   border-radius: 0.25rem;
   text-align: center;
   align-self: center;
-}
-
-#ePCont {
-  margin-top: 1.2rem;
-}
-
-#rskPrc {
-  width: 99%;
-  color: #dddddd;
-}
-
-#prcnt {
-  color: #dddddd;
-  display: inline;
-  width: auto;
-  height: 0.99rem;
-  margin: 0rem 0.3rem 0rem 0.3rem;
-  justify-self: flex-end;
-  text-align: center;
-  font-size: 1.2rem;
-}
-
-.outptCont {
-  margin: 0rem 0.6rem 0rem 0.9rem;
-}
-
-.otptLbl {
-  color: #eee3e3;
-  font-size: 1.2rem;
-  margin-top: 0.3rem;
-  margin-bottom: auto;
-}
-
-#prftPrcntgLbl {
-  margin-top: 0;
 }
 
 output {
@@ -422,7 +386,6 @@ output+.copyBtn {
   }
 
   #rskPrc {
-    width: 99%;
     color: #dddddd;
   }
 

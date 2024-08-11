@@ -1,46 +1,94 @@
-export class Risk {
-  constructor(stopLossInput, riskPercentageInput, riskAmountInput) {
-    this.stopLossInput = stopLossInput;
-    this.riskPercentageInput = riskPercentageInput;
-    this.riskAmountInput = riskAmountInput;
-    this.stopLoss = 0;
-    this.riskPercentage = 100;
-    this.riskAmount = null;
-    this.isLocked = false;
+'use strict';
+const [stopLossInput, riskAmountInput, riskPercentageInput] =
+  document.querySelectorAll('.riskInput');
+
+export class CreateRisk {
+  #stop = JSON.parse(sessionStorage.getItem('stopLoss')) || 0;
+  #PercentageAsDecimal = JSON.parse(
+    localStorage.getItem('riskPercentageAsDecimal') || 1,
+  );
+  #amount = null;
+  #priceLocked =
+    JSON.parse(sessionStorage.getItem('isStopLossLocked')) || false;
+  #percentageLocked =
+    JSON.parse(sessionStorage.getItem('isRiskPercentageLocked')) || false;
+
+  constructor(stopLossInput, riskAmountInput, riskPercentageInput) {
+    this.stopInput = stopLossInput;
+    this.amountInput = riskAmountInput;
+    this.percentageInput = riskPercentageInput;
   }
 
-  getStopLoss() {
-    return this.stopLoss;
+  get Stop() {
+    return this.#stop;
   }
 
-  setStopLoss(value) {
-    this.stopLoss = value;
-    this.stopLossInput.value = this.stopLoss;
+  set Stop(value) {
+    this.#stop = value;
+    sessionStorage.setItem('stopLoss', JSON.stringify(this.#stop));
   }
 
-  getRiskPercentage() {
-    return this.riskPercentage;
+  setStopInputValue() {
+    this.stopInput.value = this.#stop;
   }
 
-  setRiskPercentage(value) {
-    this.riskPercentage = value;
-    this.riskPercentageInput.value = this.riskPercentage;
+  get Amount() {
+    return this.#amount;
   }
 
-  getRiskAmount() {
-    return this.riskAmount;
+  set Amount(value) {
+    this.#amount = value;
   }
 
-  setRiskAmount(value) {
-    this.riskAmount = value;
-    this.riskAmountInput.value = this.riskAmount;
+  setAmountInputValue() {
+    this.amountInput.value = this.#amount || '';
   }
 
-  getLocked() {
-    return this.isLocked;
+  get PercentageAsDecimal() {
+    return this.#PercentageAsDecimal;
   }
 
-  setLocked(value) {
-    this.isLocked = value;
+  set PercentageAsDecimal(value) {
+    this.#PercentageAsDecimal = value || 1;
+    localStorage.setItem(
+      'riskPercentageAsDecimal',
+      JSON.stringify(this.#PercentageAsDecimal),
+    );
+  }
+
+  setPercentageInputValue() {
+    this.percentageInput.value = this.#PercentageAsDecimal * 100 || '';
+  }
+
+  get priceLocked() {
+    return this.#priceLocked;
+  }
+
+  set priceLocked(value) {
+    this.#priceLocked = value;
+    sessionStorage.setItem(
+      'isStopLossLocked',
+      JSON.stringify(this.#priceLocked),
+    );
+    console.log(this.#priceLocked, 'risk price is locked');
+  }
+
+  get percentageLocked() {
+    return this.#percentageLocked;
+  }
+
+  set percentageLocked(value) {
+    this.#percentageLocked = value;
+    sessionStorage.setItem(
+      'isRiskPercentageLocked',
+      JSON.stringify(this.#percentageLocked),
+    );
+    console.log(this.#percentageLocked, 'risk percentage is locked');
   }
 }
+
+export const Risk = new CreateRisk(
+  stopLossInput,
+  riskAmountInput,
+  riskPercentageInput,
+);
