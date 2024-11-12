@@ -1,44 +1,41 @@
 'use strict';
-const [takeProfitInput, profitAmountInput, profitPercentageInput] =
-  document.querySelectorAll('.profitInput');
 
-export class CreateProfit {
-  #take = sessionStorage.getItem('takeProfit') || null;
+import { UIState } from '../UIState.js';
+
+const [takeProfitInput, profitPercentageInput, profitAmountInput] =
+  document.querySelectorAll('.profit-input');
+class CreateProfit {
+  #takeProfit = JSON.parse(localStorage.getItem('takeProfit')) || null;
   #PercentageAsDecimal =
     JSON.parse(localStorage.getItem('profitPercentageAsDecimal')) || null;
   #amount = null;
-  #priceLocked =
-    JSON.parse(sessionStorage.getItem('isTakeProfitLocked')) || false;
 
   constructor(takeProfitInput, profitAmountInput, profitPercentageInput) {
     this.takeInput = takeProfitInput;
-    this.amountInput = profitAmountInput;
+    this.takeInput.addEventListener('change', () => {
+      UIState.updateLockedState(this.takeInput.id, true, true);
+    });
     this.percentageInput = profitPercentageInput;
+    this.percentageInput.addEventListener('change', () => {
+      UIState.updateLockedState(this.percentageInput.id, true, true);
+    });
+    this.amountInput = profitAmountInput;
+    this.amountInput.addEventListener('change', () => {
+      UIState.updateLockedState(this.percentageInput.id, true, true);
+    });
   }
 
   get Take() {
-    return this.#take;
+    return this.#takeProfit;
   }
 
   set Take(value) {
-    this.#take = value;
-    sessionStorage.setItem('takeProfit', this.#take);
+    this.#takeProfit = value || null;
+    localStorage.setItem('takeProfit', this.#takeProfit);
   }
 
   setTakeInputValue() {
-    this.takeInput.value = this.#take;
-  }
-
-  get Amount() {
-    return this.#amount;
-  }
-
-  set Amount(value) {
-    this.#amount = value;
-  }
-
-  setAmountInputValue() {
-    this.amountInput.value = this.#amount || '';
+    this.takeInput.value = this.#takeProfit || '';
   }
 
   get PercentageAsDecimal() {
@@ -56,17 +53,27 @@ export class CreateProfit {
   setPercentageInputValue() {
     this.percentageInput.value = this.#PercentageAsDecimal * 100 || '';
   }
-
-  get priceLocked() {
-    return this.#priceLocked;
+  get Amount() {
+    return this.#amount;
   }
 
-  set priceLocked(value) {
-    this.#priceLocked = value;
-    sessionStorage.setItem(
-      'isTakeProfitLocked',
-      JSON.stringify(this.#priceLocked),
-    );
+  set Amount(value) {
+    this.#amount = value;
+  }
+
+  setAmountInputValue() {
+    this.amountInput.value = this.#amount || '';
+  }
+
+  clearAll() {
+    this.Take = null;
+    this.setTakeInputValue();
+    UIState.updateLockedState(this.takeInput.id, false, true);
+    this.PercentageAsDecimal = null;
+    this.setPercentageInputValue();
+    UIState.updateLockedState(this.percentageInput.id, false, true);
+    this.Amount = null;
+    this.setAmountInputValue();
   }
 }
 

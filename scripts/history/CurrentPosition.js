@@ -5,15 +5,14 @@
 //     this.index = null;
 //     this.currentPosition = {};
 //   }
-//   getCurrentPosition() {
+//   get currentPosition() {
 //     this.currentPosition =
 //       JSON.parse(sessionStorage.getItem('current-position')) || {};
 //     return this.currentPosition;
 //   }
 
-//   setCurrentPosition(positionToSave) {
+//   set currentPosition(positionToSave) {
 //     sessionStorage.setItem('current-position', JSON.stringify(positionToSave));
-//     return this.getCurrentPosition();
 //   }
 
 //   loadPosition(positionToLoad, index) {
@@ -44,12 +43,12 @@
 //         leverage.value,
 //         positionSIZE.value,
 //         risk_rewardRatio.value,
-//       ] = Object.values(this.setCurrentPosition(positionToLoad));
+//       ] = Object.values((this.currentPosition = positionToLoad));
 //     }
 //   }
 
 //   clearCurrentPosition() {
-//     this.setCurrentPosition({});
+//     this.currentPosition = {};
 //   }
 // }
 

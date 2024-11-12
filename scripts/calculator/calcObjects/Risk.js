@@ -1,22 +1,27 @@
 'use strict';
-const [stopLossInput, riskAmountInput, riskPercentageInput] =
-  document.querySelectorAll('.riskInput');
+import { UIState } from '../UIState.js';
+const [stopInput, riskPercentageInput, riskAmountInput] =
+  document.querySelectorAll('.risk-input');
 
-export class CreateRisk {
-  #stop = JSON.parse(sessionStorage.getItem('stopLoss')) || 0;
-  #PercentageAsDecimal = JSON.parse(
-    localStorage.getItem('riskPercentageAsDecimal') || 1,
-  );
+class CreateRisk {
+  #stop = JSON.parse(localStorage.getItem('stopLoss')) || 0;
+  #PercentageAsDecimal =
+    JSON.parse(localStorage.getItem('riskPercentageAsDecimal')) || 1;
   #amount = null;
-  #priceLocked =
-    JSON.parse(sessionStorage.getItem('isStopLossLocked')) || false;
-  #percentageLocked =
-    JSON.parse(sessionStorage.getItem('isRiskPercentageLocked')) || false;
 
-  constructor(stopLossInput, riskAmountInput, riskPercentageInput) {
-    this.stopInput = stopLossInput;
-    this.amountInput = riskAmountInput;
+  constructor(stopInput, riskAmountInput, riskPercentageInput) {
+    this.stopInput = stopInput;
+    this.stopInput.addEventListener('change', () => {
+      UIState.updateLockedState(this.stopInput.id, true, true);
+    });
     this.percentageInput = riskPercentageInput;
+    this.percentageInput.addEventListener('change', () => {
+      UIState.updateLockedState(this.percentageInput.id, true, true);
+    });
+    this.amountInput = riskAmountInput;
+    this.amountInput.addEventListener('change', () => {
+      UIState.updateLockedState(this.percentageInput.id, true, true);
+    });
   }
 
   get Stop() {
@@ -25,11 +30,28 @@ export class CreateRisk {
 
   set Stop(value) {
     this.#stop = value;
-    sessionStorage.setItem('stopLoss', JSON.stringify(this.#stop));
+    localStorage.setItem('stopLoss', JSON.stringify(this.#stop));
   }
 
   setStopInputValue() {
-    this.stopInput.value = this.#stop;
+    this.stopInput.value = this.#stop || '';
+  }
+
+  get PercentageAsDecimal() {
+    return this.#PercentageAsDecimal;
+  }
+
+  set PercentageAsDecimal(value) {
+    this.#PercentageAsDecimal = value !== '' ? value / 100 : 1;
+    localStorage.setItem(
+      'riskPercentageAsDecimal',
+      JSON.stringify(this.#PercentageAsDecimal),
+    );
+  }
+
+  setPercentageInputValue() {
+    this.percentageInput.value =
+      (this.#PercentageAsDecimal * 100).toFixed(2) || '';
   }
 
   get Amount() {
@@ -44,51 +66,24 @@ export class CreateRisk {
     this.amountInput.value = this.#amount || '';
   }
 
-  get PercentageAsDecimal() {
-    return this.#PercentageAsDecimal;
+  clearAll() {
+    this.clear();
+    this.PercentageAsDecimal = '';
+    this.setPercentageInputValue();
+    UIState.updateLockedState(this.percentageInput.id, false, true);
+    this.Amount = null;
+    this.setAmountInputValue();
   }
 
-  set PercentageAsDecimal(value) {
-    this.#PercentageAsDecimal = value || 1;
-    localStorage.setItem(
-      'riskPercentageAsDecimal',
-      JSON.stringify(this.#PercentageAsDecimal),
-    );
-  }
-
-  setPercentageInputValue() {
-    this.percentageInput.value = this.#PercentageAsDecimal * 100 || '';
-  }
-
-  get priceLocked() {
-    return this.#priceLocked;
-  }
-
-  set priceLocked(value) {
-    this.#priceLocked = value;
-    sessionStorage.setItem(
-      'isStopLossLocked',
-      JSON.stringify(this.#priceLocked),
-    );
-    console.log(this.#priceLocked, 'risk price is locked');
-  }
-
-  get percentageLocked() {
-    return this.#percentageLocked;
-  }
-
-  set percentageLocked(value) {
-    this.#percentageLocked = value;
-    sessionStorage.setItem(
-      'isRiskPercentageLocked',
-      JSON.stringify(this.#percentageLocked),
-    );
-    console.log(this.#percentageLocked, 'risk percentage is locked');
+  clear() {
+    this.Stop = 0;
+    this.setStopInputValue();
+    UIState.updateLockedState(this.stopInput.id, false, true);
   }
 }
 
 export const Risk = new CreateRisk(
-  stopLossInput,
+  stopInput,
   riskAmountInput,
   riskPercentageInput,
 );

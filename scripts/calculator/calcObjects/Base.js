@@ -1,12 +1,30 @@
-'use stricy';
-const [balanceInput, entryInput] = document.querySelectorAll('baseInput');
-export class CreateBase {
+'use strict';
+
+import { UIState } from '../UIState.js';
+
+const [balanceInput, entryInput] = document.querySelectorAll('.baseInput');
+const lockBalanceBtn = document.querySelectorAll('.lock-balance');
+class CreateBase {
   #balance = JSON.parse(localStorage.getItem('balance')) || null;
-  #entryPrice = JSON.parse(sessionStorage.getItem('entryPrice')) || null;
+  #balanceLocked = JSON.parse(localStorage.getItem('balanceLocked')) || false;
+  #balanceLockCheckbox = lockBalanceBtn[0];
+  #balanceLockLabel = lockBalanceBtn[1];
+  #entryPrice = JSON.parse(localStorage.getItem('entryPrice')) || null;
 
   constructor(balanceInput, entryPriceInput) {
     this.balanceInput = balanceInput;
+    this.#balanceLockCheckbox.checked = this.#balanceLocked;
+    this.#balanceLockLabel.addEventListener('click', () => {
+      this.balanceLocked = !this.balanceLocked;
+    });
+    this.balanceInput.addEventListener('change', (e) => {
+      this.balanceLocked = Boolean(e.target.value);
+      this.#balanceLockCheckbox.checked = this.balanceLocked;
+    });
     this.entryInput = entryPriceInput;
+    this.entryInput.addEventListener('change', () => {
+      UIState.updateLockedState(this.entryInput.id, true, true);
+    });
   }
 
   get Balance() {
@@ -22,33 +40,42 @@ export class CreateBase {
     this.balanceInput.value = this.#balance;
   }
 
+  set balanceLocked(value) {
+    this.#balanceLocked = value;
+    localStorage.setItem('balanceLocked', this.#balanceLocked);
+  }
+
+  get balanceLocked() {
+    return this.#balanceLocked;
+  }
+
   get Entry() {
     return this.#entryPrice;
   }
 
   set Entry(value) {
     this.#entryPrice = value;
-    sessionStorage.setItem('entryPrice', this.#entryPrice);
+    localStorage.setItem('entryPrice', this.#entryPrice);
   }
 
   setEntryInputValue() {
     this.entryInput.value = this.#entryPrice;
   }
 
-  isSet() {
-    return Boolean(this.#balance && this.#entryPrice);
-  }
-
-  clear() {
-    this.#entryPrice = null;
-    sessionStorage.removeItem('entryPrice');
+  get isSet() {
+    return this.#balance && this.#entryPrice;
   }
 
   clearAll() {
-    this.#balance = null;
-    this.#entryPrice = null;
-    localStorage.removeItem('balance');
-    sessionStorage.removeItem('entryPrice');
+    this.Balance = null;
+    this.setBalanceInputValue();
+    this.clear();
+  }
+
+  clear() {
+    this.Entry = null;
+    this.setEntryInputValue();
+    UIState.updateLockedState(this.entryInput.id, false, true);
   }
 }
 

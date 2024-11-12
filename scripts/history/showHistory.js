@@ -78,7 +78,7 @@
 
 // function closeHistory() {
 //   if (delete_One) {
-//     delete_One.forEach((btn) =>
+//     delete_One.forEach((btn, i) =>
 //       btn.removeEventListener('click', () => {
 //         loadPosition(btn, i);
 //       }),

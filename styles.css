@@ -2,23 +2,26 @@
 *::before,
 *::after {
   box-sizing: border-box;
-}
-
-body {
-  margin: 0px 0px;
+  margin: 0px;
   padding: 0px;
-  overflow-x: hidden;
-  background: #131313;
-  font-family: 'Kanit', sans-serif;
-  display: flex;
-  flex-direction: column;
-  /* For developing pruposes or backup */
-  color: #eee3e3;
-  /* ----- */
 }
 
 html {
   font-size: 18px;
+  --appFrameBgColor: rgb(26, 26, 26);
+  --inputBgColor: #292727;
+  --inputLabelColor: #aca3a3;
+  --locked: #fa8484;
+  --unlocked: #bdbdbd;
+}
+
+body {
+  overflow-x: hidden;
+  background: #000000;
+  font-family: 'Kanit', sans-serif;
+  display: flex;
+  flex-direction: column;
+  color: #eee3e3;
 }
 
 button {
@@ -27,22 +30,14 @@ button {
 }
 
 /*---------------------------------------------Smaller Screen---------------------------------------*/
-main {
-  margin: 0px;
-  padding: 0px;
-  font-size: 0.8rem;
-  max-width: 450px;
-  align-self: center;
-}
-
 header {
-  margin: 0px;
-  padding: 0px;
+  display: flex;
+  justify-content: space-between;
 }
 
 #logo {
   height: 2.1rem;
-  margin: 0.3rem 0.6rem;
+  margin: 0.3rem 0.6em;
 }
 
 nav {
@@ -50,54 +45,57 @@ nav {
   font-weight: 900;
 }
 
-ul {
+.nav-ul {
+  display: flex;
   list-style: none;
   margin: 0.3rem;
   padding: 0px;
   align-items: center;
 }
 
-li>a {
+.nav-link {
+  margin-inline: 0.6em 0.3em;
   text-decoration: none;
   color: #eee3e3;
 }
 
+/* --------------------- Main Content --------------------- */
+main {
+  font-size: 0.8rem;
+}
+
 #appFrame {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
   margin: 0;
-}
-
-#calc {
   height: auto;
-  width: 99%;
   align-self: center;
-  background-color: rgb(26, 26, 26);
+  background-color: var(--appFrameBgColor);
   border-radius: 1rem;
 }
 
-#appTitle {
-  color: #eee3e3;
-  justify-self: center;
-  line-height: 0;
-  padding: 0;
-  margin: 1.2rem 0 0.9rem 0;
-  font-weight: 300;
+h1 {
+  margin: 0.9rem;
+  text-align: center;
 }
 
-/*-------------------History (this button is at the end of the HTML <section>--*/
+/*-------------- History --------------*/
 
-#history {
+#historyBtn {
   position: absolute;
-  right: 0.9rem;
-  top: 3.3rem;
+  right: 0.9em;
+  top: 0.9em;
   display: inline-block;
   height: 24px;
   width: 24px;
-  background: url('./mediaFiles/history-icon_image.png') center no-repeat;
-  background-size: cover;
   border-radius: 3px;
+  background: #00000000;
+}
+
+.history-icon {
+  fill: #eee3e3;
 }
 
 #history-container {
@@ -106,7 +104,7 @@ li>a {
   flex-direction: column;
   min-height: 100%;
   width: 100%;
-  background-color: #292727;
+  background-color: var(--inputBgColor);
   padding: 0.9rem;
   color: #eee3e3;
   font-size: 1.2rem;
@@ -132,58 +130,156 @@ li>a {
   border-bottom: 1px solid #eee3e3;
 }
 
-/*--------------------Risk Input-------*/
+/*-----------------Position Inputs-----------------*/
 
-.inptCont {
-  margin: 0.6rem 0.6rem 0rem 0.6rem;
-  background-color: #292727;
+.section-container {
+  display: flex;
+  flex-direction: column;
+  margin: 0.9rem;
+}
+
+.input-container {
+  position: relative;
+  margin: 0.6em 0 0 0;
+  background-color: var(--inputBgColor);
   border-radius: 0.27rem;
+  border: 1px solid var(--inputBgColor);
   align-items: left;
 }
 
-.inptLbl {
-  background-color: #292727;
+.input-label {
+  background-color: var(--inputBgColor);
   height: 1.2rem;
   border-radius: 0.25rem;
-  margin: 0 0 0.6rem 0.3rem;
-  color: #aca3a3;
+  margin: 0 0 0.6em 0.3em;
+  color: var(--inputLabelColor);
   font-size: 1.2rem;
   font-weight: 600;
-  align-self: center;
+}
+
+/*-----------------Lock Input-----------------*/
+.percentage-amount-lockContainer{
+  position: relative;
+  margin-left: auto;
+  top: -4px;
+}
+
+.percentage-amount-lockContainer::before{
+  content: '';
+  position: absolute;
+  top: 1px;
+  right: 0px;
+  width: 3px;
+  height: 33px;
+  background-color: var(--inputBgColor);
+  z-index: 1;
+}
+
+.lock-box {
+  position: absolute;
+  right: 0.6em;
+  top: 0.6em;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  padding: 0;
+}
+
+input.lock-btn {
+  display: none;
+  cursor: pointer;
+  --webkite-user-select:none;
+  --mos-user-select:none;
+  --ms-user-select:none;
+}
+
+input.lock-btn + label:before {
+  content: '';
+  display: block;
+  width: 0.9em;
+  height: 0.6em;
+  border-style: solid;
+  border-radius: 15px 15px 0 0;
+  border-color: var(--unlocked);
+  border-width: 2px 2px 0 2px;
+  transform-origin: 1px;
+  transform: rotateY(180deg);
+  transition: all 0.3s;
+}
+
+input.lock-btn + label:after {
+  content: '';
+  display: inline-block;
+  vertical-align: top;
+  width: 0.9em;
+  height: 0.6em;
+  background: var(--unlocked);
+  position: relative;
+  transition: all 0.3s;
+}
+
+input.lock-btn:checked + label:before {
+  border-color: var(--locked);
+  transform-origin: -12px 10%;
+  transform: rotateY(0deg);
+}
+
+input.lock-btn:checked + label:after {
+  background: var(--locked);
+}
+
+.input-span {
+  display: flex;
+  background-color: var(--inputBgColor);
+  width: 100%;
+  height: 1.8rem;
+  border-radius: 0.25rem;
+  padding-right: 0.2em;
+  justify-content: space-between;
 }
 
 input {
-  background-color: #292727;
+  width: 100%;
+  background-color: var(--inputBgColor);
   border-style: none;
-  margin-right: 0rem;
   outline: none;
+  border-radius: 0.25rem;
+  padding-right: 0.2em;
   color: rgb(255, 253, 253);
-  width: 96%;
-  height: 1.8rem;
-  border-radius: 0.25rem;
   text-align: end;
-  align-self: center;
   font-size: 1.2rem;
 }
 
-.copyBtn {
-  background-color: #292727;
-  border-style: none;
-  margin: 0.3rem 0 0.3rem 0.3rem;
+
+
+.locked, .locked > label, .locked > .input-span > button, .locked > .input-span > input, .locked > .input-span {
+  background-color: var(--appFrameBgColor);
+}
+
+.output-label {
+  font-size: 1rem;
+  margin: 0.3rem 0 auto 0.3em;
+}
+
+.copy-btn {
+  background-color: var(--inputBgColor);
+  margin-left: 0.3rem;
+}
+
+.copy-icon {
+  fill: #dddddd;
   padding: 0;
-  outline: none;
-  width: 1.8rem;
-  height: 1.8rem;
-  border-radius: 0.25rem;
+  width: 1em;
+  height: fit-content;
   font-size: 1.2rem;
 }
 
-.cpySuccess {
+.copy-success {
   position: absolute;
   top: 42%;
   left: calc(50% - 3ch);
   background-color: #eee3e3;
-  color: #292727;
+  color: var(--inputBgColor);
   font-size: 1.2rem;
   font-weight: 600;
   margin: 0.3rem 0 0.3rem 0.3rem;
@@ -196,49 +292,13 @@ input {
   align-self: center;
 }
 
-output {
-  height: 1.8rem;
-  color: #eee3e3;
-  justify-self: right;
-  align-self: center;
-  font-weight: 600;
-}
-
-output+.copyBtn {
+input+.copyBtn {
   background-color: rgb(26, 26, 26);
 }
 
-/*--------------------Profit Input-------------*/
-#prftInput {
-  margin-top: 1.9rem;
-}
-
-/*-----------------BTN Flex--------*/
-
-#btnFlex {
-  display: flex;
-  margin: 1.8rem;
-  justify-content: center;
-}
-
-#calculate {
-  height: 2.3rem;
-  width: 5.4rem;
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #292727;
-  background-color: rgb(2, 162, 202);
-}
-
-/*--------------Output Grid-------*/
-#outptGrid {
-  margin-right: 0.36rem;
-  font-size: 1.2rem;
-  font-weight: 300;
-}
-
-#rRRtOtpt {
-  margin-bottom: 0.63rem;
+.symbol {
+  margin-right: 0.2em;
+  font-size: 1.5em;
 }
 
 /*------------------------------- After calculation actions--------------------------*/
@@ -250,14 +310,15 @@ output+.copyBtn {
 }
 
 .after-calcBtn {
-  padding: 0.3rem 0.6rem;
+  padding: 0.3rem 0.6em;
   border-radius: 0.3rem;
   border: none;
+  font-size: 1.08em;
 }
 
 #delete {
   background-color: rgb(202, 78, 78);
-  margin-right: 0.6rem;
+  margin-right: 0.6em;
 }
 
 #clear-all {
@@ -270,195 +331,19 @@ output+.copyBtn {
 }
 
 #save-position {
-  margin-left: 0.6rem;
+  margin-left: 0.6em;
   background-color: rgb(0, 158, 150);
 }
 
 /*--------------------------------------------Bigger Screen-----------------------------------------*/
 @media (min-width: 769px) {
-  main {
-    margin: 0px;
-    padding: 0;
-    max-width: 100vw;
-    font-size: 0.8rem;
-    align-content: center;
-  }
-
-  header {
-    grid-area: header;
-    display: grid;
-    width: 99vw;
-    grid-template-areas: 'logo . nav';
-    grid-template-columns: 1fr 2fr 1fr;
-    margin: 0px;
-    padding: 0px;
-  }
-
-  #logo {
-    height: 2.1rem;
-    margin: 0.3rem 3rem;
-  }
-
-  nav {
-    grid-area: nav;
-    font-size: 0.9rem;
-    font-weight: 900;
-    color: #dddddd;
-  }
-
-  ul {
-    display: flex;
-    justify-content: center;
-  }
-
-  li {
-    margin: 0 1rem;
-  }
-
   #appFrame {
-    all: revert;
-    grid-area: appFrame;
-    display: flex;
-    width: 99vw;
-    margin: 0.9rem 0;
-    justify-content: center;
-  }
-
-  #calc {
-    grid-area: calc;
-    height: auto;
-    width: 33vw;
-    margin: 0 3rem;
-    align-self: center;
-    justify-self: center;
-    background-color: rgb(26, 26, 26);
-    border-radius: 1rem;
-  }
-
-  /*-------------------History-----------------*/
-
-  #history {
-    position: relative;
-    display: inline-block;
-    left: -90px;
-    top: 15px;
-  }
-
-  #history-container {
-    height: 75%;
-    width: 33.5%;
-  }
-
-  /*--------------------Risk Input-------*/
-  #rskInput {
-    display: flex;
-  }
-
-  .inptCont {
-    margin: 0.5rem 0.5rem 0rem 0.5rem;
-    background-color: #292727;
-    border-radius: 0.25rem;
-    align-items: left;
-  }
-
-  .inptLbl {
-    background-color: #292727;
-    height: 1.2rem;
-    border-radius: 0.25rem;
-    margin: 0.3rem;
-    color: #aca3a3;
-    font-size: 0.9rem;
-    font-weight: 600;
-    align-self: center;
-  }
-
-  input {
-    background-color: #292727;
-    border-style: none;
-    margin-right: 0rem;
-    outline: none;
-    color: rgb(255, 253, 253);
-    width: 96%;
-    height: 1.8rem;
-    border-radius: 0.25rem;
-    text-align: end;
-    font-size: 0.9rem;
-  }
-
-  #rskPrc {
-    color: #dddddd;
-  }
-
-  #prcnt {
-    color: #dddddd;
-    display: inline;
-    width: auto;
-    height: 0.99rem;
-    margin: 0.3rem;
-    justify-self: flex-end;
-    text-align: center;
-    font-size: 0.9rem;
-  }
-
-
-  .outptCont {
-    margin: 0rem 0.6rem 0rem 0.9rem;
-  }
-
-  .otptLbl {
-    color: #eee3e3;
-    font-size: 0.9rem;
-    margin-top: 0.3rem;
-    margin-bottom: auto;
-  }
-
-  #prftPrcntgLbl {
-    margin-top: 0;
-  }
-
-  output {
-    height: 1.8rem;
-    color: #eee3e3;
-    justify-self: right;
-    font-weight: bold;
-  }
-
-  /*--------------------Profit Input-------------*/
-  
-
-  /*-----------------BTN Flex--------*/
-
-  #btnFlex {
-    display: flex;
-    margin: 0.9rem;
-    justify-content: center;
-  }
-
-  #calculate {
-    height: 2.3rem;
-    width: 5.4rem;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: #292727;
-    background-color: rgb(0, 173, 179);
-    border-radius: 0.3rem;
-    border-style: none;
-  }
-
-  /*--------------Output Grid-------*/
-  #outptGrid {
-    margin-right: 0.36rem;
-    font-size: 0.9rem;
-    font-weight: 900;
-  }
-
-  #rRRtOtpt {
-    margin-bottom: 0.63rem;
+    width: 39em;
+    margin: 0 auto;
   }
 }
 
-/*---------------Intro/ Article-----------
-  --------------------------------*/
+/*---------------Intro/ Article-------------------------------------------*/
 #intro {
   display: flex;
   flex-direction: column;
