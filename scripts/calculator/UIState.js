@@ -109,7 +109,7 @@ class CreateIUState {
   }
 
   get stopLossLocked() {
-    return this.#inputs.stopLoss.checkbox;
+    return this.#inputs.stopLoss.checkbox.checked;
   }
 
   get riskPercentageLocked() {

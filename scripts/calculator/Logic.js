@@ -2,7 +2,6 @@
 import { Base } from './calcObjects/Base.js';
 import { Profit } from './calcObjects/Profit.js';
 import { Risk } from './calcObjects/Risk.js';
-import { Size } from './calcObjects/Size.js';
 import { Calc } from './Calculator.js';
 import { UIState } from './UIState.js';
 
@@ -31,6 +30,7 @@ class CreateLogic {
 
   fromBalanceInput(value) {
     Base.Balance = value;
+    Base.Entry && Calc.PipsToStop();
     Calc.PipValue();
     Calc.RiskAmount();
     Calc.ProfitAmount();
@@ -39,28 +39,24 @@ class CreateLogic {
 
   fromEntryInput(value) {
     Base.Entry = value;
-    Calc.Direction();
     Calc.PipsToStop();
     Calc.PipsToTake();
     UIState.updateLockedState(UIState.unshiftFromLockedStack(), false, true);
-    if (UIState.takeProfitLocked && UIState.profitPercentageLocked) {
-      switch (true) {
-        case UIState.stopLossLocked:
-          Calc.RiskPercentage('pipValue');
-          Calc.RiskAmount();
-          break;
-        default:
-          Calc.PipValue('stop');
-          Calc.StopLoss();
-          break;
-      }
-    } else if (UIState.takeProfitLocked) {
+    if (!UIState.takeProfitLocked && Profit.PercentageAsDecimal) {
+      Calc.Direction();
+      Calc.PipValue('stop');
+      Calc.TakeProfit();
+    } else if (Profit.Take && !UIState.profitPercentageLocked) {
       Calc.ProfitPercentage('pipValue');
       Calc.ProfitAmount();
-    } else {
-      Calc.TakeProfit();
+    } else if (!UIState.stopLossLocked && Risk.PercentageAsDecimal) {
+      Calc.Direction('take');
+      Calc.PipValue('take');
+      Calc.StopLoss();
+    } else if (Risk.Stop && !UIState.riskPercentageLocked) {
+      Calc.RiskPercentage('pipValue');
+      Calc.RiskAmount();
     }
-    Calc.ProfitAmount();
     Calc.Size();
   }
 

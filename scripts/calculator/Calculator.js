@@ -10,8 +10,10 @@ class Calculator {
   #pipValue;
   #positionDirection = localStorage.getItem('positionDirection') || null;
 
-  Direction() {
-    this.#positionDirection = Base.Entry < Risk.Stop ? 'short' : 'long';
+  Direction(from) {
+    if (from === 'take')
+      this.#positionDirection = Base.Entry < Profit.Take ? 'long' : 'short';
+    else this.#positionDirection = Base.Entry < Risk.Stop ? 'short' : 'long';
     localStorage.setItem('positionDirection', this.#positionDirection);
     console.log('position direction', this.#positionDirection);
   }
@@ -44,7 +46,6 @@ class Calculator {
             (Profit.PercentageAsDecimal / Risk.PercentageAsDecimal);
           break;
         default:
-          console.log('profit take', Profit.Take);
           this.#pipsToTake = Math.abs(Base.Entry - Profit.Take);
           break;
       }
@@ -105,7 +106,15 @@ class Calculator {
 
   StopLoss() {
     if (Base.isSet) {
-      Risk.Stop = Risk.Amount / this.#pipValue;
+      switch (this.#positionDirection) {
+        case 'short':
+          Risk.Stop = Base.Entry + Risk.Amount / this.#pipValue;
+          break;
+        default:
+          Risk.Stop = Base.Entry - Risk.Amount / this.#pipValue;
+          break;
+      }
+      console.log('calc stop loss', Risk.Stop);
     } else {
       Risk.Stop = 0;
     }
@@ -206,7 +215,6 @@ class Calculator {
 
   PositionSize() {
     if (Base.isSet) {
-      console.log('position size', Risk.Amount, this.#pipsToStop, Base.Entry);
       Size.Position = (Risk.Amount / this.#pipsToStop) * Base.Entry;
     } else {
       Size.Position = null;
@@ -235,7 +243,6 @@ class Calculator {
   }
 
   Size() {
-    console.log('size');
     this.PositionSize();
     this.MinLeverage();
     this.RiskRewardRatio();
