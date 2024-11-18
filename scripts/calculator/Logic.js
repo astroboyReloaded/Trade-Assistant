@@ -63,25 +63,21 @@ class CreateLogic {
   fromStopInput(value) {
     Risk.Stop = value;
     Base.Entry && Calc.Direction();
-    Risk.priceLocked = Boolean(value);
     Calc.PipsToStop();
-    Calc.PipValue();
+    Calc.PipsToTake();
     UIState.updateLockedState(UIState.unshiftFromLockedStack(), false, true);
-    if (UIState.takeProfitLocked && UIState.profitPercentageLocked) {
-      switch (true) {
-        case UIState.entryPriceLocked:
-          Calc.RiskPercentage('pipValue');
-          Calc.RiskAmount();
-          break;
-        default:
-          Calc.EntryPrice();
-          break;
-      }
-    } else if (UIState.takeProfitLocked) {
+    if (!UIState.takeProfitLocked && Profit.PercentageAsDecimal) {
+      Calc.Direction();
+      Calc.PipValue('stop');
+      Calc.TakeProfit();
+    } else if (Profit.Take && !UIState.profitPercentageLocked) {
       Calc.ProfitPercentage('pipValue');
       Calc.ProfitAmount();
-    } else {
-      Calc.TakeProfit();
+    } else if (!UIState.entryPriceLocked) {
+      Calc.EntryPrice();
+    } else if (!UIState.riskPercentageLocked) {
+      Calc.RiskPercentage('pipValue');
+      Calc.RiskAmount();
     }
     Calc.Size();
   }

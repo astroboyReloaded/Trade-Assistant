@@ -71,7 +71,7 @@ class Calculator {
           break;
         default:
           this.#pipValue =
-            (Risk.PercentageAsDecimal * Base.Balance) / this.#pipsToStop || 0;
+            (Risk.PercentageAsDecimal * Base.Balance) / this.#pipsToStop || 1;
       }
     } else {
       this.#pipValue = 1;
@@ -84,19 +84,21 @@ class Calculator {
       from === 'risk'
         ? Risk.Amount / Risk.PercentageAsDecimal
         : Profit.Amount / Profit.PercentageAsDecimal;
-    null;
     Base.setBalanceInputValue();
   }
 
   EntryPrice() {
-    if (Base.Balance) {
-      this.#pipValue =
-        Risk.Amount + Profit.Amount / Math.abs(Profit.Take - Risk.Stop);
-      this.#pipsToStop = Risk.Amount / this.#pipValue;
-      Base.Entry =
-        this.#positionDirection === 'short'
-          ? Risk.Stop - this.#pipsToStop
-          : Risk.Stop + this.#pipsToStop;
+    if (Profit.Take && Profit.PercentageAsDecimal) {
+      const totalPips = Profit.Take - Risk.Stop;
+      console.log('total pips', totalPips);
+      const profitPerc = Profit.PercentageAsDecimal * 100;
+      const riskPerc = Risk.PercentageAsDecimal * 100;
+      const newHundred = profitPerc + riskPerc;
+      const percPipstTosStop = riskPerc / newHundred;
+      const percPipsToTake = profitPerc / newHundred;
+      this.#pipsToStop = totalPips * percPipstTosStop;
+      this.#pipsToTake = totalPips * percPipsToTake;
+      Base.Entry = Profit.Take - this.pipsToTake;
     } else {
       Base.Entry = null;
     }
