@@ -217,7 +217,7 @@ class Calculator {
 
   PositionSize() {
     if (Base.isSet) {
-      Size.Position = (Risk.Amount / this.#pipsToStop) * Base.Entry;
+      Size.Position = this.#pipValue * Base.Entry;
     } else {
       Size.Position = null;
     }
@@ -227,7 +227,7 @@ class Calculator {
   MinLeverage() {
     if (Base.Entry) {
       Size.Leverage = Math.ceil(
-        ((Risk.PercentageAsDecimal / this.#pipValue) * Base.Entry) / 100,
+        (Risk.PercentageAsDecimal / this.#pipsToStop) * Base.Entry,
       );
     } else {
       Size.Leverage = null;
