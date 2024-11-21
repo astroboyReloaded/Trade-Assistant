@@ -160,55 +160,48 @@ class CreateLogic {
 
   fromProfitPercentage(value) {
     Profit.PercentageAsDecimal = value / 100;
-    Calc.PipValue();
+    Calc.PipsToStop();
+    Calc.PipsToTake();
     Calc.ProfitAmount();
-    UIState.updateLockedState(UIState.shiftFromLockedStack(), false, true);
-    if (Profit.priceLocked) {
-      switch (true) {
-        case UIState.stopLossLocked && UIState.riskPercentageLocked:
-          Calc.EntryPrice();
-          break;
-        case UIState.riskPercentageLocked:
-          Calc.StopLoss();
-          break;
-        default:
-          Calc.RiskPercentage('pipValue');
-          Calc.RiskAmount();
-          break;
-      }
-    } else {
-      Calc.PipsToTake('profit percentage');
+    !UIState.profitPercentageLocked &&
+      UIState.lockedStack.length === 4 &&
+      UIState.updateLockedState(UIState.shiftFromLockedStack(), false, true);
+    if (!UIState.takeProfitLocked && Base.Entry) {
+      Calc.PipValue('stop');
       Calc.TakeProfit();
+    } else if (!UIState.entryPriceLocked && Profit.Take) {
+      Calc.EntryPrice();
+    } else if (!UIState.stopLossLocked && Base.Entry) {
+      Calc.PipValue('take');
+      Calc.StopLoss();
+    } else if (!UIState.riskPercentageLocked && Base.Entry) {
+      Calc.PipValue('take');
+      Calc.RiskPercentage('pipValue');
+      Calc.RiskAmount();
     }
     Calc.Size();
   }
 
   fromProfitAmount(value) {
     Profit.Amount = value;
-    Base.balanceLocked && Calc.ProfitPercentage();
-    UIState.updateLockedState(UIState.shiftFromLockedStack(), false, true);
-    Calc.PipValue();
-    if (!Base.balanceLocked && Base.Entry) {
-      console.log('calc balance');
-      Calc.Balance('profit');
-      Calc.RiskAmount();
-    } else if (UIState.takeProfitLocked) {
-      Calc.PipValue('take');
-      switch (true) {
-        case UIState.stopLossLocked && UIState.riskPercentageLocked:
-          Base.priceLocked = false;
-          Calc.EntryPrice();
-          break;
-        case UIState.riskPercentageLocked:
-          Calc.StopLoss();
-          break;
-        default:
-          Calc.RiskPercentage('pipValue');
-          Calc.RiskAmount();
-          break;
-      }
-    } else {
+    Calc.PipsToStop();
+    Calc.PipsToTake();
+    Calc.ProfitPercentage();
+    !UIState.profitPercentageLocked &&
+      UIState.lockedStack.length === 4 &&
+      UIState.updateLockedState(UIState.shiftFromLockedStack(), false, true);
+    if (!UIState.takeProfitLocked && Base.Entry) {
+      Calc.PipValue('stop');
       Calc.TakeProfit();
+    } else if (!UIState.entryPriceLocked && Profit.Take) {
+      Calc.EntryPrice();
+    } else if (!UIState.stopLossLocked && Base.Entry) {
+      Calc.PipValue('take');
+      Calc.StopLoss();
+    } else if (!UIState.riskPercentageLocked && Base.Entry) {
+      Calc.PipValue('take');
+      Calc.RiskPercentage('pipValue');
+      Calc.RiskAmount();
     }
     Calc.Size();
   }
