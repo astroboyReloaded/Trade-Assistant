@@ -1,30 +1,33 @@
-let copyBtns = document.getElementsByClassName('copyBtn');
+let copyBtns = document.getElementsByClassName('copy-btn');
 let copiableValues = document.getElementsByClassName('copiable_value');
 
 [...copyBtns].forEach((btn, i) => {
   btn.addEventListener('click', () => {
-    copyToClippboard([...copiableValues][i])
+    copyToClippboard([...copiableValues][i]);
   });
 });
 
 function copyToClippboard(valToCopy) {
   valToCopy.focus();
 
-  navigator.clipboard.writeText(valToCopy.value)
+  navigator.clipboard
+    .writeText(valToCopy.value)
     .then(confirmCopy())
-    .catch(err => { throw new Error(err) });
-};
+    .catch((err) => {
+      throw new Error(err);
+    });
+}
 
 function confirmCopy() {
-  let object = document.querySelector('object')
+  let appFrame = document.querySelector('#appFrame');
   let message = document.createElement('small');
 
-  object.appendChild(message);
+  appFrame.appendChild(message);
 
-  message.classList.add('cpySuccess');
+  message.classList.add('copy-success');
   message.innerText = 'Copied!';
 
   setTimeout(() => {
-    object.removeChild(message);
+    appFrame.removeChild(message);
   }, 1200);
-};
+}

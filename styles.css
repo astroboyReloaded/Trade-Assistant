@@ -1,166 +1,285 @@
-body {
-  margin: 0px 0px;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0px;
   padding: 0px;
-  overflow-x: hidden;
-  background: #131313;
-  font-family: 'Kanit', sans-serif;
-  display: flex;
-  flex-direction: column;
 }
 
 html {
   font-size: 18px;
+  --appFrameBgColor: rgb(26, 26, 26);
+  --inputBgColor: #292727;
+  --inputLabelColor: #aca3a3;
+  --locked: #fa8484;
+  --unlocked: #bdbdbd;
+}
+
+body {
+  overflow-x: hidden;
+  background: #000000;
+  font-family: 'Kanit', sans-serif;
+  display: flex;
+  flex-direction: column;
+  color: #eee3e3;
+}
+
+button {
+  border-radius: 0.3rem;
+  border-style: none;
 }
 
 /*---------------------------------------------Smaller Screen---------------------------------------*/
-main {
-  margin: 0px;
-  padding: 0px;
-  grid-template-areas:
-    'header'
-    'appFrame'
-    'footer';
-  font-size: 0.8rem;
-  max-width: 450px;
-  align-self: center;
-}
-
 header {
-  display: grid;
-  grid-template-areas: 'logo . nav';
-  grid-template-columns: 1fr 1fr 2fr;
-  margin: 0px;
-  padding: 0px;
+  display: flex;
+  justify-content: space-between;
 }
 
 #logo {
   height: 2.1rem;
-  margin: 0.3rem 0.6rem;
+  margin: 0.3rem 0.6em;
 }
 
 nav {
-  grid-area: nav;
   font-size: 1.3rem;
   font-weight: 900;
 }
 
-ul {
-  display: grid;
-  grid-template-areas: '. appNav blogNav .';
+.nav-ul {
+  display: flex;
   list-style: none;
   margin: 0.3rem;
   padding: 0px;
   align-items: center;
 }
 
-li>a {
+.nav-link {
+  margin-inline: 0.6em 0.3em;
   text-decoration: none;
   color: #eee3e3;
 }
 
+/* --------------------- Main Content --------------------- */
+main {
+  font-size: 0.8rem;
+}
+
 #appFrame {
-  grid-area: appFrame;
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
   margin: 0;
-}
-
-#calc {
-  grid-area: calc;
   height: auto;
-  width: 99%;
   align-self: center;
-  background-color: rgb(26, 26, 26);
+  background-color: var(--appFrameBgColor);
   border-radius: 1rem;
-  grid-template-areas:
-    'title'
-    'rskInput'
-    'prftInput'
-    'btnFlex'
-    'outptGrid';
-  grid-template-rows: auto;
-  display: grid;
 }
 
-#appTitle {
+h1 {
+  margin: 0.9rem;
+  text-align: center;
+}
+
+/*-------------- History --------------*/
+
+#historyBtn {
+  position: absolute;
+  right: 0.9em;
+  top: 0.9em;
+  display: inline-block;
+  height: 24px;
+  width: 24px;
+  border-radius: 3px;
+  background: #00000000;
+}
+
+.history-icon {
+  fill: #eee3e3;
+}
+
+#history-container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  width: 100%;
+  background-color: var(--inputBgColor);
+  padding: 0.9rem;
   color: #eee3e3;
-  grid-area: title;
-  justify-self: center;
-  line-height: 0;
-  padding: 0;
-  margin: 1.2rem 0 0.9rem 0;
-  font-weight: 300;
+  font-size: 1.2rem;
+  z-index: 3;
 }
 
-/*--------------------Risk Input-------*/
-#rskInput {
-  grid-area: rskInput;
-  display: grid;
-  grid-template-areas:
-    'ePCont'
-    'sLCont'
-    'blncCont'
-    'rskPrcCont'
-    'rskAmntCont';
+.close-clearHistory_cont {
+  display: flex;
+  justify-content: space-between;
 }
 
-.inptCont {
-  margin: 0.6rem 0.6rem 0rem 0.6rem;
-  background-color: #292727;
+#clear-history {
+  width: fit-content;
+}
+
+.history-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0.3rem 0.9rem;
+  font-size: 18px;
+  color: #eee3e3;
+  border-bottom: 1px solid #eee3e3;
+}
+
+/*-----------------Position Inputs-----------------*/
+
+.section-container {
+  display: flex;
+  flex-direction: column;
+  margin: 0.9rem;
+}
+
+.input-container {
+  position: relative;
+  margin: 0.6em 0 0 0;
+  background-color: var(--inputBgColor);
   border-radius: 0.27rem;
+  border: 1px solid var(--inputBgColor);
   align-items: left;
-  display: grid;
-  grid-template-areas: 'label input cpyBtn';
-  grid-template-columns: auto auto 39px;
 }
 
-.inptLbl {
-  grid-area: label;
-  background-color: #292727;
+.input-label {
+  background-color: var(--inputBgColor);
   height: 1.2rem;
   border-radius: 0.25rem;
-  margin: 0 0 0.6rem 0.3rem;
-  color: #aca3a3;
+  margin: 0 0 0.6em 0.3em;
+  color: var(--inputLabelColor);
   font-size: 1.2rem;
   font-weight: 600;
-  align-self: center;
+}
+
+/*-----------------Lock Input-----------------*/
+.percentage-amount-lockContainer{
+  position: relative;
+  margin-left: auto;
+  top: -4px;
+}
+
+.percentage-amount-lockContainer::before{
+  content: '';
+  position: absolute;
+  top: 1px;
+  right: 0px;
+  width: 3px;
+  height: 33px;
+  background-color: var(--inputBgColor);
+  z-index: 1;
+}
+
+.lock-box {
+  position: absolute;
+  right: 0.6em;
+  top: 0.6em;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  padding: 0;
+}
+
+input.lock-btn {
+  display: none;
+  cursor: pointer;
+  --webkite-user-select:none;
+  --mos-user-select:none;
+  --ms-user-select:none;
+}
+
+input.lock-btn + label:before {
+  content: '';
+  display: block;
+  width: 0.9em;
+  height: 0.6em;
+  border-style: solid;
+  border-radius: 15px 15px 0 0;
+  border-color: var(--unlocked);
+  border-width: 2px 2px 0 2px;
+  transform-origin: 1px;
+  transform: rotateY(180deg);
+  transition: all 0.3s;
+}
+
+input.lock-btn + label:after {
+  content: '';
+  display: inline-block;
+  vertical-align: top;
+  width: 0.9em;
+  height: 0.6em;
+  background: var(--unlocked);
+  position: relative;
+  transition: all 0.3s;
+}
+
+input.lock-btn:checked + label:before {
+  border-color: var(--locked);
+  transform-origin: -12px 10%;
+  transform: rotateY(0deg);
+}
+
+input.lock-btn:checked + label:after {
+  background: var(--locked);
+}
+
+.input-span {
+  display: flex;
+  background-color: var(--inputBgColor);
+  width: 100%;
+  height: 1.8rem;
+  border-radius: 0.25rem;
+  padding-right: 0.2em;
+  justify-content: space-between;
 }
 
 input {
-  grid-area: input;
-  background-color: #292727;
+  width: 100%;
+  background-color: var(--inputBgColor);
   border-style: none;
-  margin-right: 0rem;
   outline: none;
+  border-radius: 0.25rem;
+  padding-right: 0.2em;
   color: rgb(255, 253, 253);
-  width: 96%;
-  height: 1.8rem;
-  border-radius: 0.25rem;
   text-align: end;
-  align-self: center;
   font-size: 1.2rem;
 }
 
-.copyBtn {
-  grid-area: cpyBtn;
-  background-color: #292727;
-  border-style: none;
-  margin: 0.3rem 0 0.3rem 0.3rem;
+
+
+.locked, .locked > label, .locked > .input-span > button, .locked > .input-span > input, .locked > .input-span {
+  background-color: var(--appFrameBgColor);
+}
+
+.output-label {
+  font-size: 1rem;
+  margin: 0.3rem 0 auto 0.3em;
+}
+
+.copy-btn {
+  background-color: var(--inputBgColor);
+  margin-left: 0.3rem;
+}
+
+.copy-icon {
+  fill: #dddddd;
   padding: 0;
-  outline: none;
-  width: 1.8rem;
-  height: 1.8rem;
-  border-radius: 0.25rem;
+  width: 1em;
+  height: fit-content;
   font-size: 1.2rem;
 }
 
-.cpySuccess {
+.copy-success {
   position: absolute;
   top: 42%;
   left: calc(50% - 3ch);
   background-color: #eee3e3;
-  color: #292727;
+  color: var(--inputBgColor);
   font-size: 1.2rem;
   font-weight: 600;
   margin: 0.3rem 0 0.3rem 0.3rem;
@@ -173,352 +292,58 @@ input {
   align-self: center;
 }
 
-#ePCont {
-  grid-area: ePCont;
-  margin-top: 1.2rem;
-}
-
-#sLCont {
-  grid-area: sLCont;
-}
-
-#blncCont {
-  grid-area: blncCont;
-}
-
-#rskPrcCont {
-  grid-area: rskPrcCont;
-  display: grid;
-  grid-template-areas: 'rskPrcLbl rskPrc prcnt .';
-  grid-template-columns: auto 1fr auto 39px;
-}
-
-#rskPrcLbl {
-  grid-area: rskPrcLbl;
-}
-
-#rskPrc {
-  grid-area: rskPrc;
-  width: 99%;
-  color: #dddddd;
-}
-
-#prcnt {
-  grid-area: prcnt;
-  color: #dddddd;
-  display: inline;
-  width: auto;
-  height: 0.99rem;
-  margin: 0rem 0.3rem 0rem 0.3rem;
-  justify-self: flex-end;
-  text-align: center;
-  font-size: 1.2rem;
-}
-
-#rskAmntCont {
-  grid-area: rskAmntCont;
-}
-
-.outptCont {
-  display: grid;
-  grid-template-areas: 'otptLbl output cpyBtn';
-  grid-template-columns: auto auto 30px;
-  margin: 0rem 0.6rem 0rem 0.9rem;
-}
-
-.otptLbl {
-  grid-area: otptLbl;
-  color: #eee3e3;
-  font-size: 1.2rem;
-  margin-top: 0.3rem;
-  margin-bottom: auto;
-}
-
-#prftPrcntgLbl {
-  margin-top: 0;
-}
-
-output {
-  grid-area: output;
-  height: 1.8rem;
-  color: #eee3e3;
-  justify-self: right;
-  align-self: center;
-  font-weight: 600;
-}
-
-output+.copyBtn {
+input+.copyBtn {
   background-color: rgb(26, 26, 26);
 }
 
-/*--------------------Profit Input-------------*/
-#prftInput {
-  grid-area: prftInput;
-  margin-top: 1.9rem;
+.symbol {
+  margin-right: 0.2em;
+  font-size: 1.5em;
 }
 
-/*-----------------BTN Flex--------*/
+/*------------------------------- After calculation actions--------------------------*/
 
-#btnFlex {
+.after-calc-actions {
   display: flex;
-  grid-area: btnFlex;
-  margin: 1.8rem;
-  justify-content: center;
+  padding: 0.9rem;
+  justify-content: space-between;
 }
 
-#calculate {
-  height: 2.3rem;
-  width: 5.4rem;
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #292727;
-  background-color: rgb(2, 162, 202);
+.after-calcBtn {
+  padding: 0.3rem 0.6em;
   border-radius: 0.3rem;
-  border-style: none;
+  border: none;
+  font-size: 1.08em;
 }
 
-/*--------------Output Grid-------*/
-#outptGrid {
-  grid-area: outptGrid;
-  margin-right: 0.36rem;
-  font-size: 1.2rem;
-  font-weight: 300;
+#delete {
+  background-color: rgb(202, 78, 78);
+  margin-right: 0.6em;
 }
 
-#rRRtOtpt {
-  margin-bottom: 0.63rem;
+#clear-all {
+  margin-right: auto;
+  background-color: rgb(221, 221, 221);
+}
+
+#clear-position {
+  background-color: rgb(221, 199, 127);
+}
+
+#save-position {
+  margin-left: 0.6em;
+  background-color: rgb(0, 158, 150);
 }
 
 /*--------------------------------------------Bigger Screen-----------------------------------------*/
-@media (min-width: 548px) {
-  main {
-    margin: 0px;
-    padding: 0;
-    max-width: 100vw;
-    grid-template-areas:
-      'header'
-      'appFrame'
-      'footer';
-    font-size: 0.8rem;
-    align-content: center;
-  }
-
-  header {
-    grid-area: header;
-    display: grid;
-    width: 99vw;
-    grid-template-areas: 'logo . nav';
-    grid-template-columns: 1fr 2fr 1fr;
-    margin: 0px;
-    padding: 0px;
-  }
-
-  #logo {
-    height: 2.1rem;
-    margin: 0.3rem 3rem;
-  }
-
-  nav {
-    grid-area: nav;
-    font-size: 0.9rem;
-    font-weight: 900;
-    color: #dddddd;
-  }
-
-  ul {
-    display: flex;
-    justify-content: center;
-  }
-
-  li {
-    margin: 0 1rem;
-  }
-
+@media (min-width: 769px) {
   #appFrame {
-    all: revert;
-    grid-area: appFrame;
-    display: flex;
-    width: 99vw;
-    margin: 0.9rem 0;
-    justify-content: center;
-  }
-
-  #calc {
-    grid-area: calc;
-    height: auto;
-    width: 33vw;
-    margin: 0 3rem;
-    align-self: center;
-    justify-self: center;
-    background-color: rgb(26, 26, 26);
-    border-radius: 1rem;
-    grid-template-areas:
-      'title'
-      'rskInput'
-      'prftInput'
-      'btnFlex'
-      'outptGrid';
-    grid-template-rows: auto;
-  }
-
-  /*--------------------Risk Input-------*/
-  #rskInput {
-    grid-area: rskInput;
-    display: grid;
-    grid-template-areas:
-      'ePCont'
-      'sLCont'
-      'blncCont'
-      'rskPrcCont'
-      'rskAmntCont';
-  }
-
-  .inptCont {
-    margin: 0.5rem 0.5rem 0rem 0.5rem;
-    background-color: #292727;
-    border-radius: 0.25rem;
-    align-items: left;
-    display: grid;
-    grid-template-areas: 'label input cpyBtn';
-  }
-
-  .inptLbl {
-    grid-area: label;
-    background-color: #292727;
-    height: 1.2rem;
-    border-radius: 0.25rem;
-    margin: 0.3rem;
-    color: #aca3a3;
-    font-size: 0.9rem;
-    font-weight: 600;
-    align-self: center;
-  }
-
-  input {
-    grid-area: input;
-    background-color: #292727;
-    border-style: none;
-    margin-right: 0rem;
-    outline: none;
-    color: rgb(255, 253, 253);
-    width: 96%;
-    height: 1.8rem;
-    border-radius: 0.25rem;
-    text-align: end;
-    font-size: 0.9rem;
-  }
-
-  #ePCont {
-    grid-area: ePCont;
-  }
-
-  #sLCont {
-    grid-area: sLCont;
-  }
-
-  #blncCont {
-    grid-area: blncCont;
-  }
-
-  #rskPrcCont {
-    grid-area: rskPrcCont;
-    display: grid;
-    grid-template-areas: 'rskPrcLbl rskPrc prcnt';
-    grid-template-columns: auto 1fr auto;
-  }
-
-  #rskPrcLbl {
-    grid-area: rskPrcLbl;
-  }
-
-  #rskPrc {
-    grid-area: rskPrc;
-    width: 99%;
-    color: #dddddd;
-  }
-
-  #prcnt {
-    grid-area: prcnt;
-    color: #dddddd;
-    display: inline;
-    width: auto;
-    height: 0.99rem;
-    margin: 0.3rem;
-    justify-self: flex-end;
-    text-align: center;
-    font-size: 0.9rem;
-  }
-
-  #rskAmntCont {
-    grid-area: rskAmntCont;
-  }
-
-  .outptCont {
-    display: grid;
-    grid-template-areas: 'otptLbl output cpyBtn';
-    margin: 0rem 0.6rem 0rem 0.9rem;
-  }
-
-  .otptLbl {
-    grid-area: otptLbl;
-    color: #eee3e3;
-    font-size: 0.9rem;
-    margin-top: 0.3rem;
-    margin-bottom: auto;
-  }
-
-  #prftPrcntgLbl {
-    margin-top: 0;
-  }
-
-  output {
-    grid-area: output;
-    height: 1.8rem;
-    color: #eee3e3;
-    justify-self: right;
-    font-weight: bold;
-  }
-
-  /*--------------------Profit Input-------------*/
-  #prftInput {
-    grid-area: prftInput;
-  }
-
-  /*-----------------BTN Flex--------*/
-
-  #btnFlex {
-    display: flex;
-    grid-area: btnFlex;
-    margin: 0.9rem;
-    justify-content: center;
-  }
-
-  #calculate {
-    height: 2.3rem;
-    width: 5.4rem;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: #292727;
-    background-color: rgb(0, 173, 179);
-    border-radius: 0.3rem;
-    border-style: none;
-  }
-
-  /*--------------Output Grid-------*/
-  #outptGrid {
-    grid-area: outptGrid;
-    margin-right: 0.36rem;
-    font-size: 0.9rem;
-    font-weight: 900;
-  }
-
-  #rRRtOtpt {
-    margin-bottom: 0.63rem;
+    width: 39em;
+    margin: 0 auto;
   }
 }
 
-/*---------------Intro/ Article-----------
-  --------------------------------*/
+/*---------------Intro/ Article-------------------------------------------*/
 #intro {
   display: flex;
   flex-direction: column;
