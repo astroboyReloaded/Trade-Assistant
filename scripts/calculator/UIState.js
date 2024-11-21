@@ -70,7 +70,7 @@ class CreateIUState {
     });
   }
 
-  updateLockedState = (inputId, locked, checkbox = false) => {
+  updateLockedState(inputId, locked, checkbox) {
     if (!inputId) return;
     const inputLock = this.#inputs[inputId];
     inputLock.locked = locked;
@@ -83,7 +83,7 @@ class CreateIUState {
     if (this.#lockedStack.includes(inputId) && !inputLock.locked)
       this.spliceFromLockedStack = inputId;
     if (checkbox) inputLock.checkbox.checked = locked;
-  };
+  }
 
   shiftFromLockedStack() {
     const shaft = this.#lockedStack.shift();
