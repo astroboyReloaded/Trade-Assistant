@@ -90,7 +90,6 @@ class Calculator {
   EntryPrice() {
     if (Profit.Take && Profit.PercentageAsDecimal) {
       const totalPips = Profit.Take - Risk.Stop;
-      console.log('total pips', totalPips);
       const profitPerc = Profit.PercentageAsDecimal * 100;
       const riskPerc = Risk.PercentageAsDecimal * 100;
       const newHundred = profitPerc + riskPerc;
@@ -181,17 +180,10 @@ class Calculator {
     Profit.setTakeInputValue();
   }
 
-  ProfitPercentage(from) {
-    if (Base.isSet) {
-      switch (from) {
-        case 'pipValue':
-          Profit.PercentageAsDecimal =
-            (this.#pipValue * this.#pipsToTake) / Base.Balance;
-          break;
-        default:
-          Profit.PercentageAsDecimal = Profit.Amount / Base.Balance;
-          break;
-      }
+  ProfitPercentage() {
+    if (Base.Entry) {
+      Profit.PercentageAsDecimal =
+        (this.#pipsToTake / this.#pipsToStop) * Risk.PercentageAsDecimal;
     } else {
       Profit.PercentageAsDecimal = null;
     }

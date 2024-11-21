@@ -77,17 +77,18 @@ class CreateIUState {
     if (!this.#lockedStack.includes(inputId) && inputLock.locked) {
       this.pushToLockedStack = inputId;
     }
-    const autoUnlock = this.unshiftFromLockedStack();
+    const autoUnlock =
+      this.#lockedStack.length > 4 && this.shiftFromLockedStack();
     autoUnlock && this.updateLockedState(autoUnlock, false, true);
     if (this.#lockedStack.includes(inputId) && !inputLock.locked)
       this.spliceFromLockedStack = inputId;
     if (checkbox) inputLock.checkbox.checked = locked;
   };
 
-  unshiftFromLockedStack() {
-    const unshifted = this.#lockedStack.length > 4 && this.#lockedStack.shift();
+  shiftFromLockedStack() {
+    const shaft = this.#lockedStack.shift();
     localStorage.setItem('lockedStack', JSON.stringify(this.#lockedStack));
-    return unshifted;
+    return shaft;
   }
 
   get lockedStack() {
