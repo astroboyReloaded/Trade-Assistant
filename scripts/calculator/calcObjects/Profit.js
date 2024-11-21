@@ -65,10 +65,14 @@ class CreateProfit {
     this.amountInput.value = this.#amount || '';
   }
 
-  clearAll() {
+  clear() {
     this.Take = null;
     this.setTakeInputValue();
     UIState.updateLockedState(this.takeInput.id, false, true);
+  }
+
+  clearAll() {
+    this.clear();
     this.PercentageAsDecimal = null;
     this.setPercentageInputValue();
     UIState.updateLockedState(this.percentageInput.id, false, true);

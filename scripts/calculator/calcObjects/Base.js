@@ -69,6 +69,8 @@ class CreateBase {
   clearAll() {
     this.Balance = null;
     this.setBalanceInputValue();
+    this.balanceLocked = false;
+    this.#balanceLockCheckbox.checked = false;
     this.clear();
   }
 
