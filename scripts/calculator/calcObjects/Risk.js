@@ -1,4 +1,5 @@
 'use strict';
+import { formatValue, formatPercentage } from '../helpFuncs.js';
 import { UIState } from '../UIState.js';
 const [stopInput, riskPercentageInput, riskAmountInput] =
   document.querySelectorAll('.risk-input');
@@ -12,6 +13,10 @@ class CreateRisk {
   constructor(stopInput, riskAmountInput, riskPercentageInput) {
     this.stopInput = stopInput;
     this.stopInput.addEventListener('change', () => {
+      this.stopInput.value = formatValue(
+        this.stopInput.value,
+        UIState.priceNumOfDecimals,
+      );
       UIState.updateLockedState(this.stopInput.id, true, true);
     });
     this.percentageInput = riskPercentageInput;
@@ -20,6 +25,10 @@ class CreateRisk {
     });
     this.amountInput = riskAmountInput;
     this.amountInput.addEventListener('change', () => {
+      this.amountInput.value = formatValue(
+        this.amountInput.value,
+        UIState.balanceNumOfDecimals,
+      );
       UIState.updateLockedState(this.percentageInput.id, true, true);
     });
   }
@@ -34,7 +43,8 @@ class CreateRisk {
   }
 
   setStopInputValue() {
-    this.stopInput.value = this.#stop || '';
+    this.stopInput.value =
+      formatValue(this.#stop, UIState.priceNumOfDecimals) || '';
   }
 
   get PercentageAsDecimal() {
@@ -51,7 +61,7 @@ class CreateRisk {
 
   setPercentageInputValue() {
     this.percentageInput.value =
-      (this.#PercentageAsDecimal * 100).toFixed(2) || '';
+      formatPercentage(this.#PercentageAsDecimal * 100) || '';
   }
 
   get Amount() {
@@ -63,7 +73,8 @@ class CreateRisk {
   }
 
   setAmountInputValue() {
-    this.amountInput.value = this.#amount || '';
+    this.amountInput.value =
+      formatValue(this.#amount, UIState.balanceNumOfDecimals) || '';
   }
 
   clearAll() {

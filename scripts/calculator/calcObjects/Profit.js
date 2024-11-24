@@ -1,6 +1,7 @@
 'use strict';
 
 import { UIState } from '../UIState.js';
+import { formatValue, formatPercentage } from '../helpFuncs.js';
 
 const [takeProfitInput, profitPercentageInput, profitAmountInput] =
   document.querySelectorAll('.profit-input');
@@ -13,6 +14,10 @@ class CreateProfit {
   constructor(takeProfitInput, profitAmountInput, profitPercentageInput) {
     this.takeInput = takeProfitInput;
     this.takeInput.addEventListener('change', () => {
+      this.takeInput.value = formatValue(
+        this.takeInput.value,
+        UIState.priceNumOfDecimals,
+      );
       UIState.updateLockedState(this.takeInput.id, true, true);
     });
     this.percentageInput = profitPercentageInput;
@@ -21,6 +26,10 @@ class CreateProfit {
     });
     this.amountInput = profitAmountInput;
     this.amountInput.addEventListener('change', () => {
+      this.amountInput.value = formatValue(
+        this.amountInput.value,
+        UIState.balanceNumOfDecimals,
+      );
       UIState.updateLockedState(this.percentageInput.id, true, true);
     });
   }
@@ -35,7 +44,8 @@ class CreateProfit {
   }
 
   setTakeInputValue() {
-    this.takeInput.value = this.#takeProfit || '';
+    this.takeInput.value =
+      formatValue(this.#takeProfit, UIState.priceNumOfDecimals) || '';
   }
 
   get PercentageAsDecimal() {
@@ -51,7 +61,8 @@ class CreateProfit {
   }
 
   setPercentageInputValue() {
-    this.percentageInput.value = this.#PercentageAsDecimal * 100 || '';
+    this.percentageInput.value =
+      formatPercentage(this.#PercentageAsDecimal * 100) || '';
   }
   get Amount() {
     return this.#amount;
@@ -62,7 +73,8 @@ class CreateProfit {
   }
 
   setAmountInputValue() {
-    this.amountInput.value = this.#amount || '';
+    this.amountInput.value =
+      formatValue(this.#amount, UIState.balanceNumOfDecimals) || '';
   }
 
   clear() {
