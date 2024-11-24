@@ -15,7 +15,6 @@ class Calculator {
       this.#positionDirection = Base.Entry < Profit.Take ? 'long' : 'short';
     else this.#positionDirection = Base.Entry < Risk.Stop ? 'short' : 'long';
     localStorage.setItem('positionDirection', this.#positionDirection);
-    console.log('position direction', this.#positionDirection);
   }
 
   get pipsToStop() {
@@ -24,7 +23,6 @@ class Calculator {
 
   PipsToStop() {
     if (Base.Entry) this.#pipsToStop = Math.abs(Base.Entry - Risk.Stop);
-    console.log('pips to stop', this.#pipsToStop);
   }
 
   get pipsToTake() {
@@ -35,12 +33,6 @@ class Calculator {
     if (Base.Entry) {
       switch (from) {
         case 'profit percentage':
-          console.log(
-            'profit percentage',
-            Profit.PercentageAsDecimal,
-            Risk.PercentageAsDecimal,
-            this.#pipsToStop,
-          );
           this.#pipsToTake =
             this.#pipsToStop *
             (Profit.PercentageAsDecimal / Risk.PercentageAsDecimal);
@@ -50,10 +42,8 @@ class Calculator {
           break;
       }
     } else {
-      console.log('no entry');
       this.#pipsToTake = null;
     }
-    console.log('pips to take', this.#pipsToTake);
   }
 
   get pipValue() {
@@ -76,7 +66,6 @@ class Calculator {
     } else {
       this.#pipValue = 1;
     }
-    console.log('pip value', this.#pipValue);
   }
 
   Balance(from = 'risk') {
@@ -102,7 +91,6 @@ class Calculator {
       Base.Entry = null;
     }
     Base.setEntryInputValue();
-    console.log('entry', Base.Entry);
   }
 
   StopLoss() {
@@ -137,7 +125,6 @@ class Calculator {
       Risk.PercentageAsDecimal = Base.Balance ? 100 : 0;
     }
     Risk.setPercentageInputValue();
-    console.log('risk percentage', Risk.PercentageAsDecimal * 100);
   }
 
   RiskAmount(from) {
@@ -161,6 +148,7 @@ class Calculator {
       this.#pipsToTake = Profit.Amount / this.#pipValue;
       switch (this.#positionDirection) {
         case 'short':
+          console.log('pips to take', this.#pipsToTake);
           Profit.Take = this.#pipsToTake ? Base.Entry - this.#pipsToTake : null;
           break;
         default:
@@ -181,13 +169,14 @@ class Calculator {
   }
 
   ProfitPercentage() {
-    if (Base.Entry) {
+    if (Base.Balance && Profit.Amount) {
+      Profit.PercentageAsDecimal = Profit.Amount / Base.Balance;
+    } else if (Base.Entry) {
       Profit.PercentageAsDecimal =
         (this.#pipsToTake / this.#pipsToStop) * Risk.PercentageAsDecimal;
     } else {
       Profit.PercentageAsDecimal = null;
     }
-    console.log('profit percentage', Profit.PercentageAsDecimal);
     Profit.setPercentageInputValue();
   }
 

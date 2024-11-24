@@ -4,13 +4,16 @@
 //   entryPriceContainer,
 //   stopLossContainer,
 //   takeProfitContainer,
-// ] = document.querySelectorAll('.inputId-container');
+// ] = document.querySelectorAll('.input-container');
 // const [
 //   riskPercentageContainer,
 //   riskAmountContainer,
 //   profitPercentageContainer,
 //   profitAmountContainer,
 // ] = document.querySelectorAll('.output-container');
+const [balanceSwitch, priceSwitch] = document.querySelectorAll(
+  '.currency-switchInput',
+);
 const lockEntryPriceBtn = document.querySelectorAll('.lock-entryPrice');
 const lockStopLossBtn = document.querySelectorAll('.lock-stopLoss');
 const lockRiskPercentageBtn = document.querySelectorAll('.lock-riskPercentage');
@@ -20,6 +23,12 @@ const lockProfitPercentageBtn = document.querySelectorAll(
 );
 
 class CreateIUState {
+  #balanceSwitch = balanceSwitch;
+  #priceSwitch = priceSwitch;
+  #balanceCurrencyType =
+    JSON.parse(localStorage.getItem('balanceCurrencyType')) || 'Fiat';
+  #priceCurrencyType =
+    JSON.parse(localStorage.getItem('priceCurrencyType')) || 'Fiat';
   #lockedStack = JSON.parse(localStorage.getItem('lockedStack')) || [];
   #inputs = {
     entryPrice: {
@@ -55,6 +64,30 @@ class CreateIUState {
   };
 
   constructor() {
+    this.#balanceCurrencyType === 'Fiat'
+      ? (balanceSwitch.checked = false)
+      : (balanceSwitch.checked = true);
+    this.#priceCurrencyType === 'Fiat'
+      ? (priceSwitch.checked = false)
+      : (priceSwitch.checked = true);
+    this.#balanceSwitch.addEventListener('click', () => {
+      this.#balanceCurrencyType = this.#balanceSwitch.checked
+        ? 'Crypto'
+        : 'Fiat';
+      localStorage.setItem(
+        'balanceCurrencyType',
+        JSON.stringify(this.#balanceCurrencyType),
+      );
+      location.reload();
+    });
+    this.#priceSwitch.addEventListener('click', () => {
+      this.#priceCurrencyType = this.#priceSwitch.checked ? 'Crypto' : 'Fiat';
+      localStorage.setItem(
+        'priceCurrencyType',
+        JSON.stringify(this.#priceCurrencyType),
+      );
+      location.reload();
+    });
     this.#lockedStack.forEach((inputId) => {
       const input = this.#inputs[inputId];
       input.locked = true;
@@ -89,6 +122,14 @@ class CreateIUState {
     const shaft = this.#lockedStack.shift();
     localStorage.setItem('lockedStack', JSON.stringify(this.#lockedStack));
     return shaft;
+  }
+
+  get balanceNumOfDecimals() {
+    return this.#balanceCurrencyType === 'Fiat' ? 2 : 8;
+  }
+
+  get priceNumOfDecimals() {
+    return this.#priceCurrencyType === 'Fiat' ? 2 : 8;
   }
 
   get lockedStack() {

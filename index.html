@@ -64,10 +64,39 @@
             />
           </svg>
         </button>
+        <!--- Switch Currency type ---->
+        <div id="currencySelectors_Container">
+          <span class="currencyType-container">
+            <span class="currencySelector-title">Balance Currency-type:</span>
+            <span>Fiat</span>
+            <label class="currencySelector-container" for="balanceCurrency">
+              <input
+                type="checkbox"
+                id="balanceCurrency"
+                class="currency-switchInput"
+              />
+              <span class="currency-slider"></span>
+            </label>
+            <span>Crypto</span>
+          </span>
+          <span class="currencyType-container">
+            <span class="currencySelector-title">Price Currency-type:</span>
+            <span>Fiat</span>
+            <label class="currencySelector-container" for="priceCurrency">
+              <input
+                type="checkbox"
+                id="priceCurrency"
+                class="currency-switchInput"
+              />
+              <span class="currency-slider"></span>
+            </label>
+            <span>Crypto</span>
+          </span>
+        </div>
         <!------------ Base ----->
         <div class="section-container">
           <div class="input-container" id="balance_Container">
-            <label class="input-label">*Balance:</label>
+            <label class="input-label" for="balance">*Balance:</label>
             <div class="lock-box">
               <input
                 type="checkbox"
@@ -81,7 +110,6 @@
                 type="number"
                 id="balance"
                 class="baseInput input-field"
-                step="0.00000001"
                 min="0"
                 autocomplete="off"
                 required
@@ -89,7 +117,7 @@
             </span>
           </div>
           <div class="input-container" id="entryPrice_Container">
-            <label class="input-label">*Entry Price:</label>
+            <label class="input-label" for="entryPrice">*Entry Price:</label>
             <div class="lock-box">
               <input
                 type="checkbox"
@@ -116,6 +144,7 @@
                 id="entryPrice"
                 class="baseInput input-field copiable_value"
                 autocomplete="off"
+                min="0"
                 required
               />
             </span>
@@ -124,7 +153,7 @@
         <!------------Risk ----->
         <div class="section-container">
           <div class="input-container" id="stopLoss_Container">
-            <label class="input-label">Stop Loss:</label>
+            <label class="input-label" for="stopLoss">Stop Loss:</label>
             <div class="lock-box">
               <input
                 type="checkbox"
@@ -152,11 +181,14 @@
                 class="risk-input input-field copiable_value"
                 autocomplete="off"
                 placeholder="0"
+                min="0"
               />
             </span>
           </div>
           <div class="output-container" id="riskPercentage_Container">
-            <label class="output-label">Risk Percentage:</label>
+            <label class="output-label" for="riskPercentage"
+              >Risk Percentage:</label
+            >
             <span class="input-span">
               <input
                 id="riskPercentage"
@@ -164,6 +196,7 @@
                 type="number"
                 placeholder="100"
                 autocomplete="off"
+                min="0.01"
               /><small class="symbol">%</small>
             </span>
           </div>
@@ -181,16 +214,21 @@
             </div>
           </div>
           <div class="output-container" id="riskAmount_Container">
-            <label class="output-label">Risk Amount:</label>
+            <label class="output-label" for="riskAmount">Risk Amount:</label>
             <span class="input-span">
-              <input type="number" class="risk-input output-field" />
+              <input
+                type="number"
+                id="riskAmount"
+                class="risk-input output-field"
+                min="0"
+              />
             </span>
           </div>
         </div>
         <!------Profit ---->
         <div class="section-container">
           <div class="input-container" id="takeProfit_Container">
-            <label class="input-label">Take Profit:</label>
+            <label class="input-label" for="takeProfit">Take Profit:</label>
             <div class="lock-box">
               <input
                 type="checkbox"
@@ -217,16 +255,18 @@
                 id="takeProfit"
                 class="profit-input input-field copiable_value"
                 autocomplete="off"
+                min="0"
               />
             </span>
           </div>
           <div class="output-container" id="profitPercentage_Container">
-            <label class="output-label">Profit Percentage:</label>
+            <label class="output-label" for="profitPercentage"
+              >Profit Percentage:</label
+            >
             <span class="input-span">
               <input
                 type="number"
                 id="profitPercentage"
-                step="0.1"
                 min="0"
                 class="profit-input output-field"
               /><samll class="symbol">%</samll>
@@ -246,16 +286,25 @@
             </div>
           </div>
           <div class="output-container">
-            <label class="output-label">Profit Amount:</label>
+            <label class="output-label" for="profitAmount"
+              >Profit Amount:</label
+            >
             <span class="input-span">
-              <input type="number" class="profit-input output-field" />
+              <input
+                type="number"
+                id="profitAmount"
+                class="profit-input output-field"
+                min="0"
+              />
             </span>
           </div>
         </div>
         <!--- Position-Size --->
         <div class="section-container">
           <div class="result-container" id="positionSize_Container">
-            <label class="output-label">Position SIZE:</label>
+            <label class="output-label" for="positionSize"
+              >Position SIZE:</label
+            >
             <span class="input-span">
               <button type="button" class="copy-btn">
                 <svg
@@ -269,11 +318,17 @@
                   />
                 </svg>
               </button>
-              <input type="number" class="sizeInput copiable_value" />
+              <input
+                type="number"
+                id="positionSize"
+                class="sizeInput output-field copiable_value"
+              />
             </span>
           </div>
           <div class="result-container" id="minLeverage_Container">
-            <label class="output-label">Min. Leverage: </label>
+            <label class="output-label" for="minLeverage"
+              >Min. Leverage:
+            </label>
             <span class="input-span">
               <button type="button" class="copy-btn">
                 <svg
@@ -287,16 +342,23 @@
                   />
                 </svg>
               </button>
-              <input type="number" class="sizeInput copiable_value" /><small
-                class="symbol"
-                >x</small
-              >
+              <input
+                type="number"
+                id="minLeverage"
+                class="sizeInput output-field copiable_value"
+              /><small class="symbol">x</small>
             </span>
           </div>
           <div class="result-container" id="r:R_Container">
-            <label class="output-label">Risk/Reward Ratio: </label>
+            <label class="output-label" for="riskReward"
+              >Risk/Reward Ratio:
+            </label>
             <span class="input-span">
-              <input type="number" class="sizeInput" />
+              <input
+                type="number"
+                id="riskReward"
+                class="sizeInput output-field"
+              />
               <small class="symbol">:1</small>
             </span>
           </div>

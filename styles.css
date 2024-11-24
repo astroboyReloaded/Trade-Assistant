@@ -130,6 +130,78 @@ h1 {
   border-bottom: 1px solid #eee3e3;
 }
 
+/*-------------------Currency Selectors---------------*/
+#currencySelectors_Container {
+  display: flex;
+  margin-inline: 0.9rem;
+  justify-content: space-between;
+  font-size: clamp(9px, 2.5vw, 15px);
+}
+
+.currencyType-container {
+  display: flex;
+  align-items: center;
+}
+
+.currencySelector-title {
+  margin-right: 0.3rem;
+}
+
+.currencySelector-container {
+  position: relative;
+  display: inline-block;
+  margin-inline: 0.2rem;
+  bottom: 0;
+  width: 30px;
+  height: 15px;
+}
+
+.currency-switchInput {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.currency-slider {
+  position: absolute;
+  cursor: pointer;
+  border-radius: 34px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgb(149, 224, 168);
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.currency-slider:before {
+  position: absolute;
+  content: "";
+  height: 13px;
+  width: 13px;
+  border-radius: 50%;
+  left: 1px;
+  bottom: 1px;
+  background-color: rgb(58, 58, 58);
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.currency-switchInput:checked + .currency-slider {
+  background-color: #f7e792;
+}
+
+.currency-switchInput:focus + .currency-slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+.currency-switchInput:checked + .currency-slider:before {
+  -webkit-transform: translateX(15px);
+  -ms-transform: translateX(15px);
+  transform: translateX(15px);
+}
+
 /*-----------------Position Inputs-----------------*/
 
 .section-container {
@@ -185,7 +257,7 @@ h1 {
   padding: 0;
 }
 
-input.lock-btn {
+.lock-btn {
   display: none;
   cursor: pointer;
   --webkite-user-select:none;
@@ -193,7 +265,7 @@ input.lock-btn {
   --ms-user-select:none;
 }
 
-input.lock-btn + label:before {
+.lock-btn + label:before {
   content: '';
   display: block;
   width: 0.9em;
@@ -207,7 +279,7 @@ input.lock-btn + label:before {
   transition: all 0.3s;
 }
 
-input.lock-btn + label:after {
+.lock-btn + label:after {
   content: '';
   display: inline-block;
   vertical-align: top;
@@ -218,13 +290,13 @@ input.lock-btn + label:after {
   transition: all 0.3s;
 }
 
-input.lock-btn:checked + label:before {
+.lock-btn:checked + label:before {
   border-color: var(--locked);
   transform-origin: -12px 10%;
   transform: rotateY(0deg);
 }
 
-input.lock-btn:checked + label:after {
+.lock-btn:checked + label:after {
   background: var(--locked);
 }
 
@@ -238,7 +310,7 @@ input.lock-btn:checked + label:after {
   justify-content: space-between;
 }
 
-input {
+.input-field, .output-field {
   width: 100%;
   background-color: var(--inputBgColor);
   border-style: none;
@@ -250,7 +322,18 @@ input {
   font-size: 1.2rem;
 }
 
+.input-field::-webkit-outer-spin-button,
+.input-field::-webkit-inner-spin-button,
+.output-field::-webkit-outer-spin-button,
+.output-field::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 
+input[type=number] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
 
 .locked, .locked > label, .locked > .input-span > button, .locked > .input-span > input, .locked > .input-span {
   background-color: var(--appFrameBgColor);

@@ -1,6 +1,7 @@
 'use strict';
 
 import { UIState } from '../UIState.js';
+import { formatValue } from '../helpFuncs.js';
 
 const [balanceInput, entryInput] = document.querySelectorAll('.baseInput');
 const lockBalanceBtn = document.querySelectorAll('.lock-balance');
@@ -15,14 +16,24 @@ class CreateBase {
     this.balanceInput = balanceInput;
     this.#balanceLockCheckbox.checked = this.#balanceLocked;
     this.#balanceLockLabel.addEventListener('click', () => {
-      this.balanceLocked = !this.balanceLocked;
+      this.#balanceLocked = !this.#balanceLocked;
+      localStorage.setItem('balanceLocked', this.#balanceLocked);
     });
     this.balanceInput.addEventListener('change', (e) => {
-      this.balanceLocked = Boolean(e.target.value);
-      this.#balanceLockCheckbox.checked = this.balanceLocked;
+      this.balanceInput.value = formatValue(
+        e.target.value,
+        UIState.balanceNumOfDecimals,
+      );
+      this.#balanceLocked = Boolean(e.target.value);
+      this.#balanceLockCheckbox.checked = this.#balanceLocked;
+      localStorage.setItem('balanceLocked', this.#balanceLocked);
     });
     this.entryInput = entryPriceInput;
-    this.entryInput.addEventListener('change', () => {
+    this.entryInput.addEventListener('change', (e) => {
+      this.entryInput.value = formatValue(
+        e.target.value,
+        UIState.priceNumOfDecimals,
+      );
       UIState.updateLockedState(this.entryInput.id, true, true);
     });
   }
@@ -37,7 +48,10 @@ class CreateBase {
   }
 
   setBalanceInputValue() {
-    this.balanceInput.value = this.#balance;
+    this.balanceInput.value = formatValue(
+      this.#balance,
+      UIState.balanceNumOfDecimals,
+    );
   }
 
   set balanceLocked(value) {
@@ -59,7 +73,10 @@ class CreateBase {
   }
 
   setEntryInputValue() {
-    this.entryInput.value = this.#entryPrice;
+    this.entryInput.value = formatValue(
+      this.#entryPrice,
+      UIState.priceNumOfDecimals,
+    );
   }
 
   get isSet() {
