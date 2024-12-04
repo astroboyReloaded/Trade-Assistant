@@ -12,24 +12,24 @@ class CreateRisk {
 
   constructor(stopInput, riskAmountInput, riskPercentageInput) {
     this.stopInput = stopInput;
-    this.stopInput.addEventListener('change', () => {
-      this.stopInput.value = formatValue(
-        this.stopInput.value,
-        UIState.priceNumOfDecimals,
-      );
-      UIState.updateLockedState(this.stopInput.id, true, true);
+    this.stopInput.addEventListener('change', (e) => {
+      const value = Number(e.target.value);
+      this.stopInput.value = formatValue(value, UIState.priceNumOfDecimals);
+      UIState.updateLockedState(this.stopInput.id, Boolean(value), true);
     });
     this.percentageInput = riskPercentageInput;
     this.percentageInput.addEventListener('change', () => {
-      UIState.updateLockedState(this.percentageInput.id, true, true);
+      UIState.updateLockedState(
+        this.percentageInput.id,
+        Boolean(Number(e.target.value)),
+        true,
+      );
     });
     this.amountInput = riskAmountInput;
-    this.amountInput.addEventListener('change', () => {
-      this.amountInput.value = formatValue(
-        this.amountInput.value,
-        UIState.balanceNumOfDecimals,
-      );
-      UIState.updateLockedState(this.percentageInput.id, true, true);
+    this.amountInput.addEventListener('change', (e) => {
+      const value = Number(e.target.value);
+      this.amountInput.value = formatValue(value, UIState.balanceNumOfDecimals);
+      UIState.updateLockedState(this.percentageInput.id, Boolean(value), true);
     });
   }
 
