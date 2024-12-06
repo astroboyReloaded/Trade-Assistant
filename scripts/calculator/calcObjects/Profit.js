@@ -19,7 +19,7 @@ class CreateProfit {
       UIState.updateLockedState(this.takeInput.id, Boolean(value), true);
     });
     this.percentageInput = profitPercentageInput;
-    this.percentageInput.addEventListener('change', () => {
+    this.percentageInput.addEventListener('change', (e) => {
       UIState.updateLockedState(
         this.percentageInput.id,
         Boolean(Number(e.target.value)),

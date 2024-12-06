@@ -18,7 +18,7 @@ class CreateRisk {
       UIState.updateLockedState(this.stopInput.id, Boolean(value), true);
     });
     this.percentageInput = riskPercentageInput;
-    this.percentageInput.addEventListener('change', () => {
+    this.percentageInput.addEventListener('change', (e) => {
       UIState.updateLockedState(
         this.percentageInput.id,
         Boolean(Number(e.target.value)),

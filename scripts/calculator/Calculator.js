@@ -131,7 +131,7 @@ class Calculator {
   }
 
   RiskAmount(from) {
-    if (Base.isSet) {
+    if (Base.Balance) {
       switch (from) {
         case 'pipValue':
           Risk.Amount = this.#pipValue * this.#pipsToStop;
@@ -184,7 +184,7 @@ class Calculator {
   }
 
   ProfitAmount(from) {
-    if (Base.isSet) {
+    if (Base.Balance) {
       switch (from) {
         case 'pipValue':
           Profit.Amount = this.#pipValue * this.#pipsToTake || null;
