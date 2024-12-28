@@ -70,7 +70,8 @@ class CreateIUState {
     this.#priceCurrencyType === 'Fiat'
       ? (priceSwitch.checked = false)
       : (priceSwitch.checked = true);
-    this.#balanceSwitch.addEventListener('click', () => {
+    this.#balanceSwitch.addEventListener('click', (e) => {
+      e.preventDefault();
       this.#balanceCurrencyType = this.#balanceSwitch.checked
         ? 'Crypto'
         : 'Fiat';
@@ -80,7 +81,8 @@ class CreateIUState {
       );
       location.reload();
     });
-    this.#priceSwitch.addEventListener('click', () => {
+    this.#priceSwitch.addEventListener('click', (e) => {
+      e.preventDefault();
       this.#priceCurrencyType = this.#priceSwitch.checked ? 'Crypto' : 'Fiat';
       localStorage.setItem(
         'priceCurrencyType',

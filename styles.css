@@ -131,29 +131,39 @@ h1 {
 }
 
 /*-------------------Currency Selectors---------------*/
-#currencySelectors_Container {
+form#currencySelectors_Container {
   display: flex;
   margin-inline: 0.9rem;
   justify-content: space-between;
   font-size: clamp(9px, 2.5vw, 15px);
 }
 
-.currencyType-container {
+fieldset.currencyConfig-container {
+  position: relative;
   display: flex;
-  align-items: center;
+  width: 48%;
+  border: none;
+  align-items: flex-start;
+  justify-content: left;
+  flex-wrap: wrap;
 }
 
 .currencySelector-title {
+  display: flex;
   margin-right: 0.3rem;
 }
 
-.currencySelector-container {
+label.currencySelector-container {
   position: relative;
-  display: inline-block;
-  margin-inline: 0.2rem;
-  bottom: 0;
-  width: 30px;
-  height: 15px;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+small.currency-type {
+  font-size: 1em;
+  text-align: right;
 }
 
 .currency-switchInput {
@@ -163,13 +173,13 @@ h1 {
 }
 
 .currency-slider {
-  position: absolute;
+  position: relative;
   cursor: pointer;
   border-radius: 34px;
-  top: 0;
-  left: 0;
-  right: 0;
   bottom: 0;
+  width: 30px;
+  height: 15px;
+  margin-inline: 0.3rem;
   background-color: rgb(149, 224, 168);
   -webkit-transition: 0.4s;
   transition: 0.4s;
