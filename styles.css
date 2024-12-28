@@ -176,7 +176,7 @@ small.currency-type {
   position: relative;
   cursor: pointer;
   border-radius: 34px;
-  bottom: 0;
+  /* bottom: 0; */
   width: 30px;
   height: 15px;
   margin-inline: 0.3rem;
@@ -210,6 +210,10 @@ small.currency-type {
   -webkit-transform: translateX(15px);
   -ms-transform: translateX(15px);
   transform: translateX(15px);
+}
+
+fieldset.currencyConfig-container:nth-of-type(2) {
+  justify-content: flex-end;
 }
 
 /*-----------------Position Inputs-----------------*/
