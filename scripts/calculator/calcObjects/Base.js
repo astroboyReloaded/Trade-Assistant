@@ -71,10 +71,7 @@ class CreateBase {
   }
 
   setEntryInputValue() {
-    this.entryInput.value = formatValue(
-      this.#entryPrice,
-      UIState.priceNumOfDecimals,
-    );
+    this.entryInput.value = formatValue(this.#entryPrice, UIState.priceFormat);
   }
 
   get isSet() {

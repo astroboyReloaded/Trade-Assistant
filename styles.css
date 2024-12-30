@@ -166,7 +166,7 @@ small.currency-type {
   text-align: right;
 }
 
-.currency-switchInput {
+#currency-switch_Input {
   opacity: 0;
   width: 0;
   height: 0;
@@ -176,7 +176,6 @@ small.currency-type {
   position: relative;
   cursor: pointer;
   border-radius: 34px;
-  /* bottom: 0; */
   width: 30px;
   height: 15px;
   margin-inline: 0.3rem;
@@ -198,15 +197,15 @@ small.currency-type {
   transition: 0.4s;
 }
 
-.currency-switchInput:checked + .currency-slider {
+#currency-switch_Input:checked + .currency-slider {
   background-color: #f7e792;
 }
 
-.currency-switchInput:focus + .currency-slider {
+#currency-switch_Input:focus + .currency-slider {
   box-shadow: 0 0 1px #2196F3;
 }
 
-.currency-switchInput:checked + .currency-slider:before {
+#currency-switch_Input:checked + .currency-slider:before {
   -webkit-transform: translateX(15px);
   -ms-transform: translateX(15px);
   transform: translateX(15px);
