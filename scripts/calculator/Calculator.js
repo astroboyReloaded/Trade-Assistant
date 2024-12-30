@@ -23,6 +23,7 @@ class Calculator {
 
   PipsToStop() {
     if (Base.Entry) this.#pipsToStop = Math.abs(Base.Entry - Risk.Stop);
+    console.log('pips to stop', this.#pipsToStop);
   }
 
   get pipsToTake() {
@@ -44,6 +45,7 @@ class Calculator {
     } else {
       this.#pipsToTake = null;
     }
+    console.log('pips to take', this.#pipsToTake);
   }
 
   get pipValue() {
@@ -66,6 +68,7 @@ class Calculator {
     } else {
       this.#pipValue = 1;
     }
+    console.log('pip value', this.#pipValue);
   }
 
   Balance(from = 'risk') {
@@ -128,7 +131,7 @@ class Calculator {
   }
 
   RiskAmount(from) {
-    if (Base.isSet) {
+    if (Base.Balance) {
       switch (from) {
         case 'pipValue':
           Risk.Amount = this.#pipValue * this.#pipsToStop;
@@ -169,11 +172,11 @@ class Calculator {
   }
 
   ProfitPercentage() {
-    if (Base.Balance && Profit.Amount) {
-      Profit.PercentageAsDecimal = Profit.Amount / Base.Balance;
-    } else if (Base.Entry) {
+    if (Base.Entry) {
       Profit.PercentageAsDecimal =
         (this.#pipsToTake / this.#pipsToStop) * Risk.PercentageAsDecimal;
+    } else if (Base.Balance && Profit.Amount) {
+      Profit.PercentageAsDecimal = Profit.Amount / Base.Balance;
     } else {
       Profit.PercentageAsDecimal = null;
     }
@@ -181,7 +184,7 @@ class Calculator {
   }
 
   ProfitAmount(from) {
-    if (Base.isSet) {
+    if (Base.Balance) {
       switch (from) {
         case 'pipValue':
           Profit.Amount = this.#pipValue * this.#pipsToTake || null;

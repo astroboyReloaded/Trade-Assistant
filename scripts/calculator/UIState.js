@@ -1,19 +1,6 @@
 'use strict';
-// const [
-//   balanceContainer,
-//   entryPriceContainer,
-//   stopLossContainer,
-//   takeProfitContainer,
-// ] = document.querySelectorAll('.input-container');
-// const [
-//   riskPercentageContainer,
-//   riskAmountContainer,
-//   profitPercentageContainer,
-//   profitAmountContainer,
-// ] = document.querySelectorAll('.output-container');
-const [balanceSwitch, priceSwitch] = document.querySelectorAll(
-  '.currency-switchInput',
-);
+const balanceSwitch = document.querySelector('#currency-switch_Input');
+const priceFormatSelect = document.querySelector('#price_Format');
 const lockEntryPriceBtn = document.querySelectorAll('.lock-entryPrice');
 const lockStopLossBtn = document.querySelectorAll('.lock-stopLoss');
 const lockRiskPercentageBtn = document.querySelectorAll('.lock-riskPercentage');
@@ -24,11 +11,10 @@ const lockProfitPercentageBtn = document.querySelectorAll(
 
 class CreateIUState {
   #balanceSwitch = balanceSwitch;
-  #priceSwitch = priceSwitch;
+  #priceFormatSelect = priceFormatSelect;
   #balanceCurrencyType =
     JSON.parse(localStorage.getItem('balanceCurrencyType')) || 'Fiat';
-  #priceCurrencyType =
-    JSON.parse(localStorage.getItem('priceCurrencyType')) || 'Fiat';
+  #priceFormat = JSON.parse(localStorage.getItem('priceFormat')) || '2';
   #lockedStack = JSON.parse(localStorage.getItem('lockedStack')) || [];
   #inputs = {
     entryPrice: {
@@ -67,10 +53,8 @@ class CreateIUState {
     this.#balanceCurrencyType === 'Fiat'
       ? (balanceSwitch.checked = false)
       : (balanceSwitch.checked = true);
-    this.#priceCurrencyType === 'Fiat'
-      ? (priceSwitch.checked = false)
-      : (priceSwitch.checked = true);
-    this.#balanceSwitch.addEventListener('click', () => {
+    this.#priceFormatSelect.value = this.#priceFormat;
+    this.#balanceSwitch.addEventListener('click', (e) => {
       this.#balanceCurrencyType = this.#balanceSwitch.checked
         ? 'Crypto'
         : 'Fiat';
@@ -80,12 +64,10 @@ class CreateIUState {
       );
       location.reload();
     });
-    this.#priceSwitch.addEventListener('click', () => {
-      this.#priceCurrencyType = this.#priceSwitch.checked ? 'Crypto' : 'Fiat';
-      localStorage.setItem(
-        'priceCurrencyType',
-        JSON.stringify(this.#priceCurrencyType),
-      );
+    this.#priceFormatSelect.addEventListener('change', (e) => {
+      e.preventDefault();
+      this.#priceFormat = e.target.value;
+      localStorage.setItem('priceFormat', JSON.stringify(this.#priceFormat));
       location.reload();
     });
     this.#lockedStack.forEach((inputId) => {
@@ -128,8 +110,8 @@ class CreateIUState {
     return this.#balanceCurrencyType === 'Fiat' ? 2 : 8;
   }
 
-  get priceNumOfDecimals() {
-    return this.#priceCurrencyType === 'Fiat' ? 2 : 8;
+  get priceFormat() {
+    return Number(this.#priceFormat);
   }
 
   get lockedStack() {

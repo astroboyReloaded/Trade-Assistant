@@ -131,45 +131,54 @@ h1 {
 }
 
 /*-------------------Currency Selectors---------------*/
-#currencySelectors_Container {
+form#currencySelectors_Container {
   display: flex;
   margin-inline: 0.9rem;
   justify-content: space-between;
   font-size: clamp(9px, 2.5vw, 15px);
 }
 
-.currencyType-container {
+fieldset.currencyConfig-container {
+  position: relative;
   display: flex;
-  align-items: center;
+  width: 48%;
+  border: none;
+  align-items: flex-start;
+  justify-content: left;
+  flex-wrap: wrap;
 }
 
 .currencySelector-title {
+  display: flex;
   margin-right: 0.3rem;
 }
 
-.currencySelector-container {
+label.currencySelector-container {
   position: relative;
-  display: inline-block;
-  margin-inline: 0.2rem;
-  bottom: 0;
-  width: 30px;
-  height: 15px;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: flex-end;
 }
 
-.currency-switchInput {
+small.currency-type {
+  font-size: 1em;
+  text-align: right;
+}
+
+#currency-switch_Input {
   opacity: 0;
   width: 0;
   height: 0;
 }
 
 .currency-slider {
-  position: absolute;
+  position: relative;
   cursor: pointer;
   border-radius: 34px;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  width: 30px;
+  height: 15px;
+  margin-inline: 0.3rem;
   background-color: rgb(149, 224, 168);
   -webkit-transition: 0.4s;
   transition: 0.4s;
@@ -188,18 +197,22 @@ h1 {
   transition: 0.4s;
 }
 
-.currency-switchInput:checked + .currency-slider {
+#currency-switch_Input:checked + .currency-slider {
   background-color: #f7e792;
 }
 
-.currency-switchInput:focus + .currency-slider {
+#currency-switch_Input:focus + .currency-slider {
   box-shadow: 0 0 1px #2196F3;
 }
 
-.currency-switchInput:checked + .currency-slider:before {
+#currency-switch_Input:checked + .currency-slider:before {
   -webkit-transform: translateX(15px);
   -ms-transform: translateX(15px);
   transform: translateX(15px);
+}
+
+fieldset.currencyConfig-container:nth-of-type(2) {
+  justify-content: flex-end;
 }
 
 /*-----------------Position Inputs-----------------*/

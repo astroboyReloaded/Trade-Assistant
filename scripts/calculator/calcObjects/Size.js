@@ -48,6 +48,15 @@ export class CreateSize {
   setRatioInputValue() {
     this.riskRewardRatioInput.value = this.#riskRewardRatio || '';
   }
+
+  clear() {
+    this.#position = null;
+    this.#minLeverage = null;
+    this.#riskRewardRatio = 0;
+    this.setPositionInputValue();
+    this.setLeverageInputValue();
+    this.setRatioInputValue();
+  }
 }
 
 export const Size = new CreateSize(

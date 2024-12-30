@@ -13,24 +13,24 @@ class CreateProfit {
 
   constructor(takeProfitInput, profitAmountInput, profitPercentageInput) {
     this.takeInput = takeProfitInput;
-    this.takeInput.addEventListener('change', () => {
-      this.takeInput.value = formatValue(
-        this.takeInput.value,
-        UIState.priceNumOfDecimals,
-      );
-      UIState.updateLockedState(this.takeInput.id, true, true);
+    this.takeInput.addEventListener('change', (e) => {
+      const value = Number(e.target.value);
+      this.takeInput.value = formatValue(value, UIState.priceNumOfDecimals);
+      // UIState.updateLockedState(this.takeInput.id, Boolean(value), true);
     });
     this.percentageInput = profitPercentageInput;
-    this.percentageInput.addEventListener('change', () => {
-      UIState.updateLockedState(this.percentageInput.id, true, true);
+    this.percentageInput.addEventListener('change', (e) => {
+      // UIState.updateLockedState(
+      //   this.percentageInput.id,
+      //   Boolean(Number(e.target.value)),
+      //   true,
+      // );
     });
     this.amountInput = profitAmountInput;
-    this.amountInput.addEventListener('change', () => {
-      this.amountInput.value = formatValue(
-        this.amountInput.value,
-        UIState.balanceNumOfDecimals,
-      );
-      UIState.updateLockedState(this.percentageInput.id, true, true);
+    this.amountInput.addEventListener('change', (e) => {
+      const value = Number(e.target.value);
+      this.amountInput.value = formatValue(value, UIState.balanceNumOfDecimals);
+      // UIState.updateLockedState(this.percentageInput.id, Boolean(value), true);
     });
   }
 
@@ -81,10 +81,6 @@ class CreateProfit {
     this.Take = null;
     this.setTakeInputValue();
     UIState.updateLockedState(this.takeInput.id, false, true);
-  }
-
-  clearAll() {
-    this.clear();
     this.PercentageAsDecimal = null;
     this.setPercentageInputValue();
     UIState.updateLockedState(this.percentageInput.id, false, true);

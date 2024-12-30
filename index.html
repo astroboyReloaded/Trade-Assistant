@@ -65,34 +65,31 @@
           </svg>
         </button>
         <!--- Switch Currency type ---->
-        <div id="currencySelectors_Container">
-          <span class="currencyType-container">
+        <form id="currencySelectors_Container">
+          <fieldset class="currencyConfig-container">
             <span class="currencySelector-title">Balance Currency-type:</span>
-            <span>Fiat</span>
-            <label class="currencySelector-container" for="balanceCurrency">
-              <input
-                type="checkbox"
-                id="balanceCurrency"
-                class="currency-switchInput"
-              />
-              <span class="currency-slider"></span>
+            <label
+              class="currencySelector-container"
+              for="currency-switch_Input"
+              ><small class="currency-type ft">Fiat</small>
+              <input type="checkbox" id="currency-switch_Input" />
+              <span class="currency-slider"></span
+              ><small class="currency-type cr">Crypto</small>
             </label>
-            <span>Crypto</span>
-          </span>
-          <span class="currencyType-container">
-            <span class="currencySelector-title">Price Currency-type:</span>
-            <span>Fiat</span>
-            <label class="currencySelector-container" for="priceCurrency">
-              <input
-                type="checkbox"
-                id="priceCurrency"
-                class="currency-switchInput"
-              />
-              <span class="currency-slider"></span>
+          </fieldset>
+          <fieldset class="currencyConfig-container">
+            <span class="currencySelector-title">Price format:</span>
+            <label class="decimals-label" for="priceCurrency">
+              <select id="price_Format">
+                <option value="2"><small>(2 dec) </small>0.00</option>
+                <option value="3"><small>(3 dec) </small>0.000</option>
+                <option value="4"><small>(4 dec) </small>0.0000</option>
+                <option value="6"><small>(6 dec) </small>0.000000</option>
+                <option value="8"><small>(8 dec) </small>0.00000000</option>
+              </select>
             </label>
-            <span>Crypto</span>
-          </span>
-        </div>
+          </fieldset>
+        </form>
         <!------------ Base ----->
         <div class="section-container">
           <div class="input-container" id="balance_Container">

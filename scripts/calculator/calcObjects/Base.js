@@ -21,20 +21,18 @@ class CreateBase {
     });
     this.balanceInput.addEventListener('change', (e) => {
       this.balanceInput.value = formatValue(
-        e.target.value,
+        Number(e.target.value),
         UIState.balanceNumOfDecimals,
       );
       this.#balanceLocked = Boolean(e.target.value);
-      this.#balanceLockCheckbox.checked = this.#balanceLocked;
+      this.#balanceLockCheckbox.checked = Boolean(e.target.value);
       localStorage.setItem('balanceLocked', this.#balanceLocked);
     });
     this.entryInput = entryPriceInput;
     this.entryInput.addEventListener('change', (e) => {
-      this.entryInput.value = formatValue(
-        e.target.value,
-        UIState.priceNumOfDecimals,
-      );
-      UIState.updateLockedState(this.entryInput.id, true, true);
+      const value = Number(e.target.value);
+      this.entryInput.value = formatValue(value, UIState.priceNumOfDecimals);
+      UIState.updateLockedState(this.entryInput.id, Boolean(value), true);
     });
   }
 
@@ -73,10 +71,7 @@ class CreateBase {
   }
 
   setEntryInputValue() {
-    this.entryInput.value = formatValue(
-      this.#entryPrice,
-      UIState.priceNumOfDecimals,
-    );
+    this.entryInput.value = formatValue(this.#entryPrice, UIState.priceFormat);
   }
 
   get isSet() {
