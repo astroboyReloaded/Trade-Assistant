@@ -1,9 +1,27 @@
 'use strict';
+import { UIState } from './UIState.js';
 import { Base } from './calcObjects/Base.js';
 import { Risk } from './calcObjects/Risk.js';
 import { Profit } from './calcObjects/Profit.js';
 import { Logic } from './Logic.js';
 import { val } from './helpFuncs.js';
+import { Size } from './calcObjects/Size.js';
+
+// Curency Format Events
+UIState.balanceSwitch.addEventListener('click', () => {
+  UIState.balanceNumOfDecimals = UIState.balanceSwitch.checked
+    ? 'Crypto'
+    : 'Fiat';
+  localStorage.setItem(
+    'balanceCurrencyType',
+    JSON.stringify(UIState.balanceNumOfDecimals),
+  );
+  Base.setBalanceInputValue();
+  Risk.setAmountInputValue();
+  Profit.setAmountInputValue();
+  Size.setPositionInputValue();
+});
+
 // Base Events
 Base.balanceInput.addEventListener('input', (e) => {
   Logic.fromBalanceInput(val(e));

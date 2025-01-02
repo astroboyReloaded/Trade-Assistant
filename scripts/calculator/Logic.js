@@ -52,8 +52,8 @@ class CreateLogic {
       Calc.ProfitPercentage('pipValue');
       Calc.ProfitAmount();
     } else if (!UIState.stopLossLocked && Risk.PercentageAsDecimal) {
-      Calc.Direction('take');
-      Calc.PipValue('take');
+      Calc.Direction(Profit.Take ? 'take' : null);
+      Calc.PipValue(Profit.Take ? 'take' : null);
       Calc.StopLoss();
     } else if (Risk.Stop && !UIState.riskPercentageLocked) {
       Calc.RiskPercentage('pipValue');

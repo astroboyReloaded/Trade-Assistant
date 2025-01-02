@@ -10,8 +10,6 @@ const lockProfitPercentageBtn = document.querySelectorAll(
 );
 
 class CreateIUState {
-  #balanceSwitch = balanceSwitch;
-  #priceFormatSelect = priceFormatSelect;
   #balanceCurrencyType =
     JSON.parse(localStorage.getItem('balanceCurrencyType')) || 'Fiat';
   #priceFormat = JSON.parse(localStorage.getItem('priceFormat')) || '2';
@@ -50,21 +48,13 @@ class CreateIUState {
   };
 
   constructor() {
+    this.balanceSwitch = balanceSwitch;
+    this.priceFormatSelect = priceFormatSelect;
     this.#balanceCurrencyType === 'Fiat'
-      ? (balanceSwitch.checked = false)
-      : (balanceSwitch.checked = true);
-    this.#priceFormatSelect.value = this.#priceFormat;
-    this.#balanceSwitch.addEventListener('click', (e) => {
-      this.#balanceCurrencyType = this.#balanceSwitch.checked
-        ? 'Crypto'
-        : 'Fiat';
-      localStorage.setItem(
-        'balanceCurrencyType',
-        JSON.stringify(this.#balanceCurrencyType),
-      );
-      location.reload();
-    });
-    this.#priceFormatSelect.addEventListener('change', (e) => {
+      ? (this.balanceSwitch.checked = false)
+      : (this.balanceSwitch.checked = true);
+    this.priceFormatSelect.value = this.#priceFormat;
+    this.priceFormatSelect.addEventListener('change', (e) => {
       e.preventDefault();
       this.#priceFormat = e.target.value;
       localStorage.setItem('priceFormat', JSON.stringify(this.#priceFormat));
@@ -104,6 +94,10 @@ class CreateIUState {
     const shaft = this.#lockedStack.shift();
     localStorage.setItem('lockedStack', JSON.stringify(this.#lockedStack));
     return shaft;
+  }
+
+  set balanceNumOfDecimals(value) {
+    this.#balanceCurrencyType = value;
   }
 
   get balanceNumOfDecimals() {

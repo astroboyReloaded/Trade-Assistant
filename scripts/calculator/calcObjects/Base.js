@@ -31,7 +31,7 @@ class CreateBase {
     this.entryInput = entryPriceInput;
     this.entryInput.addEventListener('change', (e) => {
       const value = Number(e.target.value);
-      this.entryInput.value = formatValue(value, UIState.priceNumOfDecimals);
+      this.entryInput.value = formatValue(value, UIState.priceFormat);
       UIState.updateLockedState(this.entryInput.id, Boolean(value), true);
     });
   }

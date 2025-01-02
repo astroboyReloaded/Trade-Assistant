@@ -62,8 +62,7 @@ class Calculator {
           this.#pipValue = Risk.Amount / this.#pipsToStop;
           break;
         default:
-          this.#pipValue =
-            (Risk.PercentageAsDecimal * Base.Balance) / this.#pipsToStop || 1;
+          this.#pipValue = Risk.Amount / Base.Entry;
       }
     } else {
       this.#pipValue = 1;
