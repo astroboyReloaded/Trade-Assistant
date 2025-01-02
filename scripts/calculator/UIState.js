@@ -54,12 +54,6 @@ class CreateIUState {
       ? (this.balanceSwitch.checked = false)
       : (this.balanceSwitch.checked = true);
     this.priceFormatSelect.value = this.#priceFormat;
-    this.priceFormatSelect.addEventListener('change', (e) => {
-      e.preventDefault();
-      this.#priceFormat = e.target.value;
-      localStorage.setItem('priceFormat', JSON.stringify(this.#priceFormat));
-      location.reload();
-    });
     this.#lockedStack.forEach((inputId) => {
       const input = this.#inputs[inputId];
       input.locked = true;
@@ -102,6 +96,10 @@ class CreateIUState {
 
   get balanceNumOfDecimals() {
     return this.#balanceCurrencyType === 'Fiat' ? 2 : 8;
+  }
+
+  set priceFormat(value) {
+    this.#priceFormat = value;
   }
 
   get priceFormat() {

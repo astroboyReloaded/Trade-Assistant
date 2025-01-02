@@ -8,9 +8,7 @@ export const isPositive = (v) => {
 
 export const formatValue = (v, numOfDecimals) => {
   if (v === null) return null;
-  return Number.isInteger(v)
-    ? v
-    : parseFloat(v.toFixed(numOfDecimals).toString());
+  return Number.isInteger(v) ? v : v.toFixed(numOfDecimals);
 };
 
 export const formatPercentage = (v) => {

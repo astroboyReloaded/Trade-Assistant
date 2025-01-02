@@ -22,6 +22,16 @@ UIState.balanceSwitch.addEventListener('click', () => {
   Size.setPositionInputValue();
 });
 
+UIState.priceFormatSelect.addEventListener('change', (e) => {
+  e.preventDefault();
+  UIState.priceFormat = e.target.value;
+  localStorage.setItem('priceFormat', JSON.stringify(UIState.priceFormat));
+  // location.reload();
+  Base.setEntryInputValue();
+  Risk.setStopInputValue();
+  Profit.setTakeInputValue();
+});
+
 // Base Events
 Base.balanceInput.addEventListener('input', (e) => {
   Logic.fromBalanceInput(val(e));
