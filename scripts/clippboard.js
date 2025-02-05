@@ -8,7 +8,10 @@ let copiableValues = document.getElementsByClassName('copiable_value');
 });
 
 function copyToClipboard(valToCopy) {
-  valToCopy.focus();
+  if (!valToCopy.value) {
+    confirmCopy('Field is emprty');
+    return;
+  }
 
   navigator.clipboard
     .writeText(valToCopy.value)
@@ -18,14 +21,14 @@ function copyToClipboard(valToCopy) {
     });
 }
 
-function confirmCopy() {
+function confirmCopy(msg = 'Copied') {
   let appFrame = document.querySelector('#appFrame');
   let message = document.createElement('small');
 
   appFrame.appendChild(message);
 
   message.classList.add('copy-success');
-  message.innerText = 'Copied!';
+  message.innerText = msg;
 
   setTimeout(() => {
     appFrame.removeChild(message);
