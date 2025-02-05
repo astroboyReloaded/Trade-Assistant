@@ -14,7 +14,7 @@ class CreateRisk {
     this.stopInput = stopInput;
     this.stopInput.addEventListener('change', (e) => {
       const value = Number(e.target.value);
-      this.stopInput.value = formatValue(value, UIState.priceNumOfDecimals);
+      this.stopInput.value = formatValue(value, UIState.priceFormat);
       UIState.updateLockedState(this.stopInput.id, Boolean(value), true);
     });
     this.percentageInput = riskPercentageInput;
@@ -43,8 +43,7 @@ class CreateRisk {
   }
 
   setStopInputValue() {
-    this.stopInput.value =
-      formatValue(this.#stop, UIState.priceNumOfDecimals) || '';
+    this.stopInput.value = formatValue(this.#stop, UIState.priceFormat) || '';
   }
 
   get PercentageAsDecimal() {
@@ -74,7 +73,7 @@ class CreateRisk {
 
   setAmountInputValue() {
     this.amountInput.value =
-      formatValue(this.#amount, UIState.balanceNumOfDecimals) || '';
+      formatValue(this.#amount, UIState.balanceFormat) || '';
   }
 
   clearAll() {

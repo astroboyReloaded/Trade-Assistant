@@ -3,6 +3,7 @@ import { Base } from './calcObjects/Base.js';
 import { Profit } from './calcObjects/Profit.js';
 import { Risk } from './calcObjects/Risk.js';
 import { Size } from './calcObjects/Size.js';
+import { UIState } from './UIState.js';
 
 class Calculator {
   #pipsToTake;
@@ -62,8 +63,7 @@ class Calculator {
           this.#pipValue = Risk.Amount / this.#pipsToStop;
           break;
         default:
-          this.#pipValue =
-            (Risk.PercentageAsDecimal * Base.Balance) / this.#pipsToStop || 1;
+          this.#pipValue = Risk.Amount / Base.Entry;
       }
     } else {
       this.#pipValue = 1;
@@ -201,11 +201,34 @@ class Calculator {
 
   PositionSize() {
     if (Base.isSet) {
-      Size.Position = this.#pipValue * Base.Entry;
+      switch (this.#positionDirection) {
+        case 'short':
+          Size.Position = this.#pipValue * Risk.Stop;
+          break;
+        default:
+          Size.Position = this.#pipValue * Base.Entry;
+          break;
+      }
     } else {
       Size.Position = null;
     }
     Size.setPositionInputValue();
+    this.LotSize();
+  }
+
+  LotSize() {
+    if (Base.Entry) {
+      switch (this.#positionDirection) {
+        case 'long':
+          Size.Lots = Size.Position / Base.Entry;
+          break;
+        case 'short':
+          Size.Lots = Size.Position / Risk.Stop;
+      }
+    } else {
+      Size.Lots = null;
+    }
+    Size.setLotsInputValue();
   }
 
   MinLeverage() {
@@ -230,6 +253,7 @@ class Calculator {
 
   Size() {
     this.PositionSize();
+    this.LotSize();
     this.MinLeverage();
     this.RiskRewardRatio();
   }

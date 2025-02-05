@@ -1,5 +1,5 @@
 'use strict';
-const balanceSwitch = document.querySelector('#currency-switch_Input');
+const balanceSwitch = document.querySelector('#currency_Switch');
 const priceFormatSelect = document.querySelector('#price_Format');
 const lockEntryPriceBtn = document.querySelectorAll('.lock-entryPrice');
 const lockStopLossBtn = document.querySelectorAll('.lock-stopLoss');
@@ -10,13 +10,10 @@ const lockProfitPercentageBtn = document.querySelectorAll(
 );
 
 class CreateIUState {
-  #balanceSwitch = balanceSwitch;
-  #priceFormatSelect = priceFormatSelect;
-  #balanceCurrencyType =
-    JSON.parse(localStorage.getItem('balanceCurrencyType')) || 'Fiat';
-  #priceFormat = JSON.parse(localStorage.getItem('priceFormat')) || '2';
+  #balanceFormat = JSON.parse(localStorage.getItem('balanceFormat')) || 2;
+  #priceFormat = JSON.parse(localStorage.getItem('priceFormat')) || 2;
   #lockedStack = JSON.parse(localStorage.getItem('lockedStack')) || [];
-  #inputs = {
+  #lockBtns = {
     entryPrice: {
       id: 'entryPrice',
       locked: false,
@@ -50,36 +47,22 @@ class CreateIUState {
   };
 
   constructor() {
-    this.#balanceCurrencyType === 'Fiat'
-      ? (balanceSwitch.checked = false)
-      : (balanceSwitch.checked = true);
-    this.#priceFormatSelect.value = this.#priceFormat;
-    this.#balanceSwitch.addEventListener('click', (e) => {
-      this.#balanceCurrencyType = this.#balanceSwitch.checked
-        ? 'Crypto'
-        : 'Fiat';
-      localStorage.setItem(
-        'balanceCurrencyType',
-        JSON.stringify(this.#balanceCurrencyType),
-      );
-      location.reload();
-    });
-    this.#priceFormatSelect.addEventListener('change', (e) => {
-      e.preventDefault();
-      this.#priceFormat = e.target.value;
-      localStorage.setItem('priceFormat', JSON.stringify(this.#priceFormat));
-      location.reload();
-    });
+    this.balanceSwitch = balanceSwitch;
+    this.priceFormatSelect = priceFormatSelect;
+    this.#balanceFormat === 2
+      ? (this.balanceSwitch.checked = false)
+      : (this.balanceSwitch.checked = true);
+    this.priceFormatSelect.value = this.#priceFormat;
     this.#lockedStack.forEach((inputId) => {
-      const input = this.#inputs[inputId];
+      const input = this.#lockBtns[inputId];
       input.locked = true;
       input.checkbox.checked = true;
     });
-    Object.keys(this.#inputs).forEach((inputId) => {
-      this.#inputs[inputId].label.addEventListener('click', () => {
+    Object.keys(this.#lockBtns).forEach((inputId) => {
+      this.#lockBtns[inputId].label.addEventListener('click', () => {
         this.updateLockedState(
-          this.#inputs[inputId].id,
-          !this.#inputs[inputId].locked,
+          this.#lockBtns[inputId].id,
+          !this.#lockBtns[inputId].locked,
         );
       });
     });
@@ -87,7 +70,7 @@ class CreateIUState {
 
   updateLockedState(inputId, locked, checkbox) {
     if (!inputId) return;
-    const inputLock = this.#inputs[inputId];
+    const inputLock = this.#lockBtns[inputId];
     inputLock.locked = locked;
     if (!this.#lockedStack.includes(inputId) && inputLock.locked) {
       this.pushToLockedStack = inputId;
@@ -106,8 +89,19 @@ class CreateIUState {
     return shaft;
   }
 
-  get balanceNumOfDecimals() {
-    return this.#balanceCurrencyType === 'Fiat' ? 2 : 8;
+  setBalanceFormat() {
+    console.log(this.balanceSwitch.checked);
+    this.#balanceFormat = this.balanceSwitch.checked ? 8 : 2;
+    localStorage.setItem('balanceFormat', JSON.stringify(this.#balanceFormat));
+  }
+
+  get balanceFormat() {
+    return this.#balanceFormat;
+  }
+
+  set priceFormat(value) {
+    this.#priceFormat = value;
+    localStorage.setItem('priceFormat', JSON.stringify(this.#priceFormat));
   }
 
   get priceFormat() {
@@ -129,23 +123,23 @@ class CreateIUState {
   }
 
   get entryPriceLocked() {
-    return this.#inputs.entryPrice.checkbox.checked;
+    return this.#lockBtns.entryPrice.checkbox.checked;
   }
 
   get stopLossLocked() {
-    return this.#inputs.stopLoss.checkbox.checked;
+    return this.#lockBtns.stopLoss.checkbox.checked;
   }
 
   get riskPercentageLocked() {
-    return this.#inputs.riskPercentage.checkbox.checked;
+    return this.#lockBtns.riskPercentage.checkbox.checked;
   }
 
   get takeProfitLocked() {
-    return this.#inputs.takeProfit.checkbox.checked;
+    return this.#lockBtns.takeProfit.checkbox.checked;
   }
 
   get profitPercentageLocked() {
-    return this.#inputs.profitPercentage.checkbox.checked;
+    return this.#lockBtns.profitPercentage.checkbox.checked;
   }
 }
 

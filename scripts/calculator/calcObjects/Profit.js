@@ -15,7 +15,7 @@ class CreateProfit {
     this.takeInput = takeProfitInput;
     this.takeInput.addEventListener('change', (e) => {
       const value = Number(e.target.value);
-      this.takeInput.value = formatValue(value, UIState.priceNumOfDecimals);
+      this.takeInput.value = formatValue(value, UIState.priceFormat);
       // UIState.updateLockedState(this.takeInput.id, Boolean(value), true);
     });
     this.percentageInput = profitPercentageInput;
@@ -45,7 +45,7 @@ class CreateProfit {
 
   setTakeInputValue() {
     this.takeInput.value =
-      formatValue(this.#takeProfit, UIState.priceNumOfDecimals) || '';
+      formatValue(this.#takeProfit, UIState.priceFormat) || '';
   }
 
   get PercentageAsDecimal() {
@@ -74,7 +74,7 @@ class CreateProfit {
 
   setAmountInputValue() {
     this.amountInput.value =
-      formatValue(this.#amount, UIState.balanceNumOfDecimals) || '';
+      formatValue(this.#amount, UIState.balanceFormat) || '';
   }
 
   clear() {

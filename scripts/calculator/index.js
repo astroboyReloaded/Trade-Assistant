@@ -1,9 +1,22 @@
 'use strict';
+import { UIState } from './UIState.js';
 import { Base } from './calcObjects/Base.js';
 import { Risk } from './calcObjects/Risk.js';
 import { Profit } from './calcObjects/Profit.js';
 import { Logic } from './Logic.js';
 import { val } from './helpFuncs.js';
+import { Size } from './calcObjects/Size.js';
+
+// Curency Format Events
+UIState.balanceSwitch.addEventListener('click', () => {
+  Logic.fromBalanceSwitch();
+});
+
+UIState.priceFormatSelect.addEventListener('change', (e) => {
+  e.preventDefault();
+  Logic.fromPriceFormatSelect(e);
+});
+
 // Base Events
 Base.balanceInput.addEventListener('input', (e) => {
   Logic.fromBalanceInput(val(e));

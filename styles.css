@@ -131,14 +131,14 @@ h1 {
 }
 
 /*-------------------Currency Selectors---------------*/
-form#currencySelectors_Container {
+.currencySelectors_Container {
   display: flex;
   margin-inline: 0.9rem;
   justify-content: space-between;
   font-size: clamp(9px, 2.5vw, 15px);
 }
 
-fieldset.currencyConfig-container {
+.currencyConfig-container {
   position: relative;
   display: flex;
   width: 48%;
@@ -166,7 +166,7 @@ small.currency-type {
   text-align: right;
 }
 
-#currency-switch_Input {
+.switch-input {
   opacity: 0;
   width: 0;
   height: 0;
@@ -197,15 +197,15 @@ small.currency-type {
   transition: 0.4s;
 }
 
-#currency-switch_Input:checked + .currency-slider {
+.switch-input:checked + .currency-slider {
   background-color: #f7e792;
 }
 
-#currency-switch_Input:focus + .currency-slider {
+.switch-input:focus + .currency-slider {
   box-shadow: 0 0 1px #2196F3;
 }
 
-#currency-switch_Input:checked + .currency-slider:before {
+.switch-input:checked + .currency-slider:before {
   -webkit-transform: translateX(15px);
   -ms-transform: translateX(15px);
   transform: translateX(15px);
@@ -371,7 +371,7 @@ input[type=number] {
 }
 
 .copy-success {
-  position: absolute;
+  position: fixed;
   top: 42%;
   left: calc(50% - 3ch);
   background-color: #eee3e3;
