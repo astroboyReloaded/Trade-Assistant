@@ -74,7 +74,7 @@ class CreateProfit {
 
   setAmountInputValue() {
     this.amountInput.value =
-      formatValue(this.#amount, UIState.balanceNumOfDecimals) || '';
+      formatValue(this.#amount, UIState.balanceFormat) || '';
   }
 
   clear() {

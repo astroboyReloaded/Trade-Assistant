@@ -6,11 +6,11 @@ export const isPositive = (v) => {
   return v > 0 ? v : 0;
 };
 
-export const formatValue = (v, numOfDecimals) => {
+export const formatValue = (v, format) => {
   if (v === null) return null;
-  return Number.isInteger(v) ? v : v.toFixed(numOfDecimals);
+  return Number.isInteger(v) ? v : v.toFixed(format);
 };
 
 export const formatPercentage = (v) => {
-  return Number.isInteger(v) ? v : parseFloat(v.toFixed(2).toString());
+  return Number.isInteger(v) ? v : v.toFixed(2);
 };

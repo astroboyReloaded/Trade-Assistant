@@ -1,14 +1,33 @@
 'use strict';
-const [positionSizeInput, minLeverageInput, riskRewardRatioInput] =
-  document.querySelectorAll('.sizeInput');
+
+import { formatValue } from '../helpFuncs.js';
+import { UIState } from '../UIState.js';
+
+const [
+  positionSizeInput,
+  lotSizeInput,
+  minLeverageInput,
+  riskRewardRatioInput,
+] = document.querySelectorAll('.sizeInput');
 
 export class CreateSize {
+  #convertion = JSON.parse(
+    localStorage.getItem('convertionMethod') ||
+      '{"method": "balanceInPair", "balanceIn": "price", "rate": null, "lotFormat": "100_000"}',
+  );
   #position = null;
+  #lots = null;
   #minLeverage = null;
   #riskRewardRatio = 0;
 
-  constructor(positionSizeInput, minLeverageInput, riskRewardRatioInput) {
+  constructor(
+    positionSizeInput,
+    lotSizeInput,
+    minLeverageInput,
+    riskRewardRatioInput,
+  ) {
     this.positionSizeInput = positionSizeInput;
+    this.lotSizeInput = lotSizeInput;
     this.minLeverageInput = minLeverageInput;
     this.riskRewardRatioInput = riskRewardRatioInput;
   }
@@ -22,7 +41,20 @@ export class CreateSize {
   }
 
   setPositionInputValue() {
-    this.positionSizeInput.value = this.#position || '';
+    this.positionSizeInput.value =
+      formatValue(this.#position, UIState.balanceFormat) || '';
+  }
+
+  get Lots() {
+    return this.#lots;
+  }
+
+  set Lots(value) {
+    this.#lots = value;
+  }
+
+  setLotsInputValue() {
+    this.lotSizeInput.value = formatValue(this.#lots, UIState.priceFormat);
   }
 
   get Leverage() {
@@ -46,7 +78,8 @@ export class CreateSize {
   }
 
   setRatioInputValue() {
-    this.riskRewardRatioInput.value = this.#riskRewardRatio || '';
+    this.riskRewardRatioInput.value =
+      formatValue(this.#riskRewardRatio, 2) || '';
   }
 
   clear() {
@@ -61,6 +94,7 @@ export class CreateSize {
 
 export const Size = new CreateSize(
   positionSizeInput,
+  lotSizeInput,
   minLeverageInput,
   riskRewardRatioInput,
 );

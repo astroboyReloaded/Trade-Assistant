@@ -46,10 +46,7 @@ class CreateBase {
   }
 
   setBalanceInputValue() {
-    this.balanceInput.value = formatValue(
-      this.#balance,
-      UIState.balanceNumOfDecimals,
-    );
+    this.balanceInput.value = formatValue(this.#balance, UIState.balanceFormat);
   }
 
   set balanceLocked(value) {

@@ -9,27 +9,12 @@ import { Size } from './calcObjects/Size.js';
 
 // Curency Format Events
 UIState.balanceSwitch.addEventListener('click', () => {
-  UIState.balanceNumOfDecimals = UIState.balanceSwitch.checked
-    ? 'Crypto'
-    : 'Fiat';
-  localStorage.setItem(
-    'balanceCurrencyType',
-    JSON.stringify(UIState.balanceNumOfDecimals),
-  );
-  Base.setBalanceInputValue();
-  Risk.setAmountInputValue();
-  Profit.setAmountInputValue();
-  Size.setPositionInputValue();
+  Logic.fromBalanceSwitch();
 });
 
 UIState.priceFormatSelect.addEventListener('change', (e) => {
   e.preventDefault();
-  UIState.priceFormat = e.target.value;
-  localStorage.setItem('priceFormat', JSON.stringify(UIState.priceFormat));
-  // location.reload();
-  Base.setEntryInputValue();
-  Risk.setStopInputValue();
-  Profit.setTakeInputValue();
+  Logic.fromPriceFormatSelect(e);
 });
 
 // Base Events

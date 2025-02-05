@@ -3,16 +3,16 @@ let copiableValues = document.getElementsByClassName('copiable_value');
 
 [...copyBtns].forEach((btn, i) => {
   btn.addEventListener('click', () => {
-    copyToClippboard([...copiableValues][i]);
+    copyToClipboard([...copiableValues][i]);
   });
 });
 
-function copyToClippboard(valToCopy) {
+function copyToClipboard(valToCopy) {
   valToCopy.focus();
 
   navigator.clipboard
     .writeText(valToCopy.value)
-    .then(confirmCopy())
+    .then(confirmCopy)
     .catch((err) => {
       throw new Error(err);
     });
