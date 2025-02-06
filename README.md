@@ -17,7 +17,7 @@ Developer Documentation:
 - Selecting "Convertion rate" means non the Base or the Price are the same as the Balance currency, and the Position Size must be converted to a different Forex value.
 
 ## Future Features:
-- UI will know when the SL or TP are in the wrong side of the Entry Price, or when any of these values are negative. It will prevent the user from entering a SL or TP with less than 10 pips from the Entry Price. The UI will Change color in some places to indicate that the position is being registered as long or short.
-- The Position Direction can be switched manually.
+- UI will know when the SL or TP are in the wrong side of the Entry Price, or when any of these values are negative. The UI will Change color in some places to indicate that the position is being registered as long or short.
+- It will prevent the user from entering a SL or TP with less than 10 pips from the Entry Price.
+- The las two values that get input dont get locked automatically, not only the take profi values. 
 - Tab into the History button. Open it with enter.
-- We talk about choices where Balance nor _Buy_ Price coincide with the _Product_ Price.

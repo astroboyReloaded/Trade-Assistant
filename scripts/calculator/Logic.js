@@ -4,6 +4,7 @@ import { Profit } from './calcObjects/Profit.js';
 import { Risk } from './calcObjects/Risk.js';
 import { Size } from './calcObjects/Size.js';
 import { Calc } from './Calculator.js';
+import { autoUpdateLockedStack } from './helpFuncs.js';
 import { UIState } from './UIState.js';
 
 class CreateLogic {
@@ -57,9 +58,7 @@ class CreateLogic {
     Base.Entry = value;
     Calc.PipsToStop();
     Calc.PipsToTake();
-    !UIState.entryPriceLocked &&
-      UIState.lockedStack.length === 4 &&
-      UIState.updateLockedState(UIState.shiftFromLockedStack(), false, true);
+    !UIState.entryPriceLocked && autoUpdateLockedStack();
     if (!UIState.takeProfitLocked && Profit.PercentageAsDecimal) {
       Calc.Direction();
       Calc.PipValue('stop');
@@ -83,9 +82,7 @@ class CreateLogic {
     Base.Entry && Calc.Direction();
     Calc.PipsToStop();
     Calc.PipsToTake();
-    !UIState.stopLossLocked &&
-      UIState.lockedStack.length === 4 &&
-      UIState.updateLockedState(UIState.shiftFromLockedStack(), false, true);
+    !UIState.stopLossLocked && autoUpdateLockedStack();
     if (!UIState.takeProfitLocked && Profit.PercentageAsDecimal) {
       Calc.Direction();
       Calc.PipValue('stop');
@@ -106,9 +103,7 @@ class CreateLogic {
     Risk.PercentageAsDecimal = value;
     Calc.RiskAmount();
     Calc.PipValue();
-    !UIState.riskPercentageLocked &&
-      UIState.lockedStack.length === 4 &&
-      UIState.updateLockedState(UIState.shiftFromLockedStack(), false, true);
+    !UIState.riskPercentageLocked && autoUpdateLockedStack();
     if (!UIState.takeProfitLocked && Profit.PercentageAsDecimal) {
       Calc.Direction();
       Calc.PipValue('stop');
@@ -130,9 +125,7 @@ class CreateLogic {
     Risk.Amount = value;
     Base.balanceLocked && Calc.RiskPercentage();
     Calc.PipValue();
-    !UIState.riskPercentageLocked &&
-      UIState.lockedStack.length === 4 &&
-      UIState.updateLockedState(UIState.shiftFromLockedStack(), false, true);
+    !UIState.riskPercentageLocked && autoUpdateLockedStack();
     if (!Base.balanceLocked) {
       Calc.Balance();
     } else if (!UIState.takeProfitLocked && Profit.PercentageAsDecimal) {
@@ -155,13 +148,12 @@ class CreateLogic {
   fromTakeProfitInput(value) {
     Profit.Take = value;
     Calc.PipsToTake();
-    !UIState.takeProfitLocked &&
-      UIState.lockedStack.length === 4 &&
-      UIState.updateLockedState(UIState.shiftFromLockedStack(), false, true);
+    !UIState.takeProfitLocked && autoUpdateLockedStack();
     if (!UIState.profitPercentageLocked && Base.Entry) {
       Calc.ProfitPercentage();
       Calc.ProfitAmount();
     } else if (!UIState.entryPriceLocked && Profit.PercentageAsDecimal) {
+      Calc.Direction('take');
       Calc.EntryPrice();
     } else if (!UIState.stopLossLocked && Profit.PercentageAsDecimal) {
       Calc.Direction('take');
@@ -181,9 +173,7 @@ class CreateLogic {
     Calc.PipsToStop();
     Calc.PipsToTake();
     Calc.ProfitAmount();
-    !UIState.profitPercentageLocked &&
-      UIState.lockedStack.length === 4 &&
-      UIState.updateLockedState(UIState.shiftFromLockedStack(), false, true);
+    !UIState.profitPercentageLocked && autoUpdateLockedStack();
     if (!UIState.takeProfitLocked && Base.Entry) {
       Calc.PipValue('stop');
       Calc.TakeProfit();
@@ -205,9 +195,7 @@ class CreateLogic {
     Calc.PipsToStop();
     Calc.PipsToTake();
     Base.balanceLocked && Calc.ProfitPercentage();
-    !UIState.profitPercentageLocked &&
-      UIState.lockedStack.length === 4 &&
-      UIState.updateLockedState(UIState.shiftFromLockedStack(), false, true);
+    !UIState.profitPercentageLocked && autoUpdateLockedStack();
     if (!Base.balanceLocked) {
       UIState.profitPercentageLocked ? Calc.Balance() : Calc.ProfitPercentage();
     }

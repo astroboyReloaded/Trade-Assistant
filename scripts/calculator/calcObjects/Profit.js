@@ -81,11 +81,13 @@ class CreateProfit {
     this.Take = null;
     this.setTakeInputValue();
     UIState.updateLockedState(this.takeInput.id, false, true);
-    this.PercentageAsDecimal = null;
-    this.setPercentageInputValue();
-    UIState.updateLockedState(this.percentageInput.id, false, true);
-    this.Amount = null;
-    this.setAmountInputValue();
+    if (!UIState.profitPercentageLocked) {
+      this.PercentageAsDecimal = null;
+      this.setPercentageInputValue();
+      UIState.updateLockedState(this.percentageInput.id, false, true);
+      this.Amount = null;
+      this.setAmountInputValue();
+    }
   }
 }
 

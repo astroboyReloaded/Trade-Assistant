@@ -3,7 +3,6 @@ import { Base } from './calcObjects/Base.js';
 import { Profit } from './calcObjects/Profit.js';
 import { Risk } from './calcObjects/Risk.js';
 import { Size } from './calcObjects/Size.js';
-import { UIState } from './UIState.js';
 
 class Calculator {
   #pipsToTake;
@@ -16,6 +15,7 @@ class Calculator {
       this.#positionDirection = Base.Entry < Profit.Take ? 'long' : 'short';
     else this.#positionDirection = Base.Entry < Risk.Stop ? 'short' : 'long';
     localStorage.setItem('positionDirection', this.#positionDirection);
+    console.log(this.#positionDirection);
   }
 
   get pipsToStop() {
@@ -24,7 +24,7 @@ class Calculator {
 
   PipsToStop() {
     if (Base.Entry) this.#pipsToStop = Math.abs(Base.Entry - Risk.Stop);
-    console.log('pips to stop', this.#pipsToStop);
+    console.log('Pips to stop:', this.#pipsToStop);
   }
 
   get pipsToTake() {
@@ -46,7 +46,7 @@ class Calculator {
     } else {
       this.#pipsToTake = null;
     }
-    console.log('pips to take', this.#pipsToTake);
+    console.log('Pips to take:', this.#pipsToTake);
   }
 
   get pipValue() {
@@ -68,7 +68,6 @@ class Calculator {
     } else {
       this.#pipValue = 1;
     }
-    console.log('pip value', this.#pipValue);
   }
 
   Balance(from = 'risk') {
@@ -81,7 +80,7 @@ class Calculator {
 
   EntryPrice() {
     if (Profit.Take && Profit.PercentageAsDecimal) {
-      const totalPips = Profit.Take - Risk.Stop;
+      const totalPips = Math.abs(Profit.Take - Risk.Stop);
       const profitPerc = Profit.PercentageAsDecimal * 100;
       const riskPerc = Risk.PercentageAsDecimal * 100;
       const newHundred = profitPerc + riskPerc;
@@ -89,7 +88,17 @@ class Calculator {
       const percPipsToTake = profitPerc / newHundred;
       this.#pipsToStop = totalPips * percPipstTosStop;
       this.#pipsToTake = totalPips * percPipsToTake;
-      Base.Entry = Profit.Take - this.pipsToTake;
+      console.log(
+        'percPipstoTake/Stop:',
+        percPipsToTake,
+        percPipstTosStop,
+        '"\n"Pips to take:',
+        this.#pipsToTake,
+      );
+      Base.Entry =
+        this.#positionDirection === 'long'
+          ? Profit.Take - this.#pipsToTake
+          : Profit.Take + this.#pipsToTake;
     } else {
       Base.Entry = null;
     }

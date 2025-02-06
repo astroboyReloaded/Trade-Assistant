@@ -135,7 +135,7 @@ h1 {
   display: flex;
   margin-inline: 0.9rem;
   justify-content: space-between;
-  font-size: clamp(9px, 2.5vw, 15px);
+  font-size: 1rem;
 }
 
 .currencyConfig-container {
@@ -176,8 +176,8 @@ small.currency-type {
   position: relative;
   cursor: pointer;
   border-radius: 34px;
-  width: 30px;
-  height: 15px;
+  width: 33px;
+  height: 18px;
   margin-inline: 0.3rem;
   background-color: rgb(149, 224, 168);
   -webkit-transition: 0.4s;
@@ -187,8 +187,8 @@ small.currency-type {
 .currency-slider:before {
   position: absolute;
   content: "";
-  height: 13px;
-  width: 13px;
+  height: 16px;
+  width: 16px;
   border-radius: 50%;
   left: 1px;
   bottom: 1px;

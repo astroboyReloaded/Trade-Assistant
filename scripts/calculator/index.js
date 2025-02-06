@@ -8,8 +8,10 @@ import { val } from './helpFuncs.js';
 import { Size } from './calcObjects/Size.js';
 
 // Curency Format Events
+let timeoutID;
 UIState.balanceSwitch.addEventListener('click', () => {
-  Logic.fromBalanceSwitch();
+  if (timeoutID) clearTimeout(timeoutID);
+  timeoutID = setTimeout(() => Logic.fromBalanceSwitch(), 250);
 });
 
 UIState.priceFormatSelect.addEventListener('change', (e) => {

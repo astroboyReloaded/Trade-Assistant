@@ -73,13 +73,13 @@ class CreateIUState {
     const inputLock = this.#lockBtns[inputId];
     inputLock.locked = locked;
     if (!this.#lockedStack.includes(inputId) && inputLock.locked) {
-      this.pushToLockedStack = inputId;
+      this.pushToLockedStack(inputId);
     }
     const autoUnlock =
       this.#lockedStack.length > 4 && this.shiftFromLockedStack();
     autoUnlock && this.updateLockedState(autoUnlock, false, true);
     if (this.#lockedStack.includes(inputId) && !inputLock.locked)
-      this.spliceFromLockedStack = inputId;
+      this.spliceFromLockedStack(inputId);
     if (checkbox) inputLock.checkbox.checked = locked;
   }
 
@@ -90,7 +90,6 @@ class CreateIUState {
   }
 
   setBalanceFormat() {
-    console.log(this.balanceSwitch.checked);
     this.#balanceFormat = this.balanceSwitch.checked ? 8 : 2;
     localStorage.setItem('balanceFormat', JSON.stringify(this.#balanceFormat));
   }
@@ -112,12 +111,12 @@ class CreateIUState {
     return this.#lockedStack;
   }
 
-  set pushToLockedStack(inputId) {
+  pushToLockedStack(inputId) {
     this.#lockedStack.push(inputId);
     localStorage.setItem('lockedStack', JSON.stringify(this.#lockedStack));
   }
 
-  set spliceFromLockedStack(inputId) {
+  spliceFromLockedStack(inputId) {
     this.#lockedStack.splice(this.#lockedStack.indexOf(inputId), 1);
     localStorage.setItem('lockedStack', JSON.stringify(this.#lockedStack));
   }
