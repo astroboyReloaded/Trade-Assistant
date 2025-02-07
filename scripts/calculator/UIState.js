@@ -89,6 +89,11 @@ class CreateIUState {
     return shaft;
   }
 
+  autoUpdateLockedStack = () => {
+    this.lockedStack.length === 4 &&
+      this.updateLockedState(this.shiftFromLockedStack(), false, true);
+  };
+
   setBalanceFormat() {
     this.#balanceFormat = this.balanceSwitch.checked ? 8 : 2;
     localStorage.setItem('balanceFormat', JSON.stringify(this.#balanceFormat));

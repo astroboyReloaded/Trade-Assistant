@@ -10,7 +10,7 @@ const [, clearAllBtn, clearBtn] = document.querySelectorAll('.after-calcBtn');
 clearAllBtn.addEventListener('click', () => {
   Base.clearAll();
   Risk.clearAll();
-  Profit.clear();
+  Profit.clearAll();
   Size.clear();
   Base.balanceInput.focus();
 });
