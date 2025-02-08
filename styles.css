@@ -11,7 +11,8 @@ html {
   --appFrameBgColor: rgb(26, 26, 26);
   --inputBgColor: #292727;
   --inputLabelColor: #aca3a3;
-  --locked: #fa8484;
+  --lockedLong: #31b6ce;
+  --lockedShort: #e26b6b;
   --unlocked: #bdbdbd;
 }
 
@@ -278,7 +279,7 @@ fieldset.currencyConfig-container:nth-of-type(2) {
   --ms-user-select:none;
 }
 
-.lock-btn + label:before {
+.lock-btn + label::before {
   content: '';
   display: block;
   width: 0.9em;
@@ -292,7 +293,7 @@ fieldset.currencyConfig-container:nth-of-type(2) {
   transition: all 0.3s;
 }
 
-.lock-btn + label:after {
+.lock-btn + label::after {
   content: '';
   display: inline-block;
   vertical-align: top;
@@ -303,14 +304,14 @@ fieldset.currencyConfig-container:nth-of-type(2) {
   transition: all 0.3s;
 }
 
-.lock-btn:checked + label:before {
-  border-color: var(--locked);
+.lock-btn:checked + label::before {
+  border-color: var(--lockedLong);
   transform-origin: -12px 10%;
   transform: rotateY(0deg);
 }
 
-.lock-btn:checked + label:after {
-  background: var(--locked);
+.lock-btn:checked + label::after {
+  background: var(--lockedLong);
 }
 
 .input-span {
@@ -363,7 +364,7 @@ input[type=number] {
 }
 
 .copy-icon {
-  fill: #dddddd;
+  fill: var(--lockedLong);
   padding: 0;
   width: 1em;
   height: fit-content;

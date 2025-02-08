@@ -3,6 +3,7 @@ import { Base } from './calcObjects/Base.js';
 import { Profit } from './calcObjects/Profit.js';
 import { Risk } from './calcObjects/Risk.js';
 import { Size } from './calcObjects/Size.js';
+import { UIState } from './UIState.js';
 
 class Calculator {
   #pipsToTake;
@@ -15,7 +16,11 @@ class Calculator {
       this.#positionDirection = Base.Entry < Profit.Take ? 'long' : 'short';
     else this.#positionDirection = Base.Entry < Risk.Stop ? 'short' : 'long';
     localStorage.setItem('positionDirection', this.#positionDirection);
+    UIState.stylePosition(this.#positionDirection);
     console.log(this.#positionDirection);
+  }
+  get positionDirection() {
+    return this.#positionDirection;
   }
 
   get pipsToStop() {

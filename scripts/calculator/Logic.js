@@ -27,6 +27,7 @@ class CreateLogic {
     Profit.PercentageAsDecimal && Profit.setPercentageInputValue();
     Calc.ProfitAmount();
     Calc.Size();
+    UIState.stylePosition(Calc.positionDirection);
   }
 
   fromBalanceSwitch() {

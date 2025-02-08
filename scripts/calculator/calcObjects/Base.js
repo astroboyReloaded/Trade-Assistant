@@ -30,6 +30,7 @@ class CreateBase {
     });
     this.entryInput = entryPriceInput;
     this.entryInput.addEventListener('change', (e) => {
+      console.log('entryInput change event');
       const value = Number(e.target.value);
       this.entryInput.value = formatValue(value, UIState.priceFormat);
       UIState.lockedStack.length < 3 &&

@@ -1,5 +1,5 @@
-let copyBtns = document.getElementsByClassName('copy-btn');
-let copiableValues = document.getElementsByClassName('copiable_value');
+const copyBtns = document.getElementsByClassName('copy-btn');
+const copiableValues = document.getElementsByClassName('copiable_value');
 
 [...copyBtns].forEach((btn, i) => {
   btn.addEventListener('click', () => {

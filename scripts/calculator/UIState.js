@@ -8,6 +8,14 @@ const lockTakeProfitBtn = document.querySelectorAll('.lock-takeProfit');
 const lockProfitPercentageBtn = document.querySelectorAll(
   '.lock-profitPercentage',
 );
+const shRulesArr = Array.from(document.styleSheets[0].cssRules);
+const lckLblBefore = shRulesArr.find(
+  (rule) => rule.selectorText === '.lock-btn:checked + label::before',
+);
+const lckLblAfter = shRulesArr.find(
+  (rule) => rule.selectorText === '.lock-btn:checked + label::after',
+);
+const cpyIcon = shRulesArr.find((rule) => rule.selectorText === '.copy-icon');
 
 class CreateIUState {
   #balanceFormat = JSON.parse(localStorage.getItem('balanceFormat')) || 2;
@@ -94,6 +102,16 @@ class CreateIUState {
       this.updateLockedState(this.shiftFromLockedStack(), false, true);
   };
 
+  pushToLockedStack(inputId) {
+    this.#lockedStack.push(inputId);
+    localStorage.setItem('lockedStack', JSON.stringify(this.#lockedStack));
+  }
+
+  spliceFromLockedStack(inputId) {
+    this.#lockedStack.splice(this.#lockedStack.indexOf(inputId), 1);
+    localStorage.setItem('lockedStack', JSON.stringify(this.#lockedStack));
+  }
+
   setBalanceFormat() {
     this.#balanceFormat = this.balanceSwitch.checked ? 8 : 2;
     localStorage.setItem('balanceFormat', JSON.stringify(this.#balanceFormat));
@@ -116,16 +134,6 @@ class CreateIUState {
     return this.#lockedStack;
   }
 
-  pushToLockedStack(inputId) {
-    this.#lockedStack.push(inputId);
-    localStorage.setItem('lockedStack', JSON.stringify(this.#lockedStack));
-  }
-
-  spliceFromLockedStack(inputId) {
-    this.#lockedStack.splice(this.#lockedStack.indexOf(inputId), 1);
-    localStorage.setItem('lockedStack', JSON.stringify(this.#lockedStack));
-  }
-
   get entryPriceLocked() {
     return this.#lockBtns.entryPrice.checkbox.checked;
   }
@@ -144,6 +152,14 @@ class CreateIUState {
 
   get profitPercentageLocked() {
     return this.#lockBtns.profitPercentage.checkbox.checked;
+  }
+
+  stylePosition(direction) {
+    const test =
+      direction === 'long' ? 'var(--lockedLong)' : 'var(--lockedShort)';
+    lckLblBefore.style.borderColor = test;
+    lckLblAfter.style.background = test;
+    cpyIcon.style.fill = test;
   }
 }
 
