@@ -26,12 +26,14 @@ Base.balanceInput.addEventListener('input', (e) => {
 Base.entryInput.addEventListener('input', (e) => {
   Logic.fromEntryInput(val(e));
   UIState.revisePricesMatchDirection();
+  UIState.checkForNegativeValues();
 });
 
 // Risk Events
 Risk.stopInput.addEventListener('input', (e) => {
   Logic.fromStopInput(val(e));
   UIState.revisePricesMatchDirection();
+  UIState.checkForNegativeValues();
 });
 
 Risk.percentageInput.addEventListener('input', (e) => {
@@ -46,7 +48,8 @@ Risk.amountInput.addEventListener('input', (e) => {
 // Profit Events
 Profit.takeInput.addEventListener('input', (e) => {
   Logic.fromTakeProfitInput(val(e));
-  UIState.revisePricesMatchDirection('take');
+  UIState.revisePricesMatchDirection();
+  UIState.checkForNegativeValues();
 });
 
 Profit.percentageInput.addEventListener('input', (e) => {

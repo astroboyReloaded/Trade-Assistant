@@ -4,7 +4,6 @@ import { Profit } from './calcObjects/Profit.js';
 import { Risk } from './calcObjects/Risk.js';
 import { Size } from './calcObjects/Size.js';
 import { Calc } from './Calculator.js';
-import { val } from './helpFuncs.js';
 import { UIState } from './UIState.js';
 
 class CreateLogic {
@@ -30,6 +29,7 @@ class CreateLogic {
     Calc.Size();
     UIState.stylePosition();
     UIState.revisePricesMatchDirection();
+    UIState.checkForNegativeValues();
   }
 
   fromBalanceSwitch() {
@@ -81,7 +81,7 @@ class CreateLogic {
 
   fromStopInput(value) {
     Risk.Stop = value;
-    if (!UIState.takeProfitLocked && val !== 0)
+    if (!UIState.takeProfitLocked && value !== 0)
       UIState.positionDirectionFrom = 'stop';
     if (value === 0) UIState.positionDirectionFrom = 'take';
     Base.Entry && Calc.Direction();

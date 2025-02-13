@@ -59,12 +59,13 @@ class CreateIUState {
   #positionDirection = localStorage.getItem('positionDirection') || 'long';
   #positionDirectionFrom =
     localStorage.getItem('positionDirectionFrom') || 'stop';
+  #entryPriceContainer = entryPriceContainer;
   #stopLossContainer = stopLossContainer;
   #takeProfitContainer = takeProfitContainer;
   #EntryPrice;
   #StopLoss;
   #TakeProfit;
-  #Warning = false;
+  #directionWarning = false;
 
   constructor() {
     this.balanceSwitch = balanceSwitch;
@@ -215,12 +216,12 @@ class CreateIUState {
         ? [this.#takeProfitContainer, this.#TakeProfit]
         : [this.#stopLossContainer, this.#StopLoss];
     const greaterThanEntry = () => {
-      this.removeAllWarnings();
-      this.#EntryPrice >= value && this.showWarning(target);
+      this.removeAllDirectionWarnings();
+      this.#EntryPrice >= value && this.showDirectionWarning(target);
     };
     const lessThanEntry = () => {
-      this.removeAllWarnings();
-      this.#EntryPrice <= value && this.showWarning(target);
+      this.removeAllDirectionWarnings();
+      this.#EntryPrice <= value && this.showDirectionWarning(target);
     };
     if (long) {
       switch (directionFrom) {
@@ -243,18 +244,45 @@ class CreateIUState {
     }
   }
 
-  showWarning(container) {
-    this.#Warning = true;
+  showDirectionWarning(container) {
+    this.#directionWarning = true;
     container.classList.add('direction-warning');
     console.log('SHOW warning:', container);
   }
 
-  removeAllWarnings() {
-    this.#Warning &&
+  removeAllDirectionWarnings() {
+    this.#directionWarning &&
       (this.#stopLossContainer.classList.remove('direction-warning'),
       this.#takeProfitContainer.classList.remove('direction-warning'),
-      (this.#Warning = false),
+      (this.#directionWarning = false),
       console.log('Warnings REMOVED'));
+  }
+
+  checkForNegativeValues() {
+    const values = [this.#EntryPrice, this.#StopLoss, this.#TakeProfit];
+    values.forEach((value, i) => {
+      value < 0 && this.showNegativeValueWarning(i);
+    });
+  }
+
+  showNegativeValueWarning(i) {
+    const container = [
+      this.#entryPriceContainer,
+      this.#stopLossContainer,
+      this.#takeProfitContainer,
+    ][i];
+    container.classList.add('negative-value-warning');
+    console.log('SHOW negative:', container);
+  }
+
+  removeNegativeValueWarnings() {
+    [
+      this.#entryPriceContainer,
+      this.#stopLossContainer,
+      this.#takeProfitContainer,
+    ].forEach((container) => {
+      container.classList.remove('negative-value-warning');
+    });
   }
 }
 
