@@ -11,9 +11,10 @@ html {
   --appFrameBgColor: rgb(26, 26, 26);
   --inputBgColor: #292727;
   --inputLabelColor: #aca3a3;
-  --lockedLong: #31b6ce;
-  --lockedShort: #e26b6b;
+  --lockedLong: #00bcd4;
+  --lockedShort: #f48fb1;
   --unlocked: #bdbdbd;
+  --warning: #ff9800;
 }
 
 body {
@@ -231,6 +232,10 @@ fieldset.currencyConfig-container:nth-of-type(2) {
   border-radius: 0.27rem;
   border: 1px solid var(--inputBgColor);
   align-items: left;
+}
+
+.direction-warning {
+  border-color: var(--warning);
 }
 
 .input-label {

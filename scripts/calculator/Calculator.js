@@ -9,31 +9,24 @@ class Calculator {
   #pipsToTake;
   #pipsToStop;
   #pipValue;
-  #positionDirection = localStorage.getItem('positionDirection') || null;
+  #positionDirection = UIState.positionDirection;
 
-  Direction(from) {
+  Direction(from = UIState.positionDirectionFrom || 'stop') {
     if (from === 'take')
       this.#positionDirection = Base.Entry < Profit.Take ? 'long' : 'short';
     else this.#positionDirection = Base.Entry < Risk.Stop ? 'short' : 'long';
-    localStorage.setItem('positionDirection', this.#positionDirection);
-    UIState.stylePosition(this.#positionDirection);
-    console.log(this.#positionDirection);
-  }
-  get positionDirection() {
-    return this.#positionDirection;
-  }
-
-  get pipsToStop() {
-    return this.#pipsToStop;
+    UIState.positionDirection = this.#positionDirection;
+    console.log(
+      'Position direction:',
+      this.#positionDirection,
+      'from:',
+      UIState.positionDirectionFrom,
+    );
   }
 
   PipsToStop() {
     if (Base.Entry) this.#pipsToStop = Math.abs(Base.Entry - Risk.Stop);
     console.log('Pips to stop:', this.#pipsToStop);
-  }
-
-  get pipsToTake() {
-    return this.#pipsToTake;
   }
 
   PipsToTake(from) {
@@ -54,10 +47,6 @@ class Calculator {
     console.log('Pips to take:', this.#pipsToTake);
   }
 
-  get pipValue() {
-    return this.#pipValue;
-  }
-
   PipValue(from) {
     if (Base.isSet) {
       switch (from) {
@@ -73,6 +62,11 @@ class Calculator {
     } else {
       this.#pipValue = 1;
     }
+    console.log('Pip value:', this.#pipValue);
+  }
+
+  get pipValue() {
+    return this.#pipValue;
   }
 
   Balance(from = 'risk') {
@@ -120,17 +114,18 @@ class Calculator {
           Risk.Stop = Base.Entry - Risk.Amount / this.#pipValue;
           break;
       }
-      console.log('calc stop loss', Risk.Stop);
     } else {
       Risk.Stop = 0;
     }
     Risk.setStopInputValue();
+    console.log('calc, stop loss:', Risk.Stop);
   }
 
   RiskPercentage(from) {
     if (Base.isSet) {
       switch (from) {
         case 'pipValue':
+          console.log('risk percentage, pip value:', this.#pipValue);
           Risk.PercentageAsDecimal =
             (100 * (this.#pipValue * this.#pipsToStop)) / Base.Balance;
           break;

@@ -38,6 +38,7 @@ class CreateRisk {
           true,
         );
     });
+    UIState.setStopLoss(this.#stop);
   }
 
   get Stop() {
@@ -47,6 +48,7 @@ class CreateRisk {
   set Stop(value) {
     this.#stop = value;
     localStorage.setItem('stopLoss', JSON.stringify(this.#stop));
+    UIState.setStopLoss(this.#stop);
   }
 
   setStopInputValue() {

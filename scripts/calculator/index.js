@@ -5,7 +5,6 @@ import { Risk } from './calcObjects/Risk.js';
 import { Profit } from './calcObjects/Profit.js';
 import { Logic } from './Logic.js';
 import { val } from './helpFuncs.js';
-import { Size } from './calcObjects/Size.js';
 
 // Curency Format Events
 let timeoutID;
@@ -26,11 +25,13 @@ Base.balanceInput.addEventListener('input', (e) => {
 
 Base.entryInput.addEventListener('input', (e) => {
   Logic.fromEntryInput(val(e));
+  UIState.revisePricesMatchDirection();
 });
 
 // Risk Events
 Risk.stopInput.addEventListener('input', (e) => {
   Logic.fromStopInput(val(e));
+  UIState.revisePricesMatchDirection();
 });
 
 Risk.percentageInput.addEventListener('input', (e) => {
@@ -45,6 +46,7 @@ Risk.amountInput.addEventListener('input', (e) => {
 // Profit Events
 Profit.takeInput.addEventListener('input', (e) => {
   Logic.fromTakeProfitInput(val(e));
+  UIState.revisePricesMatchDirection('take');
 });
 
 Profit.percentageInput.addEventListener('input', (e) => {

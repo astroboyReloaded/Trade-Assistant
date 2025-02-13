@@ -41,6 +41,7 @@ class CreateProfit {
           true,
         );
     });
+    UIState.setTakeProfit(this.#takeProfit);
   }
 
   get Take() {
@@ -50,6 +51,7 @@ class CreateProfit {
   set Take(value) {
     this.#takeProfit = value || null;
     localStorage.setItem('takeProfit', this.#takeProfit);
+    UIState.setTakeProfit(this.#takeProfit);
   }
 
   setTakeInputValue() {

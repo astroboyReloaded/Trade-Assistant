@@ -16,6 +16,9 @@ const lckLblAfter = shRulesArr.find(
   (rule) => rule.selectorText === '.lock-btn:checked + label::after',
 );
 const cpyIcon = shRulesArr.find((rule) => rule.selectorText === '.copy-icon');
+const entryPriceContainer = document.getElementById('entryPrice_Container');
+const stopLossContainer = document.getElementById('stopLoss_Container');
+const takeProfitContainer = document.getElementById('takeProfit_Container');
 
 class CreateIUState {
   #balanceFormat = JSON.parse(localStorage.getItem('balanceFormat')) || 2;
@@ -53,6 +56,15 @@ class CreateIUState {
       label: lockProfitPercentageBtn[1],
     },
   };
+  #positionDirection = localStorage.getItem('positionDirection') || 'long';
+  #positionDirectionFrom =
+    localStorage.getItem('positionDirectionFrom') || 'stop';
+  #stopLossContainer = stopLossContainer;
+  #takeProfitContainer = takeProfitContainer;
+  #EntryPrice;
+  #StopLoss;
+  #TakeProfit;
+  #Warning = false;
 
   constructor() {
     this.balanceSwitch = balanceSwitch;
@@ -154,12 +166,95 @@ class CreateIUState {
     return this.#lockBtns.profitPercentage.checkbox.checked;
   }
 
-  stylePosition(direction) {
+  setEntryPrice(value) {
+    this.#EntryPrice = value;
+  }
+
+  setStopLoss(value) {
+    this.#StopLoss = value;
+  }
+
+  setTakeProfit(value) {
+    this.#TakeProfit = value;
+  }
+
+  set positionDirection(direction) {
+    this.#positionDirection = direction;
+    localStorage.setItem('positionDirection', this.#positionDirection);
+    this.stylePosition();
+  }
+
+  get positionDirection() {
+    return this.#positionDirection;
+  }
+
+  set positionDirectionFrom(input) {
+    this.#positionDirectionFrom = input;
+    localStorage.setItem('positionDirectionFrom', this.#positionDirectionFrom);
+  }
+
+  get positionDirectionFrom() {
+    return this.#positionDirectionFrom;
+  }
+
+  stylePosition() {
     const test =
-      direction === 'long' ? 'var(--lockedLong)' : 'var(--lockedShort)';
+      this.#positionDirection === 'long'
+        ? 'var(--lockedLong)'
+        : 'var(--lockedShort)';
     lckLblBefore.style.borderColor = test;
     lckLblAfter.style.background = test;
     cpyIcon.style.fill = test;
+  }
+
+  revisePricesMatchDirection() {
+    const long = this.#positionDirection === 'long';
+    const directionFrom = this.#positionDirectionFrom;
+    const [target, value] =
+      directionFrom === 'stop'
+        ? [this.#takeProfitContainer, this.#TakeProfit]
+        : [this.#stopLossContainer, this.#StopLoss];
+    const greaterThanEntry = () => {
+      this.removeAllWarnings();
+      this.#EntryPrice >= value && this.showWarning(target);
+    };
+    const lessThanEntry = () => {
+      this.removeAllWarnings();
+      this.#EntryPrice <= value && this.showWarning(target);
+    };
+    if (long) {
+      switch (directionFrom) {
+        case 'stop':
+          greaterThanEntry();
+          break;
+        default:
+          lessThanEntry();
+          break;
+      }
+    } else {
+      switch (directionFrom) {
+        case 'stop':
+          lessThanEntry();
+          break;
+        default:
+          greaterThanEntry();
+          break;
+      }
+    }
+  }
+
+  showWarning(container) {
+    this.#Warning = true;
+    container.classList.add('direction-warning');
+    console.log('SHOW warning:', container);
+  }
+
+  removeAllWarnings() {
+    this.#Warning &&
+      (this.#stopLossContainer.classList.remove('direction-warning'),
+      this.#takeProfitContainer.classList.remove('direction-warning'),
+      (this.#Warning = false),
+      console.log('Warnings REMOVED'));
   }
 }
 
