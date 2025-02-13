@@ -9,26 +9,24 @@ class Calculator {
   #pipsToTake;
   #pipsToStop;
   #pipValue;
-  #positionDirection = localStorage.getItem('positionDirection') || null;
+  #positionDirection = UIState.positionDirection;
 
-  Direction(from) {
+  Direction(from = UIState.positionDirectionFrom || 'stop') {
     if (from === 'take')
       this.#positionDirection = Base.Entry < Profit.Take ? 'long' : 'short';
     else this.#positionDirection = Base.Entry < Risk.Stop ? 'short' : 'long';
-    localStorage.setItem('positionDirection', this.#positionDirection);
-  }
-
-  get pipsToStop() {
-    return this.#pipsToStop;
+    UIState.positionDirection = this.#positionDirection;
+    console.log(
+      'Position direction:',
+      this.#positionDirection,
+      'from:',
+      UIState.positionDirectionFrom,
+    );
   }
 
   PipsToStop() {
     if (Base.Entry) this.#pipsToStop = Math.abs(Base.Entry - Risk.Stop);
-    console.log('pips to stop', this.#pipsToStop);
-  }
-
-  get pipsToTake() {
-    return this.#pipsToTake;
+    console.log('Pips to stop:', this.#pipsToStop);
   }
 
   PipsToTake(from) {
@@ -46,11 +44,7 @@ class Calculator {
     } else {
       this.#pipsToTake = null;
     }
-    console.log('pips to take', this.#pipsToTake);
-  }
-
-  get pipValue() {
-    return this.#pipValue;
+    console.log('Pips to take:', this.#pipsToTake);
   }
 
   PipValue(from) {
@@ -68,7 +62,11 @@ class Calculator {
     } else {
       this.#pipValue = 1;
     }
-    console.log('pip value', this.#pipValue);
+    console.log('Pip value:', this.#pipValue);
+  }
+
+  get pipValue() {
+    return this.#pipValue;
   }
 
   Balance(from = 'risk') {
@@ -81,7 +79,7 @@ class Calculator {
 
   EntryPrice() {
     if (Profit.Take && Profit.PercentageAsDecimal) {
-      const totalPips = Profit.Take - Risk.Stop;
+      const totalPips = Math.abs(Profit.Take - Risk.Stop);
       const profitPerc = Profit.PercentageAsDecimal * 100;
       const riskPerc = Risk.PercentageAsDecimal * 100;
       const newHundred = profitPerc + riskPerc;
@@ -89,7 +87,17 @@ class Calculator {
       const percPipsToTake = profitPerc / newHundred;
       this.#pipsToStop = totalPips * percPipstTosStop;
       this.#pipsToTake = totalPips * percPipsToTake;
-      Base.Entry = Profit.Take - this.pipsToTake;
+      console.log(
+        'percPipstoTake/Stop:',
+        percPipsToTake,
+        percPipstTosStop,
+        '"\n"Pips to take:',
+        this.#pipsToTake,
+      );
+      Base.Entry =
+        this.#positionDirection === 'long'
+          ? Profit.Take - this.#pipsToTake
+          : Profit.Take + this.#pipsToTake;
     } else {
       Base.Entry = null;
     }
@@ -106,17 +114,18 @@ class Calculator {
           Risk.Stop = Base.Entry - Risk.Amount / this.#pipValue;
           break;
       }
-      console.log('calc stop loss', Risk.Stop);
     } else {
       Risk.Stop = 0;
     }
     Risk.setStopInputValue();
+    console.log('calc, stop loss:', Risk.Stop);
   }
 
   RiskPercentage(from) {
     if (Base.isSet) {
       switch (from) {
         case 'pipValue':
+          console.log('risk percentage, pip value:', this.#pipValue);
           Risk.PercentageAsDecimal =
             (100 * (this.#pipValue * this.#pipsToStop)) / Base.Balance;
           break;

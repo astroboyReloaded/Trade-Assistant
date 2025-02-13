@@ -15,22 +15,30 @@ class CreateRisk {
     this.stopInput.addEventListener('change', (e) => {
       const value = Number(e.target.value);
       this.stopInput.value = formatValue(value, UIState.priceFormat);
-      UIState.updateLockedState(this.stopInput.id, Boolean(value), true);
+      UIState.lockedStack.length < 3 &&
+        UIState.updateLockedState(this.stopInput.id, Boolean(value), true);
     });
     this.percentageInput = riskPercentageInput;
     this.percentageInput.addEventListener('change', (e) => {
-      UIState.updateLockedState(
-        this.percentageInput.id,
-        Boolean(Number(e.target.value)),
-        true,
-      );
+      UIState.lockedStack.length < 3 &&
+        UIState.updateLockedState(
+          this.percentageInput.id,
+          Boolean(Number(e.target.value)),
+          true,
+        );
     });
     this.amountInput = riskAmountInput;
     this.amountInput.addEventListener('change', (e) => {
       const value = Number(e.target.value);
       this.amountInput.value = formatValue(value, UIState.balanceNumOfDecimals);
-      UIState.updateLockedState(this.percentageInput.id, Boolean(value), true);
+      UIState.lockedStack.length < 3 &&
+        UIState.updateLockedState(
+          this.percentageInput.id,
+          Boolean(value),
+          true,
+        );
     });
+    UIState.setStopLoss(this.#stop);
   }
 
   get Stop() {
@@ -40,6 +48,7 @@ class CreateRisk {
   set Stop(value) {
     this.#stop = value;
     localStorage.setItem('stopLoss', JSON.stringify(this.#stop));
+    UIState.setStopLoss(this.#stop);
   }
 
   setStopInputValue() {
@@ -89,6 +98,13 @@ class CreateRisk {
     this.Stop = 0;
     this.setStopInputValue();
     UIState.updateLockedState(this.stopInput.id, false, true);
+    if (!UIState.profitPercentageLocked) {
+      this.PercentageAsDecimal = '';
+      this.setPercentageInputValue();
+      UIState.updateLockedState(this.percentageInput.id, false, true);
+      this.Amount = null;
+      this.setAmountInputValue();
+    }
   }
 }
 

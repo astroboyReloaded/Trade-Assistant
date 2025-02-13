@@ -30,10 +30,13 @@ class CreateBase {
     });
     this.entryInput = entryPriceInput;
     this.entryInput.addEventListener('change', (e) => {
+      console.log('entryInput change event');
       const value = Number(e.target.value);
       this.entryInput.value = formatValue(value, UIState.priceFormat);
-      UIState.updateLockedState(this.entryInput.id, Boolean(value), true);
+      UIState.lockedStack.length < 3 &&
+        UIState.updateLockedState(this.entryInput.id, Boolean(value), true);
     });
+    UIState.setEntryPrice(this.#entryPrice);
   }
 
   get Balance() {
@@ -65,6 +68,7 @@ class CreateBase {
   set Entry(value) {
     this.#entryPrice = value;
     localStorage.setItem('entryPrice', this.#entryPrice);
+    UIState.setEntryPrice(this.#entryPrice);
   }
 
   setEntryInputValue() {

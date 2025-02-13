@@ -84,9 +84,11 @@ export class CreateSize {
 
   clear() {
     this.#position = null;
+    this.#lots = null;
     this.#minLeverage = null;
     this.#riskRewardRatio = 0;
     this.setPositionInputValue();
+    this.setLotsInputValue();
     this.setLeverageInputValue();
     this.setRatioInputValue();
   }

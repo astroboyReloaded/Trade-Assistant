@@ -1,5 +1,7 @@
 'use strict';
 
+import { UIState } from './UIState.js';
+
 export const val = (e) => Number(e.target.value);
 
 export const isPositive = (v) => {
