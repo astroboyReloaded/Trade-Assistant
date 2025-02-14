@@ -4,7 +4,7 @@ import { Base } from './calcObjects/Base.js';
 import { Risk } from './calcObjects/Risk.js';
 import { Profit } from './calcObjects/Profit.js';
 import { Logic } from './Logic.js';
-import { enforcePositiveNumber, val } from './helpFuncs.js';
+import { val } from './helpFuncs.js';
 
 // Curency Format Events
 let timeoutID;
@@ -19,19 +19,19 @@ UIState.priceFormatSelect.addEventListener('change', (e) => {
 });
 
 // Base Events
-Base.balanceInput.addEventListener('input', function (e) {
-  Logic.fromBalanceInput(enforcePositiveNumber.call(this, val(e)));
+Base.balanceInput.addEventListener('input', (e) => {
+  Logic.fromBalanceInput(val(e));
 });
 
-Base.entryInput.addEventListener('input', function (e) {
-  Logic.fromEntryInput(enforcePositiveNumber.call(this, val(e)));
+Base.entryInput.addEventListener('input', (e) => {
+  Logic.fromEntryInput(val(e));
   UIState.revisePricesMatchDirection();
   UIState.checkForNegativeValues();
 });
 
 // Risk Events
-Risk.stopInput.addEventListener('input', function (e) {
-  Logic.fromStopInput(enforcePositiveNumber.call(this, val(e)));
+Risk.stopInput.addEventListener('input', (e) => {
+  Logic.fromStopInput(val(e));
   UIState.revisePricesMatchDirection();
   UIState.checkForNegativeValues();
 });
@@ -48,8 +48,8 @@ Risk.amountInput.addEventListener('input', (e) => {
 });
 
 // Profit Events
-Profit.takeInput.addEventListener('input', function (e) {
-  Logic.fromTakeProfitInput(enforcePositiveNumber.call(this, val(e)));
+Profit.takeInput.addEventListener('input', (e) => {
+  Logic.fromTakeProfitInput(val(e));
   UIState.revisePricesMatchDirection();
   UIState.checkForNegativeValues();
 });
