@@ -236,11 +236,11 @@ fieldset.currencyConfig-container:nth-of-type(2) {
 }
 
 .direction-warning {
-  border-color: var(--warning);
+  border-color: var(--danger);
 }
 
 .negative-value-warning {
-  border-color: var(--danger);
+  border-color: var(--warning);
 }
 
 .input-label {

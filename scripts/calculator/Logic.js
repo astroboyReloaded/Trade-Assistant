@@ -83,7 +83,8 @@ class CreateLogic {
     Risk.Stop = value;
     if (!UIState.takeProfitLocked && value !== 0)
       UIState.positionDirectionFrom = 'stop';
-    if (value === 0) UIState.positionDirectionFrom = 'take';
+    if (!UIState.stopLossLocked && value === 0)
+      UIState.positionDirectionFrom = 'take';
     Base.Entry && Calc.Direction();
     Calc.PipsToStop();
     Calc.PipsToTake();

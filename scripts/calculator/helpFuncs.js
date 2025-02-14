@@ -1,8 +1,12 @@
 'use strict';
 
-import { UIState } from './UIState.js';
+export const val = (e) => Number(e.target.value);
 
-export const val = (e) => Math.abs(Number(e.target.value));
+export function enforcePositiveNumber(val) {
+  const value = Math.abs(val);
+  this.value = value;
+  return value;
+}
 
 export const isPositive = (v) => {
   return v > 0 ? v : 0;

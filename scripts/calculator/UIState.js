@@ -259,6 +259,7 @@ class CreateIUState {
   }
 
   checkForNegativeValues() {
+    this.removeNegativeValueWarnings();
     const values = [this.#EntryPrice, this.#StopLoss, this.#TakeProfit];
     values.forEach((value, i) => {
       value < 0 && this.showNegativeValueWarning(i);
