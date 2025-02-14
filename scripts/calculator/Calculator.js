@@ -9,24 +9,15 @@ class Calculator {
   #pipsToTake;
   #pipsToStop;
   #pipValue;
-  #positionDirection = UIState.positionDirection;
 
   Direction(from = UIState.positionDirectionFrom || 'stop') {
     if (from === 'take')
-      this.#positionDirection = Base.Entry < Profit.Take ? 'long' : 'short';
-    else this.#positionDirection = Base.Entry < Risk.Stop ? 'short' : 'long';
-    UIState.positionDirection = this.#positionDirection;
-    console.log(
-      'Position direction:',
-      this.#positionDirection,
-      'from:',
-      UIState.positionDirectionFrom,
-    );
+      UIState.positionDirection = Base.Entry < Profit.Take ? 'long' : 'short';
+    else UIState.positionDirection = Base.Entry < Risk.Stop ? 'short' : 'long';
   }
 
   PipsToStop() {
     if (Base.Entry) this.#pipsToStop = Math.abs(Base.Entry - Risk.Stop);
-    console.log('Pips to stop:', this.#pipsToStop);
   }
 
   PipsToTake(from) {
@@ -38,13 +29,12 @@ class Calculator {
             (Profit.PercentageAsDecimal / Risk.PercentageAsDecimal);
           break;
         default:
-          this.#pipsToTake = Math.abs(Base.Entry - Profit.Take);
+          this.#pipsToTake = Profit.Take && Math.abs(Base.Entry - Profit.Take);
           break;
       }
     } else {
       this.#pipsToTake = null;
     }
-    console.log('Pips to take:', this.#pipsToTake);
   }
 
   PipValue(from) {
@@ -62,7 +52,7 @@ class Calculator {
     } else {
       this.#pipValue = 1;
     }
-    console.log('Pip value:', this.#pipValue);
+    this.LiquidationPrice();
   }
 
   get pipValue() {
@@ -87,15 +77,8 @@ class Calculator {
       const percPipsToTake = profitPerc / newHundred;
       this.#pipsToStop = totalPips * percPipstTosStop;
       this.#pipsToTake = totalPips * percPipsToTake;
-      console.log(
-        'percPipstoTake/Stop:',
-        percPipsToTake,
-        percPipstTosStop,
-        '"\n"Pips to take:',
-        this.#pipsToTake,
-      );
       Base.Entry =
-        this.#positionDirection === 'long'
+        UIState.positionDirection === 'long'
           ? Profit.Take - this.#pipsToTake
           : Profit.Take + this.#pipsToTake;
     } else {
@@ -106,7 +89,7 @@ class Calculator {
 
   StopLoss() {
     if (Base.isSet) {
-      switch (this.#positionDirection) {
+      switch (UIState.positionDirection) {
         case 'short':
           Risk.Stop = Base.Entry + Risk.Amount / this.#pipValue;
           break;
@@ -118,14 +101,29 @@ class Calculator {
       Risk.Stop = 0;
     }
     Risk.setStopInputValue();
-    console.log('calc, stop loss:', Risk.Stop);
+  }
+
+  LiquidationPrice() {
+    let liquidation;
+    if (Base.Entry) {
+      switch (UIState.positionDirection) {
+        case 'short':
+          liquidation = Base.Entry + Base.Balance / this.#pipValue;
+          break;
+        default:
+          liquidation = Base.Entry - Base.Balance / this.#pipValue;
+          break;
+      }
+    } else {
+      liquidation = null;
+    }
+    UIState.setLiquidationPrice(liquidation);
   }
 
   RiskPercentage(from) {
     if (Base.isSet) {
       switch (from) {
         case 'pipValue':
-          console.log('risk percentage, pip value:', this.#pipValue);
           Risk.PercentageAsDecimal =
             (100 * (this.#pipValue * this.#pipsToStop)) / Base.Balance;
           break;
@@ -158,16 +156,15 @@ class Calculator {
   TakeProfit() {
     if (Base.isSet) {
       this.#pipsToTake = Profit.Amount / this.#pipValue;
-      switch (this.#positionDirection) {
+      switch (UIState.positionDirection) {
         case 'short':
-          console.log('pips to take', this.#pipsToTake);
           Profit.Take = this.#pipsToTake ? Base.Entry - this.#pipsToTake : null;
           break;
         default:
           Profit.Take = this.#pipsToTake ? Base.Entry + this.#pipsToTake : null;
       }
     } else if (Base.Entry && Profit.PercentageAsDecimal) {
-      switch (this.#positionDirection) {
+      switch (UIState.positionDirection) {
         case 'short':
           Profit.Take = Base.Entry - this.#pipsToTake;
           break;
@@ -210,7 +207,7 @@ class Calculator {
 
   PositionSize() {
     if (Base.isSet) {
-      switch (this.#positionDirection) {
+      switch (UIState.positionDirection) {
         case 'short':
           Size.Position = this.#pipValue * Risk.Stop;
           break;
@@ -227,7 +224,7 @@ class Calculator {
 
   LotSize() {
     if (Base.Entry) {
-      switch (this.#positionDirection) {
+      switch (UIState.positionDirection) {
         case 'long':
           Size.Lots = Size.Position / Base.Entry;
           break;

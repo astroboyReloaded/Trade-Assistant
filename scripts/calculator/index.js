@@ -34,6 +34,7 @@ Risk.stopInput.addEventListener('input', (e) => {
   Logic.fromStopInput(val(e));
   UIState.revisePricesMatchDirection();
   UIState.checkForNegativeValues();
+  UIState.checkStopVSLiquidationPrice();
 });
 
 Risk.percentageInput.addEventListener('input', (e) => {

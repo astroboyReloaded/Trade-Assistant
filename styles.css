@@ -243,6 +243,11 @@ fieldset.currencyConfig-container:nth-of-type(2) {
   border-color: var(--warning);
 }
 
+.liquidation-warning {
+  border: 1px solid var(--danger);
+  border-radius: 0.25rem;
+}
+
 .input-label {
   background-color: var(--inputBgColor);
   height: 1.2rem;

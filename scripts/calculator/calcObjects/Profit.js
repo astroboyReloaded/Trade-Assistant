@@ -14,7 +14,6 @@ class CreateProfit {
   constructor(takeProfitInput, profitAmountInput, profitPercentageInput) {
     this.takeInput = takeProfitInput;
     this.takeInput.addEventListener('change', (e) => {
-      console.log('take input');
       const value = Number(e.target.value);
       this.takeInput.value = formatValue(value, UIState.priceFormat);
       UIState.lockedStack.length < 3 &&
@@ -22,7 +21,6 @@ class CreateProfit {
     });
     this.percentageInput = profitPercentageInput;
     this.percentageInput.addEventListener('change', (e) => {
-      console.log('profPerc input');
       UIState.lockedStack.length < 3 &&
         UIState.updateLockedState(
           this.percentageInput.id,

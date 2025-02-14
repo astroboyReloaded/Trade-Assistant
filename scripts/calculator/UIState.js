@@ -19,6 +19,9 @@ const cpyIcon = shRulesArr.find((rule) => rule.selectorText === '.copy-icon');
 const entryPriceContainer = document.getElementById('entryPrice_Container');
 const stopLossContainer = document.getElementById('stopLoss_Container');
 const takeProfitContainer = document.getElementById('takeProfit_Container');
+const riskPercentageContainer = document.getElementById(
+  'riskPercentage_Container',
+);
 
 class CreateIUState {
   #balanceFormat = JSON.parse(localStorage.getItem('balanceFormat')) || 2;
@@ -62,6 +65,8 @@ class CreateIUState {
   #entryPriceContainer = entryPriceContainer;
   #stopLossContainer = stopLossContainer;
   #takeProfitContainer = takeProfitContainer;
+  #riskPercentageContainer = riskPercentageContainer;
+  #liquidationPrice;
   #EntryPrice;
   #StopLoss;
   #TakeProfit;
@@ -217,10 +222,12 @@ class CreateIUState {
         : [this.#stopLossContainer, this.#StopLoss];
     const greaterThanEntry = () => {
       this.removeAllDirectionWarnings();
+      if (!value) return;
       this.#EntryPrice >= value && this.showDirectionWarning(target);
     };
     const lessThanEntry = () => {
       this.removeAllDirectionWarnings();
+      if (!value) return;
       this.#EntryPrice <= value && this.showDirectionWarning(target);
     };
     if (long) {
@@ -247,15 +254,13 @@ class CreateIUState {
   showDirectionWarning(container) {
     this.#directionWarning = true;
     container.classList.add('direction-warning');
-    console.log('SHOW warning:', container);
   }
 
   removeAllDirectionWarnings() {
     this.#directionWarning &&
       (this.#stopLossContainer.classList.remove('direction-warning'),
       this.#takeProfitContainer.classList.remove('direction-warning'),
-      (this.#directionWarning = false),
-      console.log('Warnings REMOVED'));
+      (this.#directionWarning = false));
   }
 
   checkForNegativeValues() {
@@ -273,7 +278,6 @@ class CreateIUState {
       this.#takeProfitContainer,
     ][i];
     container.classList.add('negative-value-warning');
-    console.log('SHOW negative:', container);
   }
 
   removeNegativeValueWarnings() {
@@ -284,6 +288,40 @@ class CreateIUState {
     ].forEach((container) => {
       container.classList.remove('negative-value-warning');
     });
+  }
+
+  setLiquidationPrice(value) {
+    this.#liquidationPrice = value;
+    this.checkStopVSLiquidationPrice();
+  }
+
+  checkStopVSLiquidationPrice() {
+    this.removeSLUnderLiquidationPriceWarning();
+    const long = this.#positionDirection === 'long';
+    if (long) {
+      this.#StopLoss < this.#liquidationPrice &&
+        this.showSLUnderLiquidationPriceWarning();
+    } else {
+      this.#StopLoss > this.#liquidationPrice &&
+        this.showSLUnderLiquidationPriceWarning();
+    }
+  }
+
+  showSLUnderLiquidationPriceWarning() {
+    this.#riskPercentageContainer.classList.add('liquidation-warning');
+  }
+
+  removeSLUnderLiquidationPriceWarning() {}
+
+  clear() {
+    this.#EntryPrice = null;
+    this.#StopLoss = null;
+    this.#TakeProfit = null;
+    this.positionDirection = 'long';
+    this.positionDirectionFrom = 'stop';
+    this.stylePosition();
+    this.removeAllDirectionWarnings();
+    this.removeNegativeValueWarnings();
   }
 }
 
